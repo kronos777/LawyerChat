@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">LetsChat</string>
     <string name="txt_otp_verification">OTP Verification</string>
-    <string name="txt_will_send_otp">We will send you an <b> One Time Password </b>to this mobile number</string>
-    <string name="txt_enter_otp">Enter the OTP sent to </string>
-    <string name="txt_enter_mob_no">Enter Mobile Number</string>
-    <string name="txt_get_otp">Get otp</string>
+    <string name="txt_will_send_otp">Мы вышлем вам <b>одноразовый пароль</b> на этот номер мобильного телефона</string>
+    <string name="txt_enter_otp">Введите пароль, отправленный на</string>
+    <string name="txt_enter_mob_no">Введите мобильный номер</string>
+    <string name="txt_get_otp">Отправить пароль</string>
     <string name="txt_dont_receive">Don\'t receive the OTP?</string>
-    <string name="txt_welcome">Welcome!</string>
+    <string name="txt_welcome">Добро пожаловать!</string>
     <string name="txt_search_here">Search here</string>
     <string name="txt_select_coun">Выбрать страну</string>
     <string name="err_no_net">Нет соединения с интернетом</string>
@@ -40,7 +40,7 @@
 
     <string name="txt_notifications">Notifications</string>
     <string name="txt_not_description">Enable Notification</string>
-    <string name="txt_message">Type something...</string>
+    <string name="txt_message">Напишите что нибудь...</string>
     <string name="txt_user_name">User Name</string>
     <string name="txt_u_name">Имя пользователя</string>
     <string name="txt_add_contacts">Add contacts</string>
