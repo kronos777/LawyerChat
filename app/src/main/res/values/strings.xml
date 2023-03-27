@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">LetsChat</string>
+    <string name="txt_otp_verification">OTP Verification</string>
+    <string name="txt_will_send_otp">We will send you an <b> One Time Password </b>to this mobile number</string>
+    <string name="txt_enter_otp">Enter the OTP sent to </string>
+    <string name="txt_enter_mob_no">Enter Mobile Number</string>
+    <string name="txt_get_otp">Get otp</string>
+    <string name="txt_dont_receive">Don\'t receive the OTP?</string>
+    <string name="txt_welcome">Welcome!</string>
+    <string name="txt_search_here">Search here</string>
+    <string name="txt_select_coun">Выбрать страну</string>
+    <string name="err_no_net">Нет соединения с интернетом</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_verify">Verify</string>
+    <string name="txt_resend">Resend</string>
+    <string name="txt_name">Имя</string>
+    <string name="txt_pic_name_desc">Это имя пользователя и изображение будут видны вашим пользователям Letschat. Другие пользователи смогут найти вас с помощью поиска.</string>
+    <string name="txt_options">Опции</string>
+
+    <string name="take_photo">Выбрать фото</string>
+    <string name="txt_gallery">Открыть галерею</string>
+    <string name="txt_file_p_error">Permission Denied. Please enable permission !</string>
+    <string name="txt_profile">Профиль</string>
+    <string name="txt_search">Поиск</string>
+    <string name="txt_group">Группы</string>
+    <string name="txt_chats">Чаты</string>
+    <string name="txt_letschat_contact">Letschat Contacts</string>
+    <string name="txt_refresh">Refresh</string>
+    <string name="txt_contacts">Контакты</string>
+    <string name="txt_select_a_contact">Выбрать контакт</string>
+    <string name="txt_invite_friends">Пригласить друзей</string>
+    <string name="txt_add_contact">Добавить контакт</string>
+    <string name="txt_logout">Выйти</string>
+    <string name="txt_login_again">Please,login again to verify your number</string>
+    <string name="txt_logged_in_head">This number is logged in another device!</string>
+    <string name="default_notification_channel_id">default</string>
+
+    <string name="introductory_text">Судный день</string>
+
+    <string name="txt_notifications">Notifications</string>
+    <string name="txt_not_description">Enable Notification</string>
+    <string name="txt_message">Type something...</string>
+    <string name="txt_user_name">User Name</string>
+    <string name="txt_u_name">Имя пользователя</string>
+    <string name="txt_add_contacts">Add contacts</string>
+    <string name="txt_add_group_mems">Add Group Members</string>
+    <string name="txt_group_name">Enter group name</string>
+    <string name="txt_add_a_friend">Add a friend</string>
+    <string name="txt_select_a_option">Select a option</string>
+    <string name="txt_log_out">Выйти</string>
+    <string name="txt_save_changes">Сохранить</string>
+    <string name="txt_your_status">Статус</string>
+    <string name="txt_mob_num">Мобильный номер</string>
+    <string name="txt_want_2_logout">Do you want to logout!</string>
+    <string name="txt_alert_msg">No worries,when you login again,Your messages will be recovered automatically</string>
+    <string name="txt_cancel">Отмена</string>
+    <string name="txt_ok">Ok</string>
+    <string name="txt_take_video">Take Video</string>
+
+    <string name="title_onboarding_1">Начать.</string>
+    <string name="title_onboarding_2">Инструкция на все случаи жизни.</string>
+    <string name="title_onboarding_3">Вопросы юристу.</string>
+    <string name="description_onboarding_1">Наше приложение поможет найти решение юридических вопросов любой степени сложности. Вам не нужно тратить время на поход к юристу, все ответы вы найдете в нашем приложени.</string>
+    <string name="description_onboarding_2">Не знаете, как вернуть некачественный тьовар? Что писать в договоре аренды? Когда подавать декларацию? Выберите подходящую ситуацию, и мы подберем для вас решение!</string>
+    <string name="description_onboarding_3">Если у вас есть вопрос, на который вы не смогли получить ответ в инструкциях, то задайте его нашему юристу напрямую в чате.</string>
+
+    <string name="registration_text">Регистрация</string>
+    <string name="registration_user_role">Пользователь</string>
+    <string name="registration_email">Email</string>
+    <string name="registration_passport_data">Паспортные данные</string>
+    <string name="registration_passport_data_ext">Также прикрепите сканы первого разворота и страницы с регистрацией</string>
+    <string name="registration_diplom_data">Диплом о высшем образовании</string>
+    <string name="registration_diplom_data_ext">Также прикрепите сканы дипломов</string>
+    <string name="registration_phone">Телефон</string>
+    <string name="registration_phone_code">Код</string>
+    <string name="registration_name">Имя</string>
+    <string name="registration_ser_name">Фамилия</string>
+    <string name="registration_last_name">Отчество</string>
+    <string name="registration_password">Пароль</string>
+    <string name="registration_repeat_password">Повторите пароль</string>
+    <string name="registration_user_picture">Загрузить аватар</string>
+    <string name="registration_button">Зарегистрироваться</string>
+    <string name="enter_button">Войти</string>
+    <string name="registration_enter_account">Войти в аккуаунт</string>
+    <string name="registration_terms_of_use">Нажимая кнопку “Зарегистрироваться”, я принимаю условия Пользовательского соглашения и условия Политики конфиденциальности.</string>
+    <string name="registration_choose_image">Загрузить аватар.</string>
+    <string name="register_checkbox">Я принимаю условия Пользовательского соглашения и условия Политики конфиденциальности.</string>
+    <string name="change_user_email_h1">Новая электронная почта</string>
+    <string name="change_user_email_p1">На этот адрес будет отправлено письмо для подтверждения электронной почты</string>
+    <string name="bottom_send">Отправить</string>
+
+    <string name="text_recovery_password_bottom">Востановить пароль</string>
+    <string name="text_change_password_title">Требования к паролю:</string>
+    <string name="text_change_password_bottom">Изменить пароль</string>
+    <string name="text_change_password_hint1">Введите старый пароль</string>
+    <string name="text_change_password_hint2">Введите новый пароль</string>
+    <string name="text_change_password_hint3">Повторите новый пароль</string>
+
+
+</resources>

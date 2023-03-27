@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.lawyerapplication.fragments.myprofile.FMyProfileViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context="">
+
+    <ImageView
+        android:id="@+id/imageView"
+        style="@style/FView"
+        imageUrl="@{viewModel.imageUrl}"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_other_user"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/change_foto_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto"
+        android:layout_marginTop="20dp"
+        android:textFontWeight="600"
+        android:textColor="@color/colorPrimaryLaweyr2"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        android:text="Изменить фото" />
+    <TextView
+        android:id="@+id/about_application_h1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="22sp"
+        android:fontFamily="@font/roboto"
+        android:layout_marginTop="20dp"
+        android:textFontWeight="600"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_foto_profile"
+        android:text="@{viewModel.userName +  viewModel.userSerName + viewModel.userLastName}" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_email_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_application_h1"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:elevation="2dp"
+            android:translationZ="2dp"
+            android:stateListAnimator="@null">
+
+            <TextView
+                android:id="@+id/til_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:lineHeight="24dp"
+                android:text="Электронная почта"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/change_email_botton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:lineHeight="16dp"
+                android:text="Изменить"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorPrimaryLaweyr2"
+                android:textFontWeight="400"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/et_email_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
+                android:drawableStart="@drawable/ic_baseline_check_circle_outline_24"
+                android:gravity="center"
+                android:lineHeight="16dp"
+                android:text="@{viewModel.email}"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/color_gray"
+                android:textFontWeight="400"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_phone_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_email_data"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:elevation="2dp"
+            android:translationZ="2dp"
+            android:stateListAnimator="@null">
+
+            <TextView
+                android:id="@+id/til_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:lineHeight="24dp"
+                android:text="Номер телефона"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textFontWeight="500"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/change_phone_botton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:lineHeight="16dp"
+                android:text="Изменить"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/colorPrimaryLaweyr2"
+                android:textFontWeight="400"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/et_phone_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
+                android:drawableStart="@drawable/ic_baseline_check_circle_outline_24"
+                android:gravity="center"
+                android:lineHeight="16dp"
+                android:text="@{viewModel.mobile}"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/color_gray"
+                android:textFontWeight="400"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:id="@+id/change_password_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textFontWeight="500"
+        android:lineHeight="20dp"
+        android:textColor="@color/black"
+        android:textAlignment="viewStart"
+        android:fontFamily="@font/roboto"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/about_application_href2_delete"
+        android:text="Сменить пароль" />
+    <TextView
+        android:id="@+id/about_application_href2_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textFontWeight="500"
+        android:lineHeight="20dp"
+        android:layout_marginBottom="40dp"
+        android:textColor="@color/color_error"
+        android:fontFamily="@font/roboto"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Удалить профиль" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
