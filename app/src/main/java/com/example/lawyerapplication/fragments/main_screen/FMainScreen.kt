@@ -1,4 +1,4 @@
-package com.example.lawyerapplication.fragments.myprofile
+package com.example.lawyerapplication.fragments.main_screen
 
 import android.app.Activity
 import android.app.Dialog
@@ -17,8 +17,9 @@ import androidx.navigation.Navigation
 import com.canhub.cropper.CropImage
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.AlertLogoutBinding
-import com.example.lawyerapplication.databinding.FMyProfileBinding
+import com.example.lawyerapplication.databinding.FMainScreenBinding
 import com.example.lawyerapplication.db.ChatUserDatabase
+import com.example.lawyerapplication.fragments.myprofile.FMyProfileViewModel
 import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.views.CustomProgressView
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,9 +27,9 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class FMyProfile : Fragment(R.layout.f_my_profile) {
+class FMainScreen : Fragment(R.layout.f_main_screen) {
 
-    private lateinit var binding: FMyProfileBinding
+    private lateinit var binding: FMainScreenBinding
 
     @Inject
     lateinit var preferenec: MPreference
@@ -51,7 +52,7 @@ class FMyProfile : Fragment(R.layout.f_my_profile) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FMyProfileBinding.inflate(layoutInflater, container, false)
+        binding = FMainScreenBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

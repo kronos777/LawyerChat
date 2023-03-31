@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        tools:context=".presentation.fragments.AboutAppFragment">
+        tools:context=".fragments.FMainScreen">
 
 
         <com.google.android.material.card.MaterialCardView
@@ -323,8 +323,6 @@
             app:layout_constraintTop_toBottomOf="@id/card_help_card"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="0dp"
-            app:strokeColor="#ffffff"
-            app:strokeWidth="0dp"
             >
 
             <RelativeLayout
@@ -337,13 +335,13 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="left"
-                    android:layout_marginLeft="70dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto"
                     android:lineHeight="24dp"
                     android:text="О приложении"
                     android:textColor="@color/black"
                     android:textFontWeight="500"
+                    android:layout_marginLeft="70dp"
                     android:textSize="16sp" />
 
                 <ImageView

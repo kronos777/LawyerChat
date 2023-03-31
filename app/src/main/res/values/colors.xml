@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#394152</color>
+    <color name="colorPrimary">#062252</color>
     <color name="colorPrimary2">#495468</color>
     <color name="colorPrimaryDark">#2e3543</color>
     <color name="colorAccent">#1A84F3</color>
@@ -39,7 +39,7 @@
     <color name="white">#fff</color>
 
     <color name="top_panel_welcome">#cccccc</color>
-    <color name="colorPrimaryLaweyr">#3B0F76</color>
+    <color name="colorPrimaryLaweyr">#062252</color>
     <color name="colorPrimaryLaweyr2">#EE7A36</color>
     <color name="card_profile_background">#FCFAFD</color>
     <color name="card_background">#FFFBFE</color>

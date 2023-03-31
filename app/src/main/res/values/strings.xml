@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">LetsChat</string>
-    <string name="txt_otp_verification">OTP Verification</string>
+    <string name="txt_otp_verification">Верификация телефона</string>
     <string name="txt_will_send_otp">Мы вышлем вам <b>одноразовый пароль</b> на этот номер мобильного телефона</string>
     <string name="txt_enter_otp">Введите пароль, отправленный на</string>
     <string name="txt_enter_mob_no">Введите мобильный номер</string>
