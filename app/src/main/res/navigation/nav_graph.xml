@@ -189,4 +189,8 @@
         android:id="@+id/changeUserPassword"
         android:name="com.example.lawyerapplication.fragments.myprofile.user_account_settings.change_password.ChangeUserPassword"
         android:label="ChangeUserPassword" />
+    <fragment
+        android:id="@+id/FMainScreen"
+        android:name="com.example.lawyerapplication.fragments.main_screen.FMainScreen"
+        android:label="FMainScreen" />
 </navigation>

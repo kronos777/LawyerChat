@@ -14,200 +14,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         tools:context=".fragments.FMainScreen">
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_profile_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@color/card_profile_background"
-
-            app:strokeWidth="1dp"
-            app:cardCornerRadius="4dp"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="114dp"
-                android:elevation="2dp"
-                android:translationZ="2dp"
-                android:stateListAnimator="@null">
-
-                <ImageView
-                    android:id="@+id/image_profile"
-                    style="@style/FView"
-                    imageUrl="@{viewModel.imageUrl}"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_other_user" />
-
-                <ProgressBar
-                    android:id="@+id/progress_pro"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="@{viewModel.isUploading ? View.VISIBLE : View.GONE}" />
-
-                <TextView
-                    android:id="@+id/about_application_h1"
-                    android:layout_width="201dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/image_profile"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:lineHeight="24dp"
-                    android:text="@{viewModel.userName +  viewModel.userSerName + viewModel.userLastName}"
-                    android:textColor="@color/black"
-                    android:textFontWeight="500"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:id="@+id/change_user_settings"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_baseline_chevron_right_24" />
 
 
-                <!--TextView
-                    android:id="@+id/et_email_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="72dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:drawableStart="@drawable/ic_baseline_check_circle_outline_24"
-                    android:gravity="center"
-                    android:lineHeight="16dp"
-                    android:text="Учетная запись подтверждена"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="@color/card_profile_required"
-                    android:textFontWeight="400"
-                    android:textSize="12sp" /-->
 
-            </RelativeLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_banks_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_profile_data"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="0dp"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="66dp">
-
-                <ImageView
-                    android:id="@+id/imageViewBanksCard"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/user_profile_list_credit_card_24" />
-
-                <TextView
-                    android:id="@+id/banks_card_h1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left"
-                    android:layout_toRightOf="@id/imageViewBanksCard"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:lineHeight="24dp"
-                    android:text="Банковские карты"
-                    android:textColor="@color/black"
-                    android:textFontWeight="500"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_baseline_chevron_right_24" />
-
-            </RelativeLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_safety_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_banks_card"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="0dp"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="66dp">
-
-                <ImageView
-                    android:id="@+id/imageViewSafetyCard"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/profile_user_lock" />
-
-                <TextView
-                    android:id="@+id/safety_card_h1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left"
-                    android:layout_toRightOf="@id/imageViewSafetyCard"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:lineHeight="24dp"
-                    android:text="Безопасность"
-                    android:textColor="@color/black"
-                    android:textFontWeight="500"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_baseline_chevron_right_24" />
-
-            </RelativeLayout>
-
-        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_settings_card"
@@ -216,8 +28,8 @@
             android:layout_marginTop="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_safety_card"
-            app:cardBackgroundColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/card_help_card"
+            app:cardBackgroundColor="@color/main_card"
             app:cardCornerRadius="0dp"
             >
 
@@ -225,14 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="66dp">
 
-                <ImageView
-                    android:id="@+id/imageViewSettingsCard"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/profile_user_notifications" />
+
 
                 <TextView
                     android:id="@+id/banks_settings_h1"
@@ -240,11 +45,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="left"
-                    android:layout_toRightOf="@id/imageViewSettingsCard"
+                    android:layout_marginLeft="16dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto"
                     android:lineHeight="24dp"
-                    android:text="Настройка уведомлений"
+                    android:text="Чат со специалистом"
                     android:textColor="@color/black"
                     android:textFontWeight="500"
                     android:textSize="16sp" />
@@ -255,7 +60,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_baseline_chevron_right_24" />
+                    android:src="@drawable/ic_baseline_chevron_right_main" />
 
             </RelativeLayout>
 
@@ -266,25 +71,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_settings_card"
-            app:cardBackgroundColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardBackgroundColor="@color/main_card"
             app:cardCornerRadius="0dp"
             >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="66dp">
+                android:layout_height="80dp">
 
-                <ImageView
-                    android:id="@+id/imageViewHelpCard"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_baseline_emoji_people_24" />
 
                 <TextView
                     android:id="@+id/banks_help_h1"
@@ -292,57 +89,31 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="left"
+                    android:layout_marginLeft="16dp"
                     android:layout_toRightOf="@id/imageViewHelpCard"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto"
                     android:lineHeight="24dp"
-                    android:text="Помощь"
+                    android:text="Платная онлайн консультация"
                     android:textColor="@color/black"
                     android:textFontWeight="500"
                     android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_baseline_chevron_right_24" />
-
-            </RelativeLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_about_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_help_card"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="0dp"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="66dp">
-
                 <TextView
-                    android:id="@+id/banks_about_h1"
+                    android:id="@+id/banks_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="left"
+                    android:layout_marginLeft="16dp"
+                    android:layout_below="@id/banks_help_h1"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto"
-                    android:lineHeight="24dp"
-                    android:text="О приложении"
-                    android:textColor="@color/black"
+                    android:lineHeight="16dp"
+                    android:text="Час 50 руб/мин"
+                    android:textColor="@color/colorGrey"
                     android:textFontWeight="500"
-                    android:layout_marginLeft="70dp"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
+
 
                 <ImageView
                     android:layout_width="16dp"
@@ -350,28 +121,12 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_baseline_chevron_right_24" />
+                    android:src="@drawable/ic_baseline_chevron_right_main" />
 
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-
-        <TextView
-            android:id="@+id/about_application_href2_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textFontWeight="500"
-            android:lineHeight="20dp"
-            android:layout_marginBottom="30dp"
-            android:textColor="@color/color_gray"
-            android:fontFamily="@font/roboto"
-            android:textAlignment="viewStart"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="Выйти" />
 
 
 

@@ -58,7 +58,7 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(activity, "this is profile", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "this is main screen", Toast.LENGTH_SHORT).show()
         context = requireActivity()
         progressView = CustomProgressView(context)
         binding.lifecycleOwner = viewLifecycleOwner
