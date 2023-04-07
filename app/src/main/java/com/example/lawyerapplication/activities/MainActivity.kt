@@ -63,6 +63,7 @@ class MainActivity : ActBase() {
                 else if (navController.isValidDestination(R.id.FGroupChatHome))
                     navController.navigate(R.id.action_FGroupChatHome_to_FAddGroupMembers)
             }
+
         }
         setDataInView()
         subscribeObservers()
@@ -70,9 +71,9 @@ class MainActivity : ActBase() {
     }
 
     private fun subscribeObservers() {
-        val badge = binding.bottomNav.getOrCreateBadge(R.id.nav_chat)
+        val badge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_chat
         badge.isVisible = false
-        val groupChatBadge = binding.bottomNav.getOrCreateBadge(R.id.nav_group)
+        val groupChatBadge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_group
         groupChatBadge.isVisible = false
         lifecycleScope.launch {
             groupDao.getGroupWithMessages().conflate().collect { list ->
@@ -111,7 +112,8 @@ class MainActivity : ActBase() {
                 if (preference.getUserProfile() == null)
                     navController.navigate(R.id.action_FLogIn_to_FProfile)
                 else
-                    navController.navigate(R.id.action_FLogIn_to_FSingleChatHome)
+                    //navController.navigate(R.id.action_FLogIn_to_FSingleChatHome)
+                    navController.navigate(R.id.FMainScreen)
             }
 
             //single chat message notification clicked
@@ -125,6 +127,8 @@ class MainActivity : ActBase() {
                 navController.navigate(action)
             }
 
+            //navController.navigate(R.id.FMainScreen)
+
             if (!preference.isSameDevice())
                 Utils.showLoggedInAlert(this, preference, db)
         } catch (e: Exception) {
@@ -136,15 +140,20 @@ class MainActivity : ActBase() {
         try {
             when(currentDestination) {
                 R.id.FSingleChatHome -> {
-                    binding.bottomNav.selectedItemId = R.id.nav_chat
+                    binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
                 }
+                R.id.FMainScreen -> {
+                    binding.bottomNav.selectedItemId = R.id.nav_home
+                    showView()
+                    binding.fab.hide()
+                }
                 R.id.FGroupChatHome -> {
-                    binding.bottomNav.selectedItemId = R.id.nav_group
+                    binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
                 }
                 R.id.FSearch -> {
-                    binding.bottomNav.selectedItemId = R.id.nav_search
+                    binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
                     binding.fab.hide()
                 }
@@ -247,7 +256,17 @@ class MainActivity : ActBase() {
     private val onBottomNavigationListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_chat -> {
+                R.id.nav_home -> {
+                    val navOptions =
+                        NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
+                    if (isNotSameDestination(R.id.FMainScreen)) {
+                        searchItem.collapseActionView()
+                        Navigation.findNavController(this, R.id.nav_host_fragment)
+                            .navigate(R.id.FMainScreen, null, navOptions)
+                    }
+                    true
+                }
+                /*R.id.nav_chat -> {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
                     if (isNotSameDestination(R.id.FSingleChatHome)) {
@@ -272,7 +291,7 @@ class MainActivity : ActBase() {
                             .navigate(R.id.FSearch)
                     }
                     true
-                }
+                }*/
                 else -> {
                     if (isNotSameDestination(R.id.FMyProfile)) {
                         searchItem.collapseActionView()

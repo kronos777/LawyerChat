@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">LetsChat</string>
-    <string name="txt_otp_verification">Верификация телефона</string>
-    <string name="txt_will_send_otp">Мы вышлем вам <b>одноразовый пароль</b> на этот номер мобильного телефона</string>
+    <string name="txt_otp_verification">На этот номер будет отправлен код подтверждения</string>
+    <string name="txt_will_send_otp">На этот номер будет отправлен код подтверждения</string>
     <string name="txt_enter_otp">Введите пароль, отправленный на</string>
     <string name="txt_enter_mob_no">Введите мобильный номер</string>
-    <string name="txt_get_otp">Отправить пароль</string>
-    <string name="txt_dont_receive">Don\'t receive the OTP?</string>
+    <string name="txt_get_otp">Получить СМС-код</string>
+    <string name="txt_dont_receive">Повторить отправку</string>
     <string name="txt_welcome">Добро пожаловать!</string>
     <string name="txt_search_here">Search here</string>
     <string name="txt_select_coun">Выбрать страну</string>
@@ -23,8 +23,11 @@
     <string name="txt_file_p_error">Permission Denied. Please enable permission !</string>
     <string name="txt_profile">Профиль</string>
     <string name="txt_search">Поиск</string>
+    <string name="txt_my_busines">Мои дела</string>
     <string name="txt_group">Группы</string>
+    <string name="txt_services">Услуги</string>
     <string name="txt_chats">Чаты</string>
+    <string name="txt_main">Главная</string>
     <string name="txt_letschat_contact">Letschat Contacts</string>
     <string name="txt_refresh">Refresh</string>
     <string name="txt_contacts">Контакты</string>
@@ -52,8 +55,8 @@
     <string name="txt_save_changes">Сохранить</string>
     <string name="txt_your_status">Статус</string>
     <string name="txt_mob_num">Мобильный номер</string>
-    <string name="txt_want_2_logout">Do you want to logout!</string>
-    <string name="txt_alert_msg">No worries,when you login again,Your messages will be recovered automatically</string>
+    <string name="txt_want_2_logout">Вы хотите выйти из системы!</string>
+    <string name="txt_alert_msg">Не беспокойтесь, когда вы снова войдете в систему, ваши сообщения будут восстановлены автоматически.</string>
     <string name="txt_cancel">Отмена</string>
     <string name="txt_ok">Ok</string>
     <string name="txt_take_video">Take Video</string>
@@ -96,6 +99,7 @@
     <string name="text_change_password_hint1">Введите старый пароль</string>
     <string name="text_change_password_hint2">Введите новый пароль</string>
     <string name="text_change_password_hint3">Повторите новый пароль</string>
+    <string name="registration_phone_login">Номер телефона</string>
 
 
 </resources>

@@ -57,7 +57,7 @@ class FMyProfile : Fragment(R.layout.f_my_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(activity, "this is profile", Toast.LENGTH_SHORT).show()
+       // Toast.makeText(activity, "this is profile", Toast.LENGTH_SHORT).show()
         context = requireActivity()
         progressView = CustomProgressView(context)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -119,6 +119,7 @@ class FMyProfile : Fragment(R.layout.f_my_profile) {
             )
             layoutBinder.txtOk.setOnClickListener {
                 dialog.dismiss()
+                //выйти из приложения
                 UserUtils.logOut(requireActivity(), preferenec, db)
             }
             layoutBinder.txtCancel.setOnClickListener {

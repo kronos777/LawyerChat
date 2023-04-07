@@ -68,6 +68,9 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_FProfile_to_FMainScreen"
+            app:destination="@id/FMainScreen" />
     </fragment>
 
     <fragment
@@ -192,5 +195,5 @@
     <fragment
         android:id="@+id/FMainScreen"
         android:name="com.example.lawyerapplication.fragments.main_screen.FMainScreen"
-        android:label="FMainScreen" />
+        android:label="Судный день" />
 </navigation>

@@ -14,11 +14,7 @@
             style="@style/StyleRoot"
             android:id="@+id/view_holder">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_chat_bg" />
+
 
             <LinearLayout style="@style/FView"
                 android:focusable="true"
@@ -26,15 +22,9 @@
 
                 <LinearLayout
                     style="@style/VWView"
-                    android:layout_marginTop="190dp"
-                    android:background="@drawable/shape_home_bg"
-                    android:elevation="5dp"
+                    android:layout_marginTop="0dp"
                     android:padding="20dp">
 
-                    <TextView
-                        style="@style/TxtSemiStyle"
-                        android:layout_marginTop="15dp"
-                        android:text="@string/txt_welcome" />
 
                     <TextView
                         style="@style/TxtRgStyle"
@@ -42,10 +32,10 @@
                         android:gravity="start"
                         android:text="@string/txt_will_send_otp" />
 
-                    <TextView
+                    <!--TextView
                         style="@style/TxtRgStyle"
                         android:layout_marginTop="30dp"
-                        android:text="@string/txt_enter_mob_no" />
+                        android:text="@string/txt_enter_mob_no" /-->
 
                     <LinearLayout
                         style="@style/LView"
@@ -71,10 +61,28 @@
                             android:fontFamily="@font/font_semi"
                             android:inputType="number"
                             android:padding="10dp"
+                            android:hint="@string/registration_phone_login"
                             android:text="@={viewmodel.mobile}"
                             android:textColor="@color/colorBlack"
                             android:textSize="20sp" />
                     </LinearLayout>
+
+                    <!--com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/registration_phone_login"
+                            android:text="@={viewmodel.mobile}"
+                            android:inputType="textEmailAddress"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout-->
 
                     <TextView
                         style="@style/BtnStyle"

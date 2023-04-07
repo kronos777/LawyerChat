@@ -63,10 +63,12 @@ class FLogin : Fragment() {
             Utils.closeKeyBoard(requireActivity())
             val mobileNo = viewModel.mobile.value?.trim()
             val country = viewModel.country.value
+                //viewModel.country.value
             when {
                 Validator.isMobileNumberEmpty(mobileNo) -> snack(requireActivity(), "Enter valid mobile number")
                 country == null -> snack(requireActivity(), "Select a country")
                 !Validator.isValidNo(country.code, mobileNo!!) -> snack(
+                //!Validator.isValidNo(country.code, mobileNo!!) -> snack(
                     requireActivity(),
                     "Enter valid mobile number"
                 )

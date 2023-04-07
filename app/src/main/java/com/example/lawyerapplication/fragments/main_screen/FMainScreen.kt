@@ -63,9 +63,7 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
         progressView = CustomProgressView(context)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.imageProfile.setOnClickListener {
-             ImageUtils.askPermission(this)
-        }
+
         /*binding.btnSaveChanges.setOnClickListener {
             val newName = viewModel.userName.value
             val about = viewModel.about.value
@@ -79,25 +77,9 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
                 }
             }
         }*/
-        binding.aboutApplicationHref2Delete.setOnClickListener {
-        //binding.btnLogout.setOnClickListener {
-            dialog.show()
-        }
 
-        binding.cardAboutCard.setOnClickListener {
-            val navOptions =
-                NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
-            Navigation.findNavController(activity!!, R.id.nav_host_fragment).navigate(R.id.aboutApplication, null, navOptions)
-        }
-
-        binding.changeUserSettings.setOnClickListener {
-            val navOptions =
-                NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
-            Navigation.findNavController(activity!!, R.id.nav_host_fragment).navigate(R.id.userAccountSettings, null, navOptions)
-        }
-
-        initDialog()
-        subscribeObservers()
+       // initDialog()
+        //subscribeObservers()
     }
 
     private fun subscribeObservers() {

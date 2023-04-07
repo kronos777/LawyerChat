@@ -18,7 +18,71 @@
 
 
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_first_contact"
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:layout_marginBottom="200dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/card_settings_card"
 
+            app:cardCornerRadius="0dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="124dp"
+                android:background="@drawable/main_screen_card_bg">
+
+                <TextView
+                    android:id="@+id/banks_first_contact_h1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/roboto"
+                    android:lineHeight="24dp"
+                    android:text="Первое обращение\nбудет выгодным!"
+                    android:textColor="@color/colorWhite"
+                    android:textFontWeight="500"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/banks_first_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/banks_first_contact_h1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/roboto"
+                    android:lineHeight="16dp"
+                    android:text="Действует 10% скидка."
+                    android:textColor="@color/white"
+                    android:textFontWeight="400"
+                    android:alpha="0.6"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="105dp"
+                    android:layout_height="111dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="11dp"
+                    android:src="@drawable/sale_main_screen" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="11dp"
+                    android:src="@drawable/ic_baseline_close_24" />
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <com.google.android.material.card.MaterialCardView

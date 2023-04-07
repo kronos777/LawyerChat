@@ -37,7 +37,7 @@
     <color name="progress_max_active">@color/white</color>
     <color name="gray_scale">#74FFFFFF</color>
     <color name="white">#fff</color>
-    <color name="main_card">f8f8fb</color>
+    <color name="main_card">#f8f8fb</color>
 
     <color name="top_panel_welcome">#cccccc</color>
     <color name="colorPrimaryLaweyr">#062252</color>

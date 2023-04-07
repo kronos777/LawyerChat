@@ -328,7 +328,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/C:/AndroidSdk/icons/material/materialicons/emoji_people/baseline_emoji_people_24.xml" />
+                                      <entry key="url" value="file:/C:/AndroidSdk/icons/material/materialicons/close/baseline_close_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -338,8 +338,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="1a1c19" />
-                            <entry key="outputName" value="ic_baseline_emoji_people_24" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_baseline_close_24" />
                             <entry key="sourceFile" value="E:\portfolioAndroidProjects\laywerApplication\cleanChatsApp\cleanChatsApp" />
                           </map>
                         </option>

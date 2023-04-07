@@ -134,7 +134,8 @@ class FProfile : Fragment() {
                 is LoadState.OnSuccess -> {
                     if (findNavController().isValidDestination(R.id.FProfile)) {
                         progressView?.dismiss()
-                        findNavController().navigate(R.id.action_FProfile_to_FSingleChatHome)
+                        findNavController().navigate(R.id.action_FProfile_to_FMainScreen)
+                        //findNavController().navigate(R.id.action_FProfile_to_FSingleChatHome)
                     }
                 }
                 is LoadState.OnFailure -> {
