@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:context=".presentation.fragments.SignInFragment"
+        >
+
+        <TextView
+            android:id="@+id/create_lead_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="24dp"
+            android:lineHeight="32dp"
+            android:textFontWeight="400"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/black"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Максимально подробно опишите свою ситуацию " />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_message_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintBottom_toTopOf="@id/text_passport_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/create_lead_data"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_message_data"
+                android:layout_width="match_parent"
+                android:layout_height="172dp"
+                android:hint="Текст"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imageViewPassport"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_message_data"
+            android:src="@drawable/attachmenticon"
+            android:layout_marginTop="18dp"
+            />
+
+        <TextView
+            android:id="@+id/text_passport_data"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toEndOf="@id/imageViewPassport"
+            app:layout_constraintTop_toBottomOf="@+id/til_message_data"
+            android:text="Прикрепить файлы" />
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_button"
+            android:layout_marginBottom="54dp"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textStyle="normal"
+            android:textAllCaps="false"
+            android:background="@color/color_primary"
+            android:text="Далее"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -201,6 +201,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_FProfile_to_FMainScreen">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_FProfile_to_FSingleChatHome">
                               <value>
                                 <LayoutPositions />
@@ -271,6 +276,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="FSituation">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1410" />
+                            <option name="y" value="-185" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context=".presentation.fragments.IntroductoryFragment">
+
+    <ImageView
+        android:id="@+id/progress_circular"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="251dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textSendMessage1"
+        android:src="@drawable/ic_baseline_check_circle_outline_24"
+        />
+    <TextView
+        android:id="@+id/textSendMessage1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="28dp"
+        android:lineHeight="36dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textFontWeight="400"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress_circular"
+        android:text="Ваше сообщение отправлено." />
+    <TextView
+        android:id="@+id/textSendMessage2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16dp"
+        android:lineHeight="24dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textFontWeight="400"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color_gray"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textSendMessage1"
+        android:text="Юрист ответит вам в кротчайшее время" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -196,4 +196,8 @@
         android:id="@+id/FMainScreen"
         android:name="com.example.lawyerapplication.fragments.main_screen.FMainScreen"
         android:label="Судный день" />
+    <fragment
+        android:id="@+id/FSituation"
+        android:name="com.example.lawyerapplication.fragments.situation.FSituation"
+        android:label="Услуги по ситуации" />
 </navigation>

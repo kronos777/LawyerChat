@@ -266,6 +266,16 @@ class MainActivity : ActBase() {
                     }
                     true
                 }
+                R.id.nav_services -> {
+                    val navOptions =
+                        NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
+                    if (isNotSameDestination(R.id.FSituation)) {
+                        searchItem.collapseActionView()
+                        Navigation.findNavController(this, R.id.nav_host_fragment)
+                            .navigate(R.id.FSituation, null, navOptions)
+                    }
+                    true
+                }
                 /*R.id.nav_chat -> {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
