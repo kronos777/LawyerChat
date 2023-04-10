@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- separator -->
+    <!-- drawable/separator.xml -->
+<vector
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:aapt="http://schemas.android.com/aapt"
+android:width="500dp"
+android:height="1dp"
+android:viewportWidth="328"
+android:viewportHeight="1"
+    >
+
+<group>
+
+    <clip-path
+        android:pathData="M0.5 0H327.5C327.776 0 328 0.223858 328 0.5C328 0.776142 327.776 1 327.5 1H0.5C0.223858 1 0 0.776142 0 0.5C0 0.223858 0.223858 0 0.5 0Z"
+        />
+
+    <path
+        android:pathData="M0.5 0H327.5C327.776 0 328 0.223858 328 0.5C328 0.776142 327.776 1 327.5 1H0.5C0.223858 1 0 0.776142 0 0.5C0 0.223858 0.223858 0 0.5 0Z"
+        android:strokeWidth="2"
+        android:strokeColor="#1F1A1C19"
+        />
+
+</group>
+
+</vector>

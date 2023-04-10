@@ -23,13 +23,18 @@
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable-hdpi/bottom_nav_tab_background.xml" value="0.507" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable-xxhdpi/ic_baseline_chevron_right_main.xml" value="0.504" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable-xxxhdpi/ic_baseline_chevron_right_main.xml" value="0.3135" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable-xxxhdpi/separator_hr.xml" value="0.3135" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/drawable/ic_baseline_chevron_right_24.xml" value="0.504" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/drawable/ic_baseline_emoji_people_24.xml" value="0.507" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/drawable/ic_baseline_gavel_24.xml" value="0.296" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/drawable/profile_user_lock.xml" value="0.3135" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/drawable/profile_user_notifications.xml" value="0.507" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/info_situation_icon.xml" value="0.5465" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/main_screen_card_bg.xml" value="0.504" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/drawable/shape_btn_bg.xml" value="0.504" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout-v21/item_situation.xml" value="0.4447463768115942" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/activity_welcome_about.xml" value="0.4311594202898551" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/alert_logout.xml" value="0.3104166666666667" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/f_login.xml" value="0.5541666666666667" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/f_main_screen.xml" value="0.43568840579710144" />
@@ -37,6 +42,28 @@
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/f_my_profile.xml" value="0.5541666666666667" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/f_profile.xml" value="0.5541666666666667" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/f_verify.xml" value="0.5541666666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_choice_by_situation.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_create_lead.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_appliances_s1.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_appliances_s2.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_appliances_s3.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s1.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s10.xml" value="0.5385416666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s2.xml" value="0.5385416666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s3.xml" value="0.4447463768115942" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s4.xml" value="0.5385416666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s5.xml" value="0.5385416666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s6.xml" value="0.5385416666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s7.xml" value="0.5385416666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s8.xml" value="0.5385416666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_auto_s9.xml" value="0.5314685314685315" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_clothing_s1.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_furniture_s1.xml" value="0.21105072463768115" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_medical_services_s1.xml" value="0.21105072463768115" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_new_buidings_s3.xml" value="0.21105072463768115" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/fragment_situation_new_buildings_s1.xml" value="0.21105072463768115" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/item_situation.xml" value="0.3104166666666667" />
+        <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/layout/row_group_chat.xml" value="0.3151041666666667" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/app/src/main/res/menu/menu_btm_nav.xml" value="0.3104166666666667" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/cleanChatsApp/app/src/main/res/drawable-hdpi/bottom_nav_tab_background.xml" value="0.351" />
         <entry key="..\:/portfolioAndroidProjects/laywerApplication/cleanChatsApp/cleanChatsApp/app/src/main/res/drawable-xxhdpi/ic_baseline_arrow_forward_24.xml" value="0.3165" />
