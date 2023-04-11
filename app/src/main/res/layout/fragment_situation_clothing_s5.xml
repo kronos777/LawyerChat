@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            tools:context=".presentation.fragments.CreateSituationAppliancesFreeFragment">
+
+            <TextView
+                android:id="@+id/title_situation_h1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_weight="1"
+                android:lineHeight="28dp"
+                android:text="Загрузите или сфотографируйте документы:"
+                android:textColor="@color/black"
+                android:textFontWeight="400"
+                style="@style/title"
+                app:layout_constraintBottom_toTopOf="@id/situation_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/situation_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/title_situation_h1"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="@color/colorPrimaryLaweyr2"
+                app:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:background="@color/progress_secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="165dp"
+                    android:padding="20dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/situation_info_h1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="16dp"
+                        android:text="@string/txt_situation_rules"
+                        android:textColor="@color/black"
+                        android:textFontWeight="400"
+                        android:textSize="12sp" />
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="42dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/ic_baseline_gavel_24" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/text_d1_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:textFontWeight="600"
+                android:lineHeight="24dp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/black"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toTopOf="@id/image_d1_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/situation_info"
+                android:text="Договор купли-продажи ТС" />
+
+            <ImageView
+                android:id="@+id/image_d1_attachment"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_d1_title"
+                android:src="@drawable/attachmenticon"
+                android:layout_marginTop="12dp"
+                />
+
+            <TextView
+                android:id="@+id/text_d1_attachment"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/color_gray"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toEndOf="@id/image_d1_attachment"
+                app:layout_constraintTop_toBottomOf="@+id/text_d1_title"
+                android:text="Загрузить файлы" />
+
+            <ImageView
+                android:id="@+id/image_hr_situation_s1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_d1_attachment"
+                android:src="@drawable/separator_hr"
+                android:layout_marginTop="16dp"
+                />
+
+
+            <TextView
+                android:id="@+id/text_d2_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:lineHeight="24dp"
+                android:text="Документы об оплате"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textFontWeight="600"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@id/image_d2_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s1" />
+
+            <ImageView
+                android:id="@+id/image_d2_attachment"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_d2_title"
+                android:src="@drawable/attachmenticon"
+                android:layout_marginTop="12dp"
+                />
+
+            <TextView
+                android:id="@+id/text_d2_attachment"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/color_gray"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toEndOf="@id/image_d2_attachment"
+                app:layout_constraintTop_toBottomOf="@+id/text_d2_title"
+                android:text="Загрузить файлы" />
+
+            <ImageView
+                android:id="@+id/image_hr_situation_s2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_d2_attachment"
+                android:src="@drawable/separator_hr"
+                android:layout_marginTop="16dp"
+                />
+
+
+            <TextView
+                android:id="@+id/text_d3_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:lineHeight="24dp"
+                android:text="Акт дефектовки, заключение специалиста"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textFontWeight="600"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@id/image_d3_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s2" />
+
+            <ImageView
+                android:id="@+id/image_d3_attachment"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_d3_title"
+                android:src="@drawable/attachmenticon"
+                android:layout_marginTop="12dp"
+                />
+
+            <TextView
+                android:id="@+id/text_d3_attachment"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/color_gray"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toEndOf="@id/image_d3_attachment"
+                app:layout_constraintTop_toBottomOf="@+id/text_d3_title"
+                android:text="Загрузить файлы" />
+
+            <ImageView
+                android:id="@+id/image_hr_situation_s3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_d3_attachment"
+                android:src="@drawable/separator_hr"
+                android:layout_marginTop="16dp"
+                />
+
+
+            <TextView
+                android:id="@+id/text_d4_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:lineHeight="24dp"
+                android:text="Претензионная переписка"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textFontWeight="600"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toTopOf="@id/image_d4_attachment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s3" />
+
+            <ImageView
+                android:id="@+id/image_d4_attachment"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_d4_title"
+                android:src="@drawable/attachmenticon"
+                android:layout_marginTop="12dp"
+                />
+
+            <TextView
+                android:id="@+id/text_d4_attachment"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/color_gray"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toEndOf="@id/image_d4_attachment"
+                app:layout_constraintTop_toBottomOf="@+id/text_d4_title"
+                android:text="Загрузить файлы" />
+
+            <ImageView
+                android:id="@+id/image_hr_situation_s4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_d4_attachment"
+                android:src="@drawable/separator_hr"
+                android:layout_marginTop="16dp"
+                />
+
+
+
+            <TextView
+                android:id="@+id/text_d7_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:textFontWeight="500"
+                android:lineHeight="24dp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/black"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toTopOf="@id/til_message_data"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s4"
+                android:text="Сопроводительный текст" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_message_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:layout_constraintBottom_toTopOf="@id/image_d7_attachment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_d7_title"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_message_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="172dp"
+                    android:hint="Текст"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <ImageView
+                android:id="@+id/image_d7_attachment"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/til_message_data"
+                android:src="@drawable/attachmenticon"
+                android:layout_marginTop="12dp"
+                />
+
+            <TextView
+                android:id="@+id/text_d7_attachment"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/color_gray"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toEndOf="@id/image_d7_attachment"
+                app:layout_constraintTop_toBottomOf="@+id/til_message_data"
+                android:text="Загрузить файлы" />
+
+            <ImageView
+                android:id="@+id/image_hr_situation_s7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_d7_attachment"
+                android:src="@drawable/separator_hr"
+                android:layout_marginTop="16dp"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enter_button"
+                android:layout_marginTop="34dp"
+                android:layout_marginBottom="50dp"
+                android:layout_width="0dp"
+                style="@style/BtnStyle"
+                android:textStyle="normal"
+                android:text="@string/button_next"
+                app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

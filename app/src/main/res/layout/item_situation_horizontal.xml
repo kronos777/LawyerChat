@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+
+        <variable
+            name="situationItem"
+            type="com.example.lawyerapplication.db.data.SituationItem"
+            />
+    </data>
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:outlineProvider="none"
+        app:cardElevation="0dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            android:orientation="vertical"
+            android:gravity="left"
+            >
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="140dp"
+                android:src="@{situationItem.imagePath}" />
+
+            <TextView
+                style="@style/card_situation_h1"
+                android:id="@+id/banks_notes_h1"
+                android:layout_width="170dp"
+                android:layout_height="24dp"
+                android:textSize="16sp"
+                android:lineHeight="24dp"
+                android:text="@{situationItem.nameString}"
+                android:textColor="@color/black"
+                android:layout_alignParentLeft="true"
+                />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

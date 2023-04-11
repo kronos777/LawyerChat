@@ -14,6 +14,8 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImage
 import com.google.firebase.firestore.CollectionReference
@@ -43,6 +45,7 @@ class FSituation : Fragment() {
     lateinit var userCollection: CollectionReference
 
     private lateinit var situationListAdapter: SearchBySituationAdapter
+    private lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +64,7 @@ class FSituation : Fragment() {
         context = requireActivity()
         val listArraySituation: ArrayList<SituationItem> = ArrayList()
         setupRecyclerView()
+        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
 
         val urlImg1 = getURLForResource(R.drawable.auto_s1)
         val urlImg2 = getURLForResource(R.drawable.appliances_s2)
@@ -105,14 +109,14 @@ class FSituation : Fragment() {
     private fun setupClickListener() {
         situationListAdapter.onPaymentItemClickListener = {
 
-            /*when(it.id) {
-                0 -> launchFragment(CreateSituationAutoOneFragment())
-                1 -> launchFragment(CreateSituationAppliancesOneFragment())
+           when(it.id) {
+                0 -> navController.navigate(R.id.action_FSituation_to_FSituationAuto1)
+                 /*1 -> launchFragment(CreateSituationAppliancesOneFragment())
                 2 -> launchFragment(CreateSituationNewBuildingsOneFragment())
                 3 -> launchFragment(CreateSituationFurnitureOneFragment())
                 4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
-                5 -> launchFragment(CreateSituationClothingOneFragment())
-            }*/
+                5 -> launchFragment(CreateSituationClothingOneFragment())*/
+            }
         }
     }
 

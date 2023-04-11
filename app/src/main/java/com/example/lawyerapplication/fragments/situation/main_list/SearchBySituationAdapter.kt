@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.lawyerapp.presentation.adapter.viewholders.SituationItemDiffCallback
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.ItemSituationBinding
 

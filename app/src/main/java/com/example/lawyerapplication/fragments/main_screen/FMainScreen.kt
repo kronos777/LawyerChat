@@ -14,12 +14,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.canhub.cropper.CropImage
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.AlertLogoutBinding
 import com.example.lawyerapplication.databinding.FMainScreenBinding
 import com.example.lawyerapplication.db.ChatUserDatabase
+import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.main_screen.situation_adapter.SearchBySituationAdapterHorizontal
 import com.example.lawyerapplication.fragments.myprofile.FMyProfileViewModel
+import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.views.CustomProgressView
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +52,9 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
     private lateinit var navController: NavController
 
+    private lateinit var situationListAdapter: SearchBySituationAdapterHorizontal
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,6 +71,32 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
         progressView = CustomProgressView(context)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+
+
+        val listArraySituation: ArrayList<SituationItem> = ArrayList()
+        binding.rvSituationList.setLayoutManager(LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL, false))
+        //binding.rvSituationList.addItemDecoration(DividerItemDecoration(activity,DividerItemDecoration.VERTICAL))
+        setupRecyclerView()
+
+        val urlImg1 = getURLForResource(R.drawable.auto_main)
+        val urlImg2 = getURLForResource(R.drawable.nov_main)
+        val urlImg3 = getURLForResource(R.drawable.new_buildings_s3)
+        val urlImg4 = getURLForResource(R.drawable.furniture_s4)
+        val urlImg5 = getURLForResource(R.drawable.medical_services_s5)
+        val urlImg6 = getURLForResource(R.drawable.clothing_s6)
+        listArraySituation.add(SituationItem(0, "Автомобили", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg1.toString()))
+        listArraySituation.add(SituationItem(1, "Бытовая техника", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg2.toString()))
+        listArraySituation.add(SituationItem(2, "Новостройки", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg3.toString()))
+        listArraySituation.add(SituationItem(3, "Мебель", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg4.toString()))
+        listArraySituation.add(SituationItem(4, "Медицинские услуги", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg5.toString()))
+        listArraySituation.add(SituationItem(5, "Одежда", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg6.toString()))
+/*
+        for (item in 6..85) {
+            val situation = SituationItem(item, "cars name"+ item.toString(), urlImg5.toString())
+            listArraySituation.add(situation)
+        }*/
+        situationListAdapter.submitList(listArraySituation)
 
         /*binding.btnSaveChanges.setOnClickListener {
             val newName = viewModel.userName.value
@@ -80,6 +114,11 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
        // initDialog()
         //subscribeObservers()
+        binding.allServicesMainScreen.setOnClickListener {
+            navController.navigate(R.id.action_FMainScreen_to_FSituation)
+        }
+
+
     }
 
     private fun subscribeObservers() {
@@ -112,31 +151,44 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-            onCropResult(data)
-        else
-            ImageUtils.cropImage(context, data, true)
+    fun getURLForResource(resourceId: Int): String? {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse(
+            "android.resource://" + R::class.java.getPackage().getName() + "/" + resourceId
+        ).toString()
     }
 
-    private fun onCropResult(data: Intent?) {
-        try {
-            val imagePath: Uri? = ImageUtils.getCroppedImage(data)
-            imagePath?.let {
-                viewModel.uploadProfileImage(it)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun setupRecyclerView() {
+        with(binding.rvSituationList) {
+            situationListAdapter = SearchBySituationAdapterHorizontal()
+            adapter = situationListAdapter
+            recycledViewPool.setMaxRecycledViews(
+                SearchBySituationAdapter.VIEW_TYPE_ENABLED,
+                SearchBySituationAdapter.MAX_POOL_SIZE
+            )
+
+        }
+
+        setupClickListener()
+    }
+
+    private fun setupClickListener() {
+        situationListAdapter.onPaymentItemClickListener = {
+
+            /*when(it.id) {
+                0 -> launchFragment(CreateSituationAutoOneFragment())
+                1 -> launchFragment(CreateSituationAppliancesOneFragment())
+                2 -> launchFragment(CreateSituationNewBuildingsOneFragment())
+                3 -> launchFragment(CreateSituationFurnitureOneFragment())
+                4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
+                5 -> launchFragment(CreateSituationClothingOneFragment())
+            }*/
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        ImageUtils.onImagePerResult(this, *grantResults)
+    private fun launchFragment() {
+        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        navController.navigate(R.id.action_FMainScreen_to_FSituation)
     }
+
 }

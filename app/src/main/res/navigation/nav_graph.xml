@@ -195,9 +195,93 @@
     <fragment
         android:id="@+id/FMainScreen"
         android:name="com.example.lawyerapplication.fragments.main_screen.FMainScreen"
-        android:label="Судный день" />
+        android:label="Судный день" >
+        <action
+            android:id="@+id/action_FMainScreen_to_FSituation"
+            app:destination="@id/FSituation" />
+    </fragment>
     <fragment
         android:id="@+id/FSituation"
         android:name="com.example.lawyerapplication.fragments.situation.FSituation"
-        android:label="Услуги по ситуации" />
+        android:label="Услуги по ситуации" >
+        <action
+            android:id="@+id/action_FSituation_to_FSituationAuto1"
+            app:destination="@id/FSituationAuto1" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto1"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto1"
+        android:label="FSituationAuto1" >
+        <action
+            android:id="@+id/action_FSituationAuto1_to_FSituationAuto2"
+            app:destination="@id/FSituationAuto2" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto2"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto2"
+        android:label="FSituationAuto2" >
+        <action
+            android:id="@+id/action_FSituationAuto2_to_FSituationAuto3"
+            app:destination="@id/FSituationAuto3" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto3"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto3"
+        android:label="FSituationAuto3" >
+        <action
+            android:id="@+id/action_FSituationAuto3_to_FSituationAuto4"
+            app:destination="@id/FSituationAuto4" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto4"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto4"
+        android:label="FSituationAuto4" >
+        <action
+            android:id="@+id/action_FSituationAuto4_to_FSituationAuto5"
+            app:destination="@id/FSituationAuto5" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto5"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto5"
+        android:label="FSituationAuto5" >
+        <action
+            android:id="@+id/action_FSituationAuto5_to_FSituationAuto6"
+            app:destination="@id/FSituationAuto6" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto6"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto6"
+        android:label="FSituationAuto6" >
+        <action
+            android:id="@+id/action_FSituationAuto6_to_FSituationAuto7"
+            app:destination="@id/FSituationAuto7" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto7"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto7"
+        android:label="FSituationAuto7" >
+        <action
+            android:id="@+id/action_FSituationAuto7_to_FSituationAuto8"
+            app:destination="@id/FSituationAuto8" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto8"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto8"
+        android:label="FSituationAuto8" >
+        <action
+            android:id="@+id/action_FSituationAuto8_to_FSituationAuto9"
+            app:destination="@id/FSituationAuto9" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto9"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto9"
+        android:label="FSituationAuto9" >
+        <action
+            android:id="@+id/action_FSituationAuto9_to_FSituationAuto10"
+            app:destination="@id/FSituationAuto10" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAuto10"
+        android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto10"
+        android:label="FSituationAuto10" />
 </navigation>

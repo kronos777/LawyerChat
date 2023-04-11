@@ -1,4 +1,4 @@
-package com.example.lawyerapp.presentation.adapter.viewholders
+package com.example.lawyerapplication.fragments.situation.main_list
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.lawyerapplication.db.data.SituationItem

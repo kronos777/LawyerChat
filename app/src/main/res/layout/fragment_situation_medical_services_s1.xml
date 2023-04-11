@@ -65,28 +65,13 @@
             android:layout_height="match_parent"
             android:text="Взыскать причиненный вред здоровью и все убытки"/>
     </RadioGroup>
-    <TextView
-        android:id="@+id/textSignInCheck3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="12dp"
-        android:lineHeight="16dp"
-        android:textFontWeight="400"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/color_gray"
-        android:textAlignment="viewStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupSituation"
-        android:text="Требования о взыскании морального вреда, расходов на представителя или досудебную экспертизу, штраф в пользу потребителя за неудовлетворение его требований в добровольном порядке, а также взыскание всех возможных видов неустойки, будут заявлены автоматически исходя из конкретной ситуации и анализа представленных документов." />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/enter_button"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="50dp"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        style="@style/BtnStyle"
         android:textStyle="normal"
         android:text="@string/button_next"
         app:layout_constraintEnd_toEndOf="parent"
