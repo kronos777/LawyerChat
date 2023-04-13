@@ -150,7 +150,8 @@ object ImageUtils {
         }
         return null
     }
-    private fun getPhotoUri(data: Intent?): Uri? {
+
+    fun getPhotoUri(data: Intent?): Uri? {
         return if (data == null || data.data == null) photoUri else data.data
     }
 
@@ -270,4 +271,7 @@ object ImageUtils {
             error(R.drawable.ic_broken_image)
         }
     }
+
+
+
 }

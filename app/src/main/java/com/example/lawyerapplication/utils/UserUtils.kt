@@ -56,6 +56,9 @@ object UserUtils {
 
     var totalRecursionCount=0
 
+
+
+
     fun updatePushToken(context: Context,userCollection: CollectionReference, isSave: Boolean) {
         try {
             if (Utils.isNetConnected(context)) {
@@ -106,6 +109,8 @@ object UserUtils {
         val db = FirebaseFirestore.getInstance()
         return db.collection("Users").document(preference.getUid()!!)
     }
+
+
 
     fun getMessageSubCollectionRef(): Query {
         val db = FirebaseFirestore.getInstance()

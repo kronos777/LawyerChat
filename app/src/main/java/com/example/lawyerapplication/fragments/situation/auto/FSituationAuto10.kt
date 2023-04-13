@@ -19,6 +19,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.finish.FSituationFinish
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
@@ -39,6 +40,9 @@ class FSituationAuto10 : Fragment() {
 
     @Inject
     lateinit var userCollection: CollectionReference
+
+    private var situation9: String = String()
+    private var situation9File: String = String()
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
@@ -65,7 +69,7 @@ class FSituationAuto10 : Fragment() {
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
+       // binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -73,16 +77,14 @@ class FSituationAuto10 : Fragment() {
                 binding.enterButton.getBackground().setAlpha(255)
                 getMaterialButtom()
                 val radio: RadioButton = group.findViewById(checkedId)
-                Toast.makeText(getActivity()," On checked change :"+
+                /*Toast.makeText(getActivity()," On checked change :"+
                         " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT).show()*/
                 radioSelect = radio.text.toString()
             })
 
         binding.enterButton.setOnClickListener {
-            if(it.isClickable){
-                Toast.makeText(getActivity()," Click", Toast.LENGTH_SHORT).show()
-            }
+            launchFragmentNext()
         }
 
     }
@@ -90,24 +92,33 @@ class FSituationAuto10 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
+      //  binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     private fun parseParams() {
         val args = requireArguments()
-        val situation1 = args.getString(SITUATION_ITEM)
-        Toast.makeText(getActivity(),"first choice" + situation1, Toast.LENGTH_SHORT).show()
+        situation9 = args.getString(SITUATION_ITEM).toString()
+        situation9File = args.getString(SITUATION_ITEM_FILE).toString()
+       // Toast.makeText(getActivity(),"all choice" + situation9, Toast.LENGTH_SHORT).show()
+       // Toast.makeText(getActivity(),"all choice file" + situation9File, Toast.LENGTH_SHORT).show()
     }
 
 
     fun launchFragmentNext() {
+        val btnArgsAuto = Bundle().apply {
+            putString(FSituationFinish.SITUATION_ITEM, situation9 + "&" +radioSelect + "&" + "auto")
+            putString(FSituationFinish.SITUATION_ITEM_FILE, situation9File)
+        }
+
+
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.FSituation)
+        navController.navigate(R.id.action_FSituationAuto10_to_FSituationFinish, btnArgsAuto)
     }
 
     companion object {
-        const val SITUATION_ITEM = "siruation_item"
+        const val SITUATION_ITEM = "situation_item"
+        const val SITUATION_ITEM_FILE = "situation_item_file"
     }
 
 }

@@ -352,6 +352,15 @@
                             <option name="y" value="-729" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto2_to_FSituationAuto3">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -363,6 +372,15 @@
                             <option name="x" value="2239" />
                             <option name="y" value="-731" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto3_to_FSituationAuto4">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -376,6 +394,15 @@
                             <option name="y" value="-730" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto4_to_FSituationAuto5">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -387,6 +414,15 @@
                             <option name="x" value="2644" />
                             <option name="y" value="-725" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto5_to_FSituationAuto6">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -400,6 +436,15 @@
                             <option name="y" value="-725" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto6_to_FSituationAuto7">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -411,6 +456,15 @@
                             <option name="x" value="3088" />
                             <option name="y" value="-726" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto7_to_FSituationAuto8">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -424,6 +478,15 @@
                             <option name="y" value="-726" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto8_to_FSituationAuto9">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -434,6 +497,27 @@
                           <Point>
                             <option name="x" value="3516" />
                             <option name="y" value="-723" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto9_to_FSituationAuto10">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="FSituationFinish">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="4181" />
+                            <option name="y" value="-258" />
                           </Point>
                         </option>
                       </LayoutPositions>

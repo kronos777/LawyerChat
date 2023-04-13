@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LetsChat</string>
+    <string name="app_name">Судный день</string>
     <string name="txt_otp_verification">На этот номер будет отправлен код подтверждения</string>
     <string name="txt_will_send_otp">На этот номер будет отправлен код подтверждения</string>
     <string name="txt_enter_otp">Введите пароль, отправленный на</string>

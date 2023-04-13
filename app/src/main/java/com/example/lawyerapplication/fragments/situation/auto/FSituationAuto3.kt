@@ -42,7 +42,7 @@ class FSituationAuto3 : Fragment() {
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
-
+    private var situation2: String = String()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +65,7 @@ class FSituationAuto3 : Fragment() {
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
+       // binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -73,16 +73,14 @@ class FSituationAuto3 : Fragment() {
                 binding.enterButton.getBackground().setAlpha(255)
                 getMaterialButtom()
                 val radio: RadioButton = group.findViewById(checkedId)
-                Toast.makeText(getActivity()," On checked change :"+
+              /*  Toast.makeText(getActivity()," On checked change :"+
                         " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT).show()*/
                 radioSelect = radio.text.toString()
             })
 
         binding.enterButton.setOnClickListener {
-            if(it.isClickable){
-                Toast.makeText(getActivity()," Click", Toast.LENGTH_SHORT).show()
-            }
+            launchFragmentNext()
         }
 
     }
@@ -90,24 +88,28 @@ class FSituationAuto3 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
+     //   binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     private fun parseParams() {
         val args = requireArguments()
-        val situation1 = args.getString(SITUATION_ITEM)
-        Toast.makeText(getActivity(),"first choice" + situation1, Toast.LENGTH_SHORT).show()
+        situation2 = args.getString(SITUATION_ITEM).toString()
+       // Toast.makeText(getActivity(),"two choice" + situation2, Toast.LENGTH_SHORT).show()
     }
 
 
     fun launchFragmentNext() {
+        val btnArgsAuto = Bundle().apply {
+            putString(FSituationAuto4.SITUATION_ITEM, situation2 + "&" +radioSelect)
+        }
+
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationAuto3_to_FSituationAuto4)
+        navController.navigate(R.id.action_FSituationAuto3_to_FSituationAuto4, btnArgsAuto)
     }
 
     companion object {
-        const val SITUATION_ITEM = "siruation_item"
+        const val SITUATION_ITEM = "situation_item"
     }
 
 }

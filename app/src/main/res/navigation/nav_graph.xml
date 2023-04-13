@@ -283,5 +283,13 @@
     <fragment
         android:id="@+id/FSituationAuto10"
         android:name="com.example.lawyerapplication.fragments.situation.auto.FSituationAuto10"
-        android:label="FSituationAuto10" />
+        android:label="FSituationAuto10" >
+        <action
+            android:id="@+id/action_FSituationAuto10_to_FSituationFinish"
+            app:destination="@id/FSituationFinish" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationFinish"
+        android:name="com.example.lawyerapplication.fragments.situation.finish.FSituationFinish"
+        android:label="FSituationFinish" />
 </navigation>
