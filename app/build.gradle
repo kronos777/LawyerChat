@@ -139,7 +139,9 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0-beta01"
 
 
-    //for Carousel
+    //for accordion
+    implementation 'com.github.florent37:expansionpanel:1.1.1'
+
 
 
     // Local Unit Tests

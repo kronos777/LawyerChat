@@ -182,7 +182,24 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_FMainScreen_to_fmyBussines_main">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="FMyBussines_page">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="2038" />
+                            <option name="y" value="313" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

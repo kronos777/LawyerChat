@@ -18,6 +18,7 @@ import com.example.lawyerapplication.databinding.FragmentMyBussinesMainBinding
 import com.example.lawyerapplication.db.data.BusinessItem
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.MyBusinessAdapterHorizontal
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
+import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices3
 import com.example.lawyerapplication.utils.*
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,8 +44,6 @@ class FMyBussines_main : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
     }
 
     override fun onCreateView(
@@ -61,30 +60,6 @@ class FMyBussines_main : Fragment() {
         setupRecyclerView()
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
 
-        Toast.makeText(context, "this fragment my bussines", Toast.LENGTH_SHORT).show()
-        //(requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-
-
-
-        //val urlImg1 = getURLForResource(R.drawable.auto_s1)
-        //val urlImg2 = getURLForResource(R.drawable.appliances_s2)
-        //val urlImg3 = getURLForResource(R.drawable.new_buildings_s3)
-        //val urlImg4 = getURLForResource(R.drawable.furniture_s4)
-        //val urlImg5 = getURLForResource(R.drawable.medical_services_s5)
-       // val urlImg6 = getURLForResource(R.drawable.clothing_s6)
-      //  listArraySituation.add(SituationItem(0, "Автомобили", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg1.toString()))
-       // listArraySituation.add(SituationItem(1, "Бытовая техника", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg2.toString()))
-     //   listArraySituation.add(SituationItem(2, "Новостройки", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg3.toString()))
-    //    listArraySituation.add(SituationItem(3, "Мебель", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg4.toString()))
-       // listArraySituation.add(SituationItem(4, "Медицинские услуги", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg5.toString()))
-       // listArraySituation.add(SituationItem(5, "Одежда", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg6.toString()))
-
-
-/*
-        for (item in 6..85) {
-            val situation = SituationItem(item, "cars name"+ item.toString(), urlImg5.toString())
-            listArraySituation.add(situation)
-        }*/
 
         val docRef = getDocumentRef(context)
         docRef.addSnapshotListener { snapshot, e ->
@@ -98,7 +73,7 @@ class FMyBussines_main : Fragment() {
                     //Log.d("TAG", "Current data: ${itemLead.data.get("status")}")
                     //Log.d("TAG", "Current data: ${itemLead.data.get("category")}")
                     val id = itemLead.data.get("id")
-                    val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, itemLead.data.get("category") as String, "22.02.2012 20:00")
+                    val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, itemLead.data.get("category") as String, itemLead.data.get("dateTime") as String)
                     listArraySituation.add(lead)
                     myBusinessListAdapter.submitList(listArraySituation)
                 }
@@ -141,24 +116,25 @@ class FMyBussines_main : Fragment() {
 
     private fun setupClickListener() {
         myBusinessListAdapter.onPaymentItemClickListener = {
-
-           when(it.id) {
-                0 -> navController.navigate(R.id.action_FSituation_to_FSituationAuto1)
-                1 -> navController.navigate(R.id.FSituationFinish)
-                4 -> navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
-               /* 3 -> launchFragment(CreateSituationFurnitureOneFragment())
-                4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
-                5 -> launchFragment(CreateSituationClothingOneFragment())*/
-            }
+            //Toast.makeText(context, "this is ${it.id}", Toast.LENGTH_SHORT).show()
+            it.id?.let { it1 -> launchFragment(it1) }
+            /*when(it.id) {
+                 0 -> navController.navigate(R.id.action_FSituation_to_FSituationAuto1)
+                 1 -> navController.navigate(R.id.FSituationFinish)
+                 4 -> navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
+                 3 -> launchFragment(CreateSituationFurnitureOneFragment())
+                 4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
+                 5 -> launchFragment(CreateSituationClothingOneFragment())
+            }*/
         }
     }
 
 
-    fun launchFragment(fragment: Fragment) {
-        /*fragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_item_container, fragment)
-            ?.addToBackStack(null)
-            ?.commit()*/
+    fun launchFragment(id: Any) {
+        val btnArgsBusines = Bundle().apply {
+            putString(FMyBussines_page.BUSINESS_ITEM_ID, id.toString())
+        }
+        navController.navigate(R.id.action_fmyBussines_main_to_FMyBussines_page, btnArgsBusines)
     }
 
 }

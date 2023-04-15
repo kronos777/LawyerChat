@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/group_list_recycler_layout"
+        android:layout_width="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/title_situation_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:lineHeight="28dp"
+            android:text=""
+            android:textColor="@color/black"
+            android:textFontWeight="400"
+            style="@style/title"
+            android:gravity="left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_hr_situation_s1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_situation_h1"
+            android:src="@drawable/separator_hr"
+            android:layout_marginTop="16dp"
+            />
+        <LinearLayout
+            android:id="@+id/accordion_first_linear"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s1"
+            >
+
+            <com.github.florent37.expansionpanel.ExpansionHeader
+                android:id="@+id/accordion_first"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:expansion_headerIndicator="@id/headerIndicator"
+                app:expansion_layout="@id/expansionLayout"
+                app:expansion_toggleOnClick="true">
+
+                <!-- HEADER -->
+
+                <TextView
+                    android:id="@+id/accordion_title"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textFontWeight="500"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="16dp"
+                    android:lineHeight="24dp"
+                    android:textColor="@color/black"
+                    android:text="Причина обращения"/>
+
+                <!-- HEADER INDICATOR -->
+                <ImageView
+                    android:adjustViewBounds="true"
+                    android:id="@+id/headerIndicator"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+
+
+            </com.github.florent37.expansionpanel.ExpansionHeader>
+
+            <com.github.florent37.expansionpanel.ExpansionLayout
+                android:id="@+id/expansionLayout"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <!-- CONTENT -->
+                <TextView
+                    android:id="@+id/accordion_description"
+                    android:textFontWeight="400"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14dp"
+                    android:lineHeight="20dp"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="Предъявить требование о замене на товар другой марки (модели, артикула) с соответствующим перерасчетом покупной цены"/>
+
+            </com.github.florent37.expansionpanel.ExpansionLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_hr_situation_s2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/accordion_first_linear"
+            android:src="@drawable/separator_hr"
+            android:layout_marginTop="24dp"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
