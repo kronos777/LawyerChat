@@ -3,12 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="AlwaysShowAction,UnusedAttribute">
-
     <item
+        android:id="@+id/action_forum"
+        android:icon="@drawable/ic_baseline_forum_24"
+        android:title="@string/txt_forum"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|always"
+        />
+    <item
+        android:id="@+id/action_notifications"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="@string/txt_notifications"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|always"
+        />
+    <!--item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/txt_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|always"
-        />
+        /-->
 </menu>

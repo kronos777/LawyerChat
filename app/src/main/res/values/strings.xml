@@ -41,7 +41,7 @@
 
     <string name="introductory_text">Судный день</string>
 
-    <string name="txt_notifications">Notifications</string>
+    <string name="txt_notifications">Уведомления</string>
     <string name="txt_not_description">Enable Notification</string>
     <string name="txt_message">Напишите что нибудь...</string>
     <string name="txt_user_name">User Name</string>
@@ -120,6 +120,7 @@
     <string name="txt_clothing3_title"><![CDATA[Недостатки обнаружены по истечении срока возврата товара (в пределах гарантийного срока)]]></string>
     <string name="title_main_screen">Популярные услуги</string>
     <string name="all_services_main_screen">Все</string>
+    <string name="txt_forum">Сообщения</string>
 
 
 </resources>

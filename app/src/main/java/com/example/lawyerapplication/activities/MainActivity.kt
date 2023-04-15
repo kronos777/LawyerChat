@@ -216,44 +216,45 @@ class MainActivity : ActBase() {
     }
 
     private fun initToolbarItem() {
-        searchItem = binding.toolbar.menu.findItem(R.id.action_search)
-        searchView = searchItem.actionView as SearchView
-        searchView.apply {
-            maxWidth = Integer.MAX_VALUE
-            queryHint = getString(R.string.txt_search)
-        }
+        /*  searchItem = binding.toolbar.menu.findItem(R.id.action_search)
 
-        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                sharedViewModel.setState(ScreenState.SearchState)
-                return true
-            }
+          searchView = searchItem.actionView as SearchView
+          searchView.apply {
+              maxWidth = Integer.MAX_VALUE
+              queryHint = getString(R.string.txt_search)
+          }
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                  if (!stopped)
-                    sharedViewModel.setState(ScreenState.IdleState)
-                return true
-            }
-        })
+          searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+              override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                  sharedViewModel.setState(ScreenState.SearchState)
+                  return true
+              }
 
-        sharedViewModel.getState().observe(this, { state ->
-            if (state is ScreenState.SearchState && searchView.isIconified) {
-                searchItem.expandActionView()
-                searchView.setQuery(sharedViewModel.getLastQuery().value, false)
-            }
-        })
+              override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                    if (!stopped)
+                      sharedViewModel.setState(ScreenState.IdleState)
+                  return true
+              }
+          })
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
+          sharedViewModel.getState().observe(this, { state ->
+              if (state is ScreenState.SearchState && searchView.isIconified) {
+                  searchItem.expandActionView()
+                  searchView.setQuery(sharedViewModel.getLastQuery().value, false)
+              }
+          })
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                sharedViewModel.setLastQuery(newText.toString())
-                return true
-            }
-        })
+          searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+              override fun onQueryTextSubmit(query: String?): Boolean {
+                  return true
+              }
 
+              override fun onQueryTextChange(newText: String?): Boolean {
+                  sharedViewModel.setLastQuery(newText.toString())
+                  return true
+              }
+          })
+  */
     }
 
     private fun showView() {
@@ -274,7 +275,7 @@ class MainActivity : ActBase() {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
                     if (isNotSameDestination(R.id.FMainScreen)) {
-                        searchItem.collapseActionView()
+                      //  searchItem.collapseActionView()
                         Navigation.findNavController(this, R.id.nav_host_fragment)
                             .navigate(R.id.FMainScreen, null, navOptions)
                     }
@@ -284,7 +285,7 @@ class MainActivity : ActBase() {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
                     if (isNotSameDestination(R.id.FSituation)) {
-                        searchItem.collapseActionView()
+//                        searchItem.collapseActionView()
                         Navigation.findNavController(this, R.id.nav_host_fragment)
                             .navigate(R.id.FSituation, null, navOptions)
                     }
@@ -294,7 +295,7 @@ class MainActivity : ActBase() {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
                     if (isNotSameDestination(R.id.fmyBussines_main)) {
-                        searchItem.collapseActionView()
+                     //   searchItem.collapseActionView()
                         Navigation.findNavController(this, R.id.nav_host_fragment)
                             .navigate(R.id.fmyBussines_main, null, navOptions)
                     }
@@ -328,7 +329,7 @@ class MainActivity : ActBase() {
                 }*/
                 else -> {
                     if (isNotSameDestination(R.id.FMyProfile)) {
-                        searchItem.collapseActionView()
+                        //searchItem.collapseActionView()
                         Navigation.findNavController(this, R.id.nav_host_fragment)
                             .navigate(R.id.FMyProfile)
                     }
