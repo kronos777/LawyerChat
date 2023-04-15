@@ -2,33 +2,35 @@ package com.example.lawyerapplication.fragments.main_screen
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.canhub.cropper.CropImage
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.AlertLogoutBinding
 import com.example.lawyerapplication.databinding.FMainScreenBinding
 import com.example.lawyerapplication.db.ChatUserDatabase
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.main_screen.situation_adapter.MyBusinessAdapterHorizontal
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.SearchBySituationAdapterHorizontal
 import com.example.lawyerapplication.fragments.myprofile.FMyProfileViewModel
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.views.CustomProgressView
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -54,6 +56,12 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
     private lateinit var situationListAdapter: SearchBySituationAdapterHorizontal
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +80,10 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+
+
+
+
 
 
         val listArraySituation: ArrayList<SituationItem> = ArrayList()

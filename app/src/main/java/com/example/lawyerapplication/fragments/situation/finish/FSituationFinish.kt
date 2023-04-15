@@ -72,29 +72,29 @@ class FSituationFinish : Fragment() {
 
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
 
-        listUrlFile = ArrayList<Uri>()
-        storage = FirebaseStorage.getInstance()
-        storageReference = storage.getReference()
+        //listUrlFile = ArrayList<Uri>()
+        //storage = FirebaseStorage.getInstance()
+        //storageReference = storage.getReference()
 //        parseParams()
-        val testStringParams = "Иное (вы опишите кратко ситуацию, загрузите скан или фотодокументов, специалисты проконсультируют вас устно или письменно, уточнив предварительно информацию по телефону) &Комплексная защита гражданской ответственности при ДТП (ОСАГО, КАСКО)&Взыскание ущерба с причинителя вреда в судебном порядке (в случае если причинитель вреда установлен)&Недостаток обнаружен по истечении 15 дней со дня передачи автомобиля покупателю и недостаток является существенным&Предъявить требование о замене на автомобиль этой же марки или на такой же автомобиль другой марки с соответствующим перерасчетом покупной цены&Предъявить требование о замене на автомобиль этой же марки или на такой же автомобиль другой марки с соответствующим перерасчетом покупной цены&Обращение в суд с иском к продавцу (автосалон) о расторжении договора на дополнительное оборудование (дополнительные услуги) и возвращении уплаченных денежных средств, а также возмещении убытков&Потребовать с автодилера выплаты неустойки за несоблюдение срока ремонта автомобиля&500 рублей + 50% от всех взысканных судом и поступивших на Ваш счет денежных средств&auto"
-        var testStringUri = "[content://com.android.providers.media.documents/document/image%3A223746, content://com.android.providers.media.documents/document/image%3A221192, content://com.android.providers.media.documents/document/image%3A221191, content://com.android.providers.media.documents/document/image%3A218703, content://com.android.providers.media.documents/document/image%3A218702, content://com.android.providers.media.documents/document/image%3A218701]"
+      //  val testStringParams = "Иное (вы опишите кратко ситуацию, загрузите скан или фотодокументов, специалисты проконсультируют вас устно или письменно, уточнив предварительно информацию по телефону) &Комплексная защита гражданской ответственности при ДТП (ОСАГО, КАСКО)&Взыскание ущерба с причинителя вреда в судебном порядке (в случае если причинитель вреда установлен)&Недостаток обнаружен по истечении 15 дней со дня передачи автомобиля покупателю и недостаток является существенным&Предъявить требование о замене на автомобиль этой же марки или на такой же автомобиль другой марки с соответствующим перерасчетом покупной цены&Предъявить требование о замене на автомобиль этой же марки или на такой же автомобиль другой марки с соответствующим перерасчетом покупной цены&Обращение в суд с иском к продавцу (автосалон) о расторжении договора на дополнительное оборудование (дополнительные услуги) и возвращении уплаченных денежных средств, а также возмещении убытков&Потребовать с автодилера выплаты неустойки за несоблюдение срока ремонта автомобиля&500 рублей + 50% от всех взысканных судом и поступивших на Ваш счет денежных средств&auto"
+        //var testStringUri = "[content://com.android.providers.media.documents/document/image%3A223746, content://com.android.providers.media.documents/document/image%3A221192, content://com.android.providers.media.documents/document/image%3A221191, content://com.android.providers.media.documents/document/image%3A218703, content://com.android.providers.media.documents/document/image%3A218702, content://com.android.providers.media.documents/document/image%3A218701]"
 
+     //   parseParams()
 
-
-        val category = getCategoryLead(testStringParams)
+      //  val category = getCategoryLead(situation)
         //Toast.makeText(getActivity(),"this category" + category, Toast.LENGTH_SHORT).show()
 
        // Log.d("uid", preference.getUid().toString())
 
-
-        if(category == "auto") {
-            val arrayValue = testStringParams.split("&")
+       // Toast.makeText(getActivity(),"this category" + category, Toast.LENGTH_SHORT).show()
+      //  if(category == "auto") {
+        //    val arrayValue = testStringParams.split("&")
            // Log.d("arrayValue", arrayValue.size.toString())
           //  getReadyImgUri(testStringUri)
            //Log.d("testStringUri", listUrlFile.toString())
              //addLeadDb(arrayValue)
 
-            val leadId = 5
+          //  val leadId = 5
 
             //uploadImages(leadId.toString())
            /* val db = FirebaseFirestore.getInstance()
@@ -102,17 +102,22 @@ class FSituationFinish : Fragment() {
                 .set(lead, SetOptions.merge())
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }*/
-        }
+        //} else if(category == "medical") {
+          //  val arrayValue = situation.split("&")
+            //getReadyImgUri(situationFile)
+            //addLeadDb(arrayValue)
+           // Toast.makeText(getActivity(),"this21 category" + category, Toast.LENGTH_SHORT).show()
+        //}
 
 
-        binding.progressCircular.setOnClickListener {
+        /*binding.progressCircular.setOnClickListener {
             multipleChoiseImage()
         }
         binding.textSendMessage2.setOnClickListener {
-            val leadId = 5
+            val leadId = 11
 
             uploadImages(leadId.toString())
-        }
+        }*/
 
 
     }
@@ -170,8 +175,14 @@ class FSituationFinish : Fragment() {
         val arrayUriFile = valueString.split(",")
         for(url in arrayUriFile) {
             listUrlFile.add(url.toUri())
+            Log.d("imgUri", url.toString())
         }
     }
+
+    fun findMax(list: List<Int>): Int? {
+        return list.reduce { a: Int, b: Int -> a.coerceAtLeast(b) }
+    }
+
 
     private fun addLeadDb(arrayValue: List<String>) {
         val uid = preference.getUid()
@@ -184,22 +195,38 @@ class FSituationFinish : Fragment() {
                         leadId = 0
                     } else {
                         if((result.last().id).toInt() >= 0){
-                            leadId = (result.last().id).toInt() + 1
+                            val arraListInt = ArrayList<Int>()
+                            for (document in result) {
+                                //Log.d("TAG", "${document.id} => ${document.data}")
+                                arraListInt.add(document.id.toInt())
+                            }
+                            leadId = findMax(arraListInt)!! + 1
                         } else {
                             leadId = 0
                         }
                     }
 
-                    val lead = LeadItem(arrayValue.get(0).toString(), arrayValue.get(1).toString(), arrayValue.get(2).toString(), arrayValue.get(3).toString(), arrayValue.get(4).toString(),
+
+
+                   // createLead()
+
+                  /*  val lead = LeadItem(arrayValue.get(0).toString(), arrayValue.get(1).toString(), arrayValue.get(2).toString(), arrayValue.get(3).toString(), arrayValue.get(4).toString(),
                         arrayValue.get(5).toString(), arrayValue.get(6).toString(), arrayValue.get(7).toString(), arrayValue.get(8).toString(), arrayValue.get(9).toString(), arrayValue.get(9).toString(),
-                        uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)
+                        uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)*/
+
+
+                    val lead = LeadItem(arrayValue.get(0).toString(), arrayValue.get(1).toString(), "", "", "", "", "", "", "", "", "",
+                        uid.toString(), "", arrayValue.last().toString(), "newLead",  "dsafsdfdas", leadId)
+
+
                     val db = FirebaseFirestore.getInstance()
                     db.collection("Leads").document(lead.id.toString())
                         .set(lead, SetOptions.merge())
                         .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
                         .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
 
-
+                    uploadImages(leadId.toString())
+                   /* */
                     /*for (document in result) {
                         Log.d("TAG", "${document.id} => ${document.data}")
                     }*/
@@ -207,6 +234,10 @@ class FSituationFinish : Fragment() {
                 .addOnFailureListener { exception ->
                     Log.d("TAG", "Error getting documents: ", exception)
                 }
+    }
+
+    private fun createLead(arrayValue: List<String>): LeadItem {
+        TODO()
     }
 
 
@@ -233,15 +264,15 @@ class FSituationFinish : Fragment() {
                         val downloadUri = it.task.snapshot.metadata?.path?.toUri()
                         //val downloadUri2 = it.task.snapshot.storage.downloadUrl
                         // val downloadUri = it.task.snapshot.storage.downloadUrl
-                        //Toast.makeText(getActivity(), "Uploaded" + downloadUri.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(getActivity(), "Uploaded" + downloadUri.toString(), Toast.LENGTH_SHORT).show()
                        // Log.d("uploadIri", downloadUri.toString())
                         //val downloadUri = it.d
 
                     }
                     .addOnFailureListener { e ->
                         progressDialog.dismiss()
-                        Toast.makeText(getActivity(), "Failed " + e.message, Toast.LENGTH_SHORT)
-                            .show()
+                        Log.d("uploadIri", e.message.toString())
+                        //Toast.makeText(getActivity(), "Failed " + e.message, Toast.LENGTH_SHORT).show()
                     }
                     .addOnProgressListener(object : OnProgressListener<UploadTask.TaskSnapshot?> {
                         override fun onProgress(taskSnapshot: UploadTask.TaskSnapshot) {
@@ -262,6 +293,7 @@ class FSituationFinish : Fragment() {
 
         when(arrayValue.last()) {
             "auto" -> return "auto"
+            "medical" -> return "medical"
 
         }
         return "empty"
@@ -270,8 +302,8 @@ class FSituationFinish : Fragment() {
 
     private fun parseParams() {
         val args = requireArguments()
-        situation = args.getString(FSituationAuto10.SITUATION_ITEM).toString()
-        situationFile = args.getString(FSituationAuto10.SITUATION_ITEM_FILE).toString()
+        situation = args.getString(FSituationFinish.SITUATION_ITEM).toString()
+        situationFile = args.getString(FSituationFinish.SITUATION_ITEM_FILE).toString()
         Log.d("allDataSituation", situation)
         Log.d("allDataSituationFile", situationFile)
         // Toast.makeText(getActivity(),"all choice" + situation9, Toast.LENGTH_SHORT).show()

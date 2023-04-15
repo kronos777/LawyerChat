@@ -196,9 +196,16 @@
         android:id="@+id/FMainScreen"
         android:name="com.example.lawyerapplication.fragments.main_screen.FMainScreen"
         android:label="Судный день" >
+        <argument
+            android:defaultValue="@null"
+            app:nullable="true"
+            android:name="FMainScreen"/>
         <action
             android:id="@+id/action_FMainScreen_to_FSituation"
             app:destination="@id/FSituation" />
+        <action
+            android:id="@+id/action_FMainScreen_to_fmyBussines_main"
+            app:destination="@id/fmyBussines_main" />
     </fragment>
     <fragment
         android:id="@+id/FSituation"
@@ -207,6 +214,9 @@
         <action
             android:id="@+id/action_FSituation_to_FSituationAuto1"
             app:destination="@id/FSituationAuto1" />
+        <action
+            android:id="@+id/action_FSituation_to_FSituationMedicalServices1"
+            app:destination="@id/FSituationMedicalServices1" />
     </fragment>
     <fragment
         android:id="@+id/FSituationAuto1"
@@ -292,4 +302,32 @@
         android:id="@+id/FSituationFinish"
         android:name="com.example.lawyerapplication.fragments.situation.finish.FSituationFinish"
         android:label="FSituationFinish" />
+    <fragment
+        android:id="@+id/FSituationMedicalServices1"
+        android:name="com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices1"
+        android:label="FSituationMedicalServices1" >
+        <action
+            android:id="@+id/action_FSituationMedicalServices1_to_FSituationMedicalServices2"
+            app:destination="@id/FSituationMedicalServices2" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationMedicalServices2"
+        android:name="com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices2"
+        android:label="FSituationMedicalServices2" >
+        <action
+            android:id="@+id/action_FSituationMedicalServices2_to_FSituationMedicalServices3"
+            app:destination="@id/FSituationMedicalServices3" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationMedicalServices3"
+        android:name="com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices3"
+        android:label="FSituationMedicalServices3" >
+        <action
+            android:id="@+id/action_FSituationMedicalServices3_to_FSituationFinish"
+            app:destination="@id/FSituationFinish" />
+    </fragment>
+    <fragment
+        android:id="@+id/fmyBussines_main"
+        android:name="com.example.lawyerapplication.fragments.my_business.FMyBussines_main"
+        android:label="FmyBussines_main" />
 </navigation>

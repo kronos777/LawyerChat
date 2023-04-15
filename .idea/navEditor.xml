@@ -305,6 +305,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_FSituation_to_FSituationMedicalServices1">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -339,6 +344,15 @@
                             <option name="x" value="3748" />
                             <option name="y" value="-712" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationAuto10_to_FSituationFinish">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -523,6 +537,69 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="FSituationMedicalServices1">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1758" />
+                            <option name="y" value="-193" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationMedicalServices1_to_FSituationMedicalServices2">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="FSituationMedicalServices2">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="2003" />
+                            <option name="y" value="-186" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationMedicalServices2_to_FSituationMedicalServices3">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="FSituationMedicalServices3">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="2237" />
+                            <option name="y" value="-200" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationMedicalServices3_to_FSituationFinish">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="FVerify">
                     <value>
                       <LayoutPositions>
@@ -575,6 +652,18 @@
                           <Point>
                             <option name="x" value="1429" />
                             <option name="y" value="-921" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="fmyBussines_main">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1775" />
+                            <option name="y" value="307" />
                           </Point>
                         </option>
                       </LayoutPositions>

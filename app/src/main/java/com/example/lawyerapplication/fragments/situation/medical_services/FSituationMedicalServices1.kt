@@ -1,14 +1,18 @@
 package com.example.lawyerapplication.fragments.situation.medical_services
 
 import android.app.Activity
+import android.app.ProgressDialog
+import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -21,11 +25,18 @@ import com.example.lawyerapplication.databinding.FProfileBinding
 import com.example.lawyerapplication.databinding.FragmentChoiceBySituationBinding
 import com.example.lawyerapplication.databinding.FragmentSituationAutoS1Binding
 import com.example.lawyerapplication.databinding.FragmentSituationMedicalServicesS1Binding
+import com.example.lawyerapplication.db.data.LeadItem
 import com.example.lawyerapplication.db.data.SituationItem
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.views.CustomProgressView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.OnProgressListener
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -66,7 +77,6 @@ class FSituationMedicalServices1 : Fragment() {
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -89,16 +99,15 @@ class FSituationMedicalServices1 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-           // putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
+            putString(FSituationMedicalServices2.SITUATION_ITEM, radioSelect)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-      //  navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationMedicalServices1_to_FSituationMedicalServices2, btnArgsLessons)
     }
 
 }

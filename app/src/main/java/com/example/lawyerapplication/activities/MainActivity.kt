@@ -18,14 +18,13 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.ActivityMainBinding
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Group
-import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.utils.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
@@ -99,7 +98,8 @@ class MainActivity : ActBase() {
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 onDestinationChanged(destination.id)
             }
-            val appBarConfiguration = AppBarConfiguration(setOf(R.id.FSingleChatHome))
+            //val appBarConfiguration = AppBarConfiguration(setOf(R.id.FSingleChatHome))
+            val appBarConfiguration = AppBarConfiguration(setOf(R.id.FMainScreen, R.id.FSituation, R.id.fmyBussines_main, R.id.FMyProfile))
             binding.toolbar.setupWithNavController(navController, appBarConfiguration)
             binding.bottomNav.setOnNavigationItemSelectedListener(onBottomNavigationListener)
 
@@ -147,6 +147,8 @@ class MainActivity : ActBase() {
                     binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
                     binding.fab.hide()
+                  //  this.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                   // this.supportActionBar?.setDisplayShowHomeEnabled(false)
                 }
                 R.id.FGroupChatHome -> {
                     binding.bottomNav.selectedItemId = R.id.nav_home
@@ -159,6 +161,18 @@ class MainActivity : ActBase() {
                 }
                 R.id.FMyProfile -> {
                     binding.bottomNav.selectedItemId = R.id.nav_profile
+                    showView()
+                    binding.fab.hide()
+                }
+                R.id.fmyBussines_main -> {
+                    binding.bottomNav.selectedItemId = R.id.nav_my_business
+                    showView()
+                    binding.fab.hide()
+                   //binding.toolbar.setDisplayHomeAsUpEnabled(false)
+
+                }
+                R.id.FSituation -> {
+                    binding.bottomNav.selectedItemId = R.id.nav_services
                     showView()
                     binding.fab.hide()
                 }
@@ -276,7 +290,17 @@ class MainActivity : ActBase() {
                     }
                     true
                 }
-                /*R.id.nav_chat -> {
+                R.id.nav_my_business -> {
+                    val navOptions =
+                        NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
+                    if (isNotSameDestination(R.id.fmyBussines_main)) {
+                        searchItem.collapseActionView()
+                        Navigation.findNavController(this, R.id.nav_host_fragment)
+                            .navigate(R.id.fmyBussines_main, null, navOptions)
+                    }
+                    true
+                }/*
+                R.id.nav_chat -> {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
                     if (isNotSameDestination(R.id.FSingleChatHome)) {
@@ -347,15 +371,15 @@ class MainActivity : ActBase() {
     }
 
     override fun onBackPressed() {
-        if (navController.isValidDestination(R.id.FSingleChatHome))
+        if (navController.isValidDestination(R.id.FSingleChatHome) || navController.isValidDestination(R.id.FMainScreen)) {
             finish()
-        else if (navController.isValidDestination(R.id.FMyProfile) ||
+        /*else if (navController.isValidDestination(R.id.FMyProfile) ||
             navController.isValidDestination(R.id.FGroupChatHome) ||
             navController.isValidDestination(R.id.FSearch)) {
             val navOptions =
                 NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
             Navigation.findNavController(this, R.id.nav_host_fragment)
-                .navigate(R.id.FSingleChatHome, null, navOptions)
+                .navigate(R.id.FSingleChatHome, null, navOptions)*/
         } else
             super.onBackPressed()
     }

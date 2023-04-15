@@ -19,6 +19,8 @@ import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.auto.FSituationAuto10
+import com.example.lawyerapplication.fragments.situation.finish.FSituationFinish
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
@@ -40,6 +42,11 @@ class FSituationMedicalServices3 : Fragment() {
     @Inject
     lateinit var userCollection: CollectionReference
 
+
+
+    private var situation2: String = String()
+    private var situation2File: String = String()
+
     private lateinit var navController: NavController
     private var radioSelect: String = String()
 
@@ -59,11 +66,10 @@ class FSituationMedicalServices3 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
         val radioGroup = binding.radioGroupSituation
-
+        parseParams()
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -86,16 +92,31 @@ class FSituationMedicalServices3 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
     }
 
+
+    private fun parseParams() {
+        val args = requireArguments()
+        situation2 = args.getString(FSituationMedicalServices3.SITUATION_ITEM).toString()
+        situation2File = args.getString(FSituationMedicalServices3.SITUATION_ITEM_FILE).toString()
+        // Toast.makeText(getActivity(),"all choice" + situation9, Toast.LENGTH_SHORT).show()
+        // Toast.makeText(getActivity(),"all choice file" + situation9File, Toast.LENGTH_SHORT).show()
+    }
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-           // putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
+            putString(FSituationFinish.SITUATION_ITEM, situation2 + "&" + radioSelect + "&" + "medical")
+            putString(FSituationFinish.SITUATION_ITEM_FILE, situation2File)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-      //  navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationMedicalServices3_to_FSituationFinish, btnArgsLessons)
     }
+
+
+    companion object {
+        const val SITUATION_ITEM = "situation_item"
+        const val SITUATION_ITEM_FILE = "situation_item_file"
+    }
+
 
 }

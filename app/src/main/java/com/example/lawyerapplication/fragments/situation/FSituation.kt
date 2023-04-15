@@ -112,8 +112,8 @@ class FSituation : Fragment() {
            when(it.id) {
                 0 -> navController.navigate(R.id.action_FSituation_to_FSituationAuto1)
                 1 -> navController.navigate(R.id.FSituationFinish)
-               /* 2 -> launchFragment(CreateSituationNewBuildingsOneFragment())
-                3 -> launchFragment(CreateSituationFurnitureOneFragment())
+                4 -> navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
+               /* 3 -> launchFragment(CreateSituationFurnitureOneFragment())
                 4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
                 5 -> launchFragment(CreateSituationClothingOneFragment())*/
             }

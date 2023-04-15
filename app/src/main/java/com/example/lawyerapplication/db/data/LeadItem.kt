@@ -17,6 +17,7 @@ data class LeadItem(
     val idLawyer: String,
     val category: String,
     val status: String,
+    val dateTime: String,
     val id: Int = UNDEFINED_ID
 ){
     companion object {
