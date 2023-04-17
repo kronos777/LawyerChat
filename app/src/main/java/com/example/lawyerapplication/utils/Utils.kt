@@ -41,7 +41,7 @@ object Utils {
     private const val MONTH= WEEK * 4
     private const val YEAR= MONTH * 12*/
 
-    fun getDefaultCountry() = Country("IN", "India", "+91", "INR")
+    fun getDefaultCountry() = Country("RU", "Russia", "+7", "RUB")
 
     fun clearNull(str: String?) = str?.trim() ?: ""
 

@@ -47,19 +47,23 @@
         app:layout_constraintTop_toBottomOf="@+id/situation_info"
         android:lineHeight="20dp"
         android:textFontWeight="400"
+
         android:textSize="14sp">
         <RadioButton
             android:id="@+id/radio_button_1"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Обязать безвозмездно устранить недостатки оказанной услуги "/>
         <RadioButton
             android:id="@+id/radio_button_2"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Уменьшить цену договора и взыскать разницу"/>
         <RadioButton
             android:id="@+id/radio_button_3"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Взыскать причиненный вред здоровью и все убытки"/>

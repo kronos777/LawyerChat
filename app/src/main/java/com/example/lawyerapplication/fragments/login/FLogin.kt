@@ -49,10 +49,10 @@ class FLogin : Fragment() {
     private fun setDataInView() {
         binding.viewmodel = viewModel
         setDefaultCountry()
-        binding.txtCountryCode.setOnClickListener {
+      /*  binding.txtCountryCode.setOnClickListener {
             Utils.closeKeyBoard(requireActivity())
             findNavController().navigate(R.id.action_FLogIn_to_FCountries)
-        }
+        }*/
         binding.btnGetOtp.setOnClickListener {
             validate()
         }

@@ -14,13 +14,12 @@
             style="@style/StyleRoot"
             android:id="@+id/view_holder">
 
-
-
             <LinearLayout style="@style/FView"
                 android:focusable="true"
                 android:focusableInTouchMode="true">
 
                 <LinearLayout
+
                     style="@style/VWView"
                     android:layout_marginTop="0dp"
                     android:padding="20dp">

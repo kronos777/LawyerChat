@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.FragmentMyBussinesMainBinding
+import com.example.lawyerapplication.db.ChatUserDatabase
 import com.example.lawyerapplication.db.data.BusinessItem
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.MyBusinessAdapterHorizontal
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
@@ -60,6 +61,7 @@ class FMyBussines_main : Fragment() {
         setupRecyclerView()
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
 
+        val uid = preference.getUid()
 
         val docRef = getDocumentRef(context)
         docRef.addSnapshotListener { snapshot, e ->
@@ -68,13 +70,18 @@ class FMyBussines_main : Fragment() {
                 return@addSnapshotListener
             }
             if (snapshot != null && !snapshot.isEmpty) {
+
                 for (itemLead in snapshot) {
-                    Log.d("TAG", "Current data: ${itemLead.data}")
+                    if(uid == itemLead.data.get("idClient") as String) {
+                        Log.d("CURRENTDATA", "Current uid: ${uid}")
+                        val id = itemLead.data.get("id")
+                        val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, itemLead.data.get("category") as String, itemLead.data.get("dateTime") as String)
+                        listArraySituation.add(lead)
+                    }
+                    //Log.d("TAG", "Current data: ${itemLead.data}")
                     //Log.d("TAG", "Current data: ${itemLead.data.get("status")}")
                     //Log.d("TAG", "Current data: ${itemLead.data.get("category")}")
-                    val id = itemLead.data.get("id")
-                    val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, itemLead.data.get("category") as String, itemLead.data.get("dateTime") as String)
-                    listArraySituation.add(lead)
+
                     myBusinessListAdapter.submitList(listArraySituation)
                 }
             } else {
@@ -117,7 +124,7 @@ class FMyBussines_main : Fragment() {
     private fun setupClickListener() {
         myBusinessListAdapter.onPaymentItemClickListener = {
             //Toast.makeText(context, "this is ${it.id}", Toast.LENGTH_SHORT).show()
-            it.id?.let { it1 -> launchFragment(it1) }
+            launchFragment(it.id!!)
             /*when(it.id) {
                  0 -> navController.navigate(R.id.action_FSituation_to_FSituationAuto1)
                  1 -> navController.navigate(R.id.FSituationFinish)
@@ -134,7 +141,8 @@ class FMyBussines_main : Fragment() {
         val btnArgsBusines = Bundle().apply {
             putString(FMyBussines_page.BUSINESS_ITEM_ID, id.toString())
         }
-        navController.navigate(R.id.action_fmyBussines_main_to_FMyBussines_page, btnArgsBusines)
+        navController.navigate(R.id.FMyBussines_page, btnArgsBusines)
+        // navController.navigate(R.id.FMyBussines_page)
     }
 
 }

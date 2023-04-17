@@ -30,6 +30,9 @@
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:lineHeight="28dp"
+            android:textFontWeight="400"
+            android:textSize="22sp"
             />
 
         <TextView
@@ -40,12 +43,15 @@
             android:layout_centerVertical="true"
             android:text="@string/all_services_main_screen"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="150dp"
+            android:layout_marginRight="16dp"
             android:textColor="@color/colorPrimaryLaweyr2"
             android:lineSpacingExtra="2sp"
             android:gravity="center_vertical"
-            app:layout_constraintStart_toEndOf="@id/title_main_screen"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:lineHeight="16dp"
+            android:textFontWeight="400"
+            android:textSize="12sp"
             />
 
 
@@ -58,6 +64,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_main_screen"
             android:paddingBottom="0dp"
+            android:layout_marginTop="14dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

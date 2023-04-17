@@ -329,7 +329,7 @@
     <fragment
         android:id="@+id/fmyBussines_main"
         android:name="com.example.lawyerapplication.fragments.my_business.FMyBussines_main"
-        android:label="FmyBussines_main" >
+        android:label="Мои дела" >
         <action
             android:id="@+id/action_fmyBussines_main_to_FMyBussines_page"
             app:destination="@id/FMyBussines_page" />

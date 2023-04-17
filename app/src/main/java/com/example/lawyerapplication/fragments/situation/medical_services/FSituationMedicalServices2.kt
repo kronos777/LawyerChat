@@ -60,6 +60,7 @@ class FSituationMedicalServices2 : Fragment() {
     private var radioSelect: String = String()
 
     private var situation1: String = String()
+    private var situationId: String = String()
 
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
@@ -96,13 +97,23 @@ class FSituationMedicalServices2 : Fragment() {
             multipleChoiseImage()
         }
 
+        binding.imageD1AttachmentReady.setOnClickListener {
+            listUrlFile.clear()
+            showFirstFieldReady()
+        }
 
 
 
         binding.enterButton.setOnClickListener {
-            addLeadDb()
-            sleep(5000)
-            launchFragmentNext()
+            if(listUrlFile.size == 0) {
+                Toast.makeText(getActivity(), "Вы не выбрали не одного файла.", Toast.LENGTH_SHORT).show()
+            } else {
+                addLeadDb()
+            }
+
+            //sleep(1500)
+           // Toast.makeText(getActivity(), "situationId" + situationId.toString(), Toast.LENGTH_SHORT).show()
+           // launchFragmentNext()
         }
 
     }
@@ -116,6 +127,7 @@ class FSituationMedicalServices2 : Fragment() {
                 var leadId: Int
                 if (result.isEmpty) {
                     leadId = 0
+                    situationId = leadId.toString()
                 } else {
                     if((result.last().id).toInt() >= 0){
                         val arraListInt = ArrayList<Int>()
@@ -124,8 +136,10 @@ class FSituationMedicalServices2 : Fragment() {
                             arraListInt.add(document.id.toInt())
                         }
                         leadId = findMax(arraListInt)!! + 1
+                        situationId = leadId.toString()
                     } else {
                         leadId = 0
+                        situationId = leadId.toString()
                     }
                 }
               // createLead()
@@ -139,7 +153,7 @@ class FSituationMedicalServices2 : Fragment() {
                 val currentDate = sdf.format(Date())
 
                 val lead = LeadItem(situation1, "", "", "", "", "", "", "", "", "", messLead,
-                    uid.toString(), "", "medical", "newLead", currentDate, leadId)
+                    uid.toString(), "", "medical", "newLead", currentDate, "", leadId)
 
 
                 val db = FirebaseFirestore.getInstance()
@@ -149,6 +163,7 @@ class FSituationMedicalServices2 : Fragment() {
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
 
                 uploadImages(leadId.toString())
+                launchFragmentNext()
                 /* */
                 /*for (document in result) {
                     Log.d("TAG", "${document.id} => ${document.data}")
@@ -166,7 +181,7 @@ class FSituationMedicalServices2 : Fragment() {
             //contentResolver.takePersistableUriPermission(imageUri, takeFlags)
             if (imageUri != null) {
                 val progressDialog = ProgressDialog(getActivity())
-                progressDialog.setTitle("Uploading...")
+                progressDialog.setTitle("Загрузка...")
                 progressDialog.show()
                 val ref: StorageReference =
                     storageReference.child("Leads/" + paramsUpload + "/" + "image" + index)
@@ -176,7 +191,7 @@ class FSituationMedicalServices2 : Fragment() {
                         val downloadUri = it.task.snapshot.metadata?.path?.toUri()
                         //val downloadUri2 = it.task.snapshot.storage.downloadUrl
                         // val downloadUri = it.task.snapshot.storage.downloadUrl
-                        Toast.makeText(getActivity(), "Uploaded" + downloadUri.toString(), Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(getActivity(), "Uploaded" + downloadUri.toString(), Toast.LENGTH_SHORT).show()
                         // Log.d("uploadIri", downloadUri.toString())
                         //val downloadUri = it.d
 
@@ -190,7 +205,7 @@ class FSituationMedicalServices2 : Fragment() {
                         override fun onProgress(taskSnapshot: UploadTask.TaskSnapshot) {
                             val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
                                 .totalByteCount
-                            progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+                            progressDialog.setMessage("Загрузка " + progress.toInt() + "%")
                         }
                     })
 
@@ -269,9 +284,12 @@ class FSituationMedicalServices2 : Fragment() {
             } else if (data.getData() != null) {
                 // var imagePath: String = data.data?.path!!
                 val phUri =  ImageUtils.getPhotoUri(data)
+                if (phUri != null) {
+                    listUrlFile.add(phUri)
+                }
              //   Log.d("imagePath", phUri.toString())
             }
-
+            showFirstFieldReady()
             //  Log.d("imageArrayList", listUrlFile.toString())
             //  uploadImages("diplomdata")
             // displayImageData()
@@ -279,11 +297,18 @@ class FSituationMedicalServices2 : Fragment() {
 
     }
 
+    private fun showFirstFieldReady() {
+        if(listUrlFile.size > 0) {
+            binding.imageD1AttachmentReady.visibility = View.VISIBLE
+        } else {
+            binding.imageD1AttachmentReady.visibility = View.GONE
+        }
+    }
+
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-            putString(FSituationMedicalServices3.SITUATION_ITEM, situation1)
-            putString(FSituationMedicalServices3.SITUATION_ITEM_FILE, listUrlFile.toString())
+            putString(FSituationMedicalServices3.SITUATION_ITEM, situationId)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
         //navController.navigate(R.id.action_FSituationMedicalServices2_to_FSituationMedicalServices3, btnArgsLessons)

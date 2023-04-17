@@ -84,15 +84,14 @@
 
                 <!-- CONTENT -->
                 <TextView
-                    android:id="@+id/accordion_description"
+                    android:id="@+id/accordion_description_1"
                     android:textFontWeight="400"
                     android:fontFamily="@font/roboto"
                     android:textSize="14dp"
                     android:lineHeight="20dp"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:text="Предъявить требование о замене на товар другой марки (модели, артикула) с соответствующим перерасчетом покупной цены"/>
+                    android:layout_width="match_parent"/>
 
             </com.github.florent37.expansionpanel.ExpansionLayout>
         </LinearLayout>
@@ -104,9 +103,80 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/accordion_first_linear"
             android:src="@drawable/separator_hr"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="14dp"
             />
+        <LinearLayout
+            android:id="@+id/accordion_two_linear"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s2"
+            >
 
+            <com.github.florent37.expansionpanel.ExpansionHeader
+                android:id="@+id/accordion_two"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:expansion_headerIndicator="@id/headerIndicator2"
+                app:expansion_layout="@id/expansionLayout2"
+                app:expansion_toggleOnClick="true">
+
+                <!-- HEADER -->
+
+                <TextView
+                    android:id="@+id/accordion_title2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textFontWeight="500"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="16dp"
+                    android:lineHeight="24dp"
+                    android:textColor="@color/black"
+                    android:text="Вариант оплаты"/>
+
+                <!-- HEADER INDICATOR -->
+                <ImageView
+                    android:adjustViewBounds="true"
+                    android:id="@+id/headerIndicator2"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+
+
+            </com.github.florent37.expansionpanel.ExpansionHeader>
+
+            <com.github.florent37.expansionpanel.ExpansionLayout
+                android:id="@+id/expansionLayout2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <!-- CONTENT -->
+                <TextView
+                    android:id="@+id/accordion_description_2"
+                    android:textFontWeight="400"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14dp"
+                    android:lineHeight="20dp"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"/>
+
+            </com.github.florent37.expansionpanel.ExpansionLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_hr_situation_s3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/accordion_two_linear"
+            android:src="@drawable/separator_hr"
+            android:layout_marginTop="14dp"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -46,7 +46,9 @@
             android:layout_marginBottom="30dp"
             android:text="Пропустить"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:lineHeight="24dp"
+            android:textFontWeight="400"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

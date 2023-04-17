@@ -18,6 +18,7 @@ data class LeadItem(
     val category: String,
     val status: String,
     val dateTime: String,
+    val paymentInfo: String,
     val id: Int = UNDEFINED_ID
 ){
     companion object {

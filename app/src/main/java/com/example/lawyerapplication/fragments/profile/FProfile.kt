@@ -102,9 +102,9 @@ class FProfile : Fragment() {
                 isLawyer = true
 
 
-                binding.etDiplomData.setOnClickListener {
+              /*  binding.etDiplomData.setOnClickListener {
                     multipleChoiseImage()
-                }
+                }*/
 
 
 
@@ -210,26 +210,26 @@ class FProfile : Fragment() {
 
     private fun hideLawyerFields() {
         binding.tilLastname.visibility = (View.GONE)
-        binding.tilPassportData.visibility = (View.GONE)
+       /* binding.tilPassportData.visibility = (View.GONE)
         binding.textPassportData.visibility = (View.GONE)
         binding.tilDiplomData.visibility = (View.GONE)
         binding.textDiplomData.visibility = (View.GONE)
         binding.imageViewPassport.visibility = (View.GONE)
         binding.imageViewDiplom.visibility = (View.GONE)
         binding.textDiplomData.visibility = (View.GONE)
-        binding.textPassportData.visibility = (View.GONE)
+        binding.textPassportData.visibility = (View.GONE)*/
     }
 
     private fun showLawyerFields() {
         binding.tilLastname.visibility = (View.VISIBLE)
-        binding.tilPassportData.visibility = (View.VISIBLE)
+        /*binding.tilPassportData.visibility = (View.VISIBLE)
         binding.textPassportData.visibility = (View.VISIBLE)
         binding.tilDiplomData.visibility = (View.VISIBLE)
         binding.textDiplomData.visibility = (View.VISIBLE)
         binding.imageViewPassport.visibility =  (View.VISIBLE)
         binding.imageViewDiplom.visibility =  (View.VISIBLE)
         binding.textDiplomData.visibility =  (View.VISIBLE)
-        binding.textPassportData.visibility =  (View.VISIBLE)
+        binding.textPassportData.visibility =  (View.VISIBLE)*/
     }
 
     private fun multipleChoiseImage() {

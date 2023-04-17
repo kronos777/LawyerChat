@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#062252</color>
-    <color name="colorPrimary2">#495468</color>
+    <color name="colorPrimary2">#1A1C19</color>
     <color name="colorPrimaryDark">#2e3543</color>
     <color name="colorAccent">#E25908</color>
 
@@ -50,4 +50,5 @@
 
     <color name="border_gray">#79747E</color>
     <color name="color_gray">#99939F</color>
+    <color name="top_panel_main">#0E1F3B</color>
 </resources>

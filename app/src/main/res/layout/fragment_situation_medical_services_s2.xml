@@ -45,7 +45,7 @@
                 <RelativeLayout
                     android:background="@color/progress_secondary"
                     android:layout_width="match_parent"
-                    android:layout_height="165dp"
+                    android:layout_height="187dp"
                     android:padding="20dp"
                     android:orientation="horizontal"
                     >
@@ -59,6 +59,7 @@
                         android:textColor="@color/black"
                         android:textFontWeight="400"
                         android:textSize="12sp" />
+
                     <ImageView
                         android:layout_width="38dp"
                         android:layout_height="42dp"
@@ -84,12 +85,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/situation_info"
                 android:text="Договор об оказании услуг" />
-
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/image_d1_attachment_ready"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_d1_title"
+                android:src="@drawable/foto_add"
+                android:layout_marginTop="12dp"
+                />
             <ImageView
                 android:id="@+id/image_d1_attachment"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintStart_toEndOf="@+id/image_d1_attachment_ready"
                 app:layout_constraintTop_toBottomOf="@+id/text_d1_title"
                 android:src="@drawable/attachmenticon"
                 android:layout_marginTop="12dp"

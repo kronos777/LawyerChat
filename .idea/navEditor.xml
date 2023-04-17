@@ -680,8 +680,17 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="1775" />
-                            <option name="y" value="307" />
+                            <option name="y" value="314" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fmyBussines_main_to_FMyBussines_page">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

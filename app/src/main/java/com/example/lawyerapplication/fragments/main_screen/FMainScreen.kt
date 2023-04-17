@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -74,7 +75,7 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(activity, "this is main screen", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, "this is main screen", Toast.LENGTH_SHORT).show()
         context = requireActivity()
         progressView = CustomProgressView(context)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -130,7 +131,7 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
             navController.navigate(R.id.action_FMainScreen_to_FSituation)
         }
 
-
+        goExitBackPressed()
     }
 
     private fun subscribeObservers() {
@@ -186,7 +187,7 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
     private fun setupClickListener() {
         situationListAdapter.onPaymentItemClickListener = {
-
+            navController.navigate(R.id.FSituationMedicalServices1)
             /*when(it.id) {
                 0 -> launchFragment(CreateSituationAutoOneFragment())
                 1 -> launchFragment(CreateSituationAppliancesOneFragment())
@@ -195,6 +196,12 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
                 4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
                 5 -> launchFragment(CreateSituationClothingOneFragment())
             }*/
+        }
+    }
+
+    private fun goExitBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            getActivity()?.finishAffinity()
         }
     }
 

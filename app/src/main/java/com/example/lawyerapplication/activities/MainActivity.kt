@@ -53,7 +53,7 @@ class MainActivity : ActBase() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        binding.fab.setOnClickListener {
+       /* binding.fab.setOnClickListener {
             if (searchItem.isActionViewExpanded)
                searchItem.collapseActionView()
             if (Utils.askContactPermission(returnFragment()!!)) {
@@ -63,7 +63,7 @@ class MainActivity : ActBase() {
                     navController.navigate(R.id.action_FGroupChatHome_to_FAddGroupMembers)
             }
 
-        }
+        }*/
         setDataInView()
         subscribeObservers()
 
@@ -142,6 +142,7 @@ class MainActivity : ActBase() {
                 R.id.FSingleChatHome -> {
                     binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
+                    binding.fab.hide()
                 }
                 R.id.FMainScreen -> {
                     binding.bottomNav.selectedItemId = R.id.nav_home
@@ -153,6 +154,7 @@ class MainActivity : ActBase() {
                 R.id.FGroupChatHome -> {
                     binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
+                    binding.fab.hide()
                 }
                 R.id.FSearch -> {
                     binding.bottomNav.selectedItemId = R.id.nav_home
@@ -171,6 +173,13 @@ class MainActivity : ActBase() {
                    //binding.toolbar.setDisplayHomeAsUpEnabled(false)
 
                 }
+                R.id.FMyBussines_page -> {
+                   // binding.bottomNav.selectedItemId = R.id.nav_my_business
+                    showView()
+                    binding.fab.hide()
+                    //binding.toolbar.setDisplayHomeAsUpEnabled(false)
+
+                }/**/
                 R.id.FSituation -> {
                     binding.bottomNav.selectedItemId = R.id.nav_services
                     showView()
@@ -194,7 +203,7 @@ class MainActivity : ActBase() {
                     binding.toolbar.gone()
                 }
             }
-            Handler(Looper.getMainLooper()).postDelayed({ //delay time for searchview
+          /*  Handler(Looper.getMainLooper()).postDelayed({ //delay time for searchview
                 if (this::searchItem.isInitialized) {
                     if (currentDestination == R.id.FMyProfile) {
                         searchItem.collapseActionView()
@@ -202,7 +211,7 @@ class MainActivity : ActBase() {
                     }else
                         searchItem.isVisible = true
                 }
-            }, 500)
+            }, 500)*/
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -300,33 +309,33 @@ class MainActivity : ActBase() {
                             .navigate(R.id.fmyBussines_main, null, navOptions)
                     }
                     true
-                }/*
-                R.id.nav_chat -> {
+                }
+                R.id.nav_profile -> {
                     val navOptions =
                         NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
-                    if (isNotSameDestination(R.id.FSingleChatHome)) {
-                        searchItem.collapseActionView()
+                    if (isNotSameDestination(R.id.FMyProfile)) {
+                       // searchItem.collapseActionView()
                         Navigation.findNavController(this, R.id.nav_host_fragment)
-                            .navigate(R.id.FSingleChatHome, null, navOptions)
+                            .navigate(R.id.FMyProfile, null, navOptions)
                     }
                     true
                 }
-                R.id.nav_group -> {
-                    if (isNotSameDestination(R.id.FGroupChatHome)) {
-                        searchItem.collapseActionView()
-                        Navigation.findNavController(this, R.id.nav_host_fragment)
-                            .navigate(R.id.FGroupChatHome)
-                    }
-                    true
-                }
-                R.id.nav_search -> {
-                    if (isNotSameDestination(R.id.FSearch)) {
-                        searchItem.collapseActionView()
-                        Navigation.findNavController(this, R.id.nav_host_fragment)
-                            .navigate(R.id.FSearch)
-                    }
-                    true
-                }*/
+                /* R.id.nav_group -> {
+                     if (isNotSameDestination(R.id.FGroupChatHome)) {
+                         searchItem.collapseActionView()
+                         Navigation.findNavController(this, R.id.nav_host_fragment)
+                             .navigate(R.id.FGroupChatHome)
+                     }
+                     true
+                 }
+                 R.id.nav_search -> {
+                     if (isNotSameDestination(R.id.FSearch)) {
+                         searchItem.collapseActionView()
+                         Navigation.findNavController(this, R.id.nav_host_fragment)
+                             .navigate(R.id.FSearch)
+                     }
+                     true
+                 }*/
                 else -> {
                     if (isNotSameDestination(R.id.FMyProfile)) {
                         //searchItem.collapseActionView()

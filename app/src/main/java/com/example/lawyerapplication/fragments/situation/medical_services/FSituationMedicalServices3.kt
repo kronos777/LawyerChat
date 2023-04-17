@@ -1,6 +1,7 @@
 package com.example.lawyerapplication.fragments.situation.medical_services
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -25,6 +26,8 @@ import com.example.lawyerapplication.fragments.situation.main_list.SearchBySitua
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.views.CustomProgressView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -44,7 +47,7 @@ class FSituationMedicalServices3 : Fragment() {
 
 
 
-    private var situation2: String = String()
+    private var situationId: String = String()
     private var situation2File: String = String()
 
     private lateinit var navController: NavController
@@ -83,11 +86,28 @@ class FSituationMedicalServices3 : Fragment() {
                 radioSelect = radio.text.toString()
             })
 
+
+
         binding.enterButton.setOnClickListener {
-            launchFragmentNext()
+            if(binding.checkboxRememberMe.isChecked) {
+                val data = hashMapOf("paymentInfo" to radioSelect)
+                val docRef = getDocumentRef(context).document(situationId)
+                docRef.set(data, SetOptions.merge())
+                launchFragmentNext()
+            } else {
+                Toast.makeText(getContext(), "Дайте свое согласие на обработку данных", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
+
+
+    fun getDocumentRef(context: Context): CollectionReference {
+        val preference = MPreference(context)
+        val db = FirebaseFirestore.getInstance()
+        return db.collection("Leads")
+    }
+
 
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
@@ -97,19 +117,18 @@ class FSituationMedicalServices3 : Fragment() {
 
     private fun parseParams() {
         val args = requireArguments()
-        situation2 = args.getString(FSituationMedicalServices3.SITUATION_ITEM).toString()
-        situation2File = args.getString(FSituationMedicalServices3.SITUATION_ITEM_FILE).toString()
-        // Toast.makeText(getActivity(),"all choice" + situation9, Toast.LENGTH_SHORT).show()
+        situationId = args.getString(SITUATION_ITEM).toString()
+        //Toast.makeText(getActivity(),"situationId" + situationId, Toast.LENGTH_SHORT).show()
         // Toast.makeText(getActivity(),"all choice file" + situation9File, Toast.LENGTH_SHORT).show()
     }
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-            putString(FSituationFinish.SITUATION_ITEM, situation2 + "&" + radioSelect + "&" + "medical")
-            putString(FSituationFinish.SITUATION_ITEM_FILE, situation2File)
+            //putString(FSituationFinish.SITUATION_ITEM, situation2 + "&" + radioSelect + "&" + "medical")
+            //putString(FSituationFinish.SITUATION_ITEM_FILE, situation2File)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationMedicalServices3_to_FSituationFinish, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationMedicalServices3_to_FSituationFinish)
     }
 
 

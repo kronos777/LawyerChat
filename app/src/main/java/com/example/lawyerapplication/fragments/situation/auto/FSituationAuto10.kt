@@ -107,13 +107,13 @@ class FSituationAuto10 : Fragment() {
 
     fun launchFragmentNext() {
         val btnArgsAuto = Bundle().apply {
-            putString(FSituationFinish.SITUATION_ITEM, situation9 + "&" +radioSelect + "&" + "auto")
-            putString(FSituationFinish.SITUATION_ITEM_FILE, situation9File)
+          //  putString(FSituationFinish.SITUATION_ITEM, situation9 + "&" +radioSelect + "&" + "auto")
+           // putString(FSituationFinish.SITUATION_ITEM_FILE, situation9File)
         }
 
 
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationAuto10_to_FSituationFinish, btnArgsAuto)
+        navController.navigate(R.id.action_FSituationAuto10_to_FSituationFinish)
     }
 
     companion object {
