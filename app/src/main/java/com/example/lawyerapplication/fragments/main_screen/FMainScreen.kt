@@ -201,7 +201,8 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
     private fun goExitBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            getActivity()?.finishAffinity()
+            context.finish()
+            //getActivity()?.finishAffinity()
         }
     }
 
