@@ -57,7 +57,6 @@ class FSituationMedicalServices2 : Fragment() {
     lateinit var userCollection: CollectionReference
 
     private lateinit var navController: NavController
-    private var radioSelect: String = String()
 
     private var situation1: String = String()
     private var situationId: String = String()

@@ -73,9 +73,6 @@ class FSituationAppliances1 : Fragment() {
                 binding.enterButton.getBackground().setAlpha(255)
                 getMaterialButtom()
                 val radio: RadioButton = group.findViewById(checkedId)
-                /*Toast.makeText(getActivity()," On checked change :"+
-                        " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()*/
                 radioSelect = radio.text.toString()
             })
 
@@ -93,10 +90,10 @@ class FSituationAppliances1 : Fragment() {
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-            //putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
+            putString(FSituationAppliances2.SITUATION_ITEM, radioSelect)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        //navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationAppliances1_to_FSituationAppliances2, btnArgsLessons)
     }
 
 }

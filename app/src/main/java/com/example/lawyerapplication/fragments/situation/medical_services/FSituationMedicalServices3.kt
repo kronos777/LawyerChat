@@ -48,7 +48,6 @@ class FSituationMedicalServices3 : Fragment() {
 
 
     private var situationId: String = String()
-    private var situation2File: String = String()
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
