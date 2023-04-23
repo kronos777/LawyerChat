@@ -42,6 +42,7 @@ class FSituationClothing3 : Fragment() {
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
+    private var situation2: String = String()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,10 +61,11 @@ class FSituationClothing3 : Fragment() {
         context = requireActivity()
         val radioGroup = binding.radioGroupSituation
 
+        parseParams()
+
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -71,9 +73,6 @@ class FSituationClothing3 : Fragment() {
                 binding.enterButton.getBackground().setAlpha(255)
                 getMaterialButtom()
                 val radio: RadioButton = group.findViewById(checkedId)
-                /*Toast.makeText(getActivity()," On checked change :"+
-                        " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()*/
                 radioSelect = radio.text.toString()
             })
 
@@ -83,19 +82,28 @@ class FSituationClothing3 : Fragment() {
 
     }
 
+    private fun parseParams() {
+        val args = requireArguments()
+        situation2 = args.getString(FSituationClothing3.SITUATION_ITEM).toString()
+    }
+
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-           // putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
+            putString(FSituationClothing4.SITUATION_ITEM, situation2 +"&"+ radioSelect)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        //navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationClothing3_to_FSituationClothing4, btnArgsLessons)
+    }
+
+    companion object {
+        const val SITUATION_ITEM = "situation_item"
+
     }
 
 }

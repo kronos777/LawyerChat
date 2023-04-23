@@ -134,7 +134,7 @@ class FSituationMedicalServices3 : Fragment() {
 
     companion object {
         const val SITUATION_ITEM = "situation_item"
-        const val SITUATION_ITEM_FILE = "situation_item_file"
+
     }
 
 

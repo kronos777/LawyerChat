@@ -108,15 +108,18 @@ class FSituation : Fragment() {
 
     private fun setupClickListener() {
         situationListAdapter.onPaymentItemClickListener = {
-            navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
-          /* when(it.id) {
+           // navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
+           when(it.id) {
                 0 -> navController.navigate(R.id.action_FSituation_to_FSituationAuto1)
-                1 -> navController.navigate(R.id.FSituationFinish)
+                1 -> navController.navigate(R.id.action_FSituation_to_FSituationAppliances1)
+                2 -> navController.navigate(R.id.action_FSituation_to_FSituationNewBuildings1)
+                3 -> navController.navigate(R.id.action_FSituation_to_FSituationFurniture1)
                 4 -> navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
+                5 -> navController.navigate(R.id.action_FSituation_to_FSituationClothing1)
                /* 3 -> launchFragment(CreateSituationFurnitureOneFragment())
                 4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
                 5 -> launchFragment(CreateSituationClothingOneFragment())*/
-            }*/
+            }/**/
         }
     }
 

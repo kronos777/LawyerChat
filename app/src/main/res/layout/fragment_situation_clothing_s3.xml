@@ -38,31 +38,37 @@
               android:textSize="14sp">
                <RadioButton
                    android:id="@+id/radio_button_1"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Отказаться от исполнения договора купли-продажи одежды и вернуть денежные средства"/>
                <RadioButton
                    android:id="@+id/radio_button_2"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Заменить одежду на аналогичную, но надлежащего качества (с перерасчетом суммы покупки, в случае необходимости)"/>
                <RadioButton
                    android:id="@+id/radio_button_3"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Возместить затраты на устранение недостатков / Возместить затраты на ремонт одежды"/>
                <RadioButton
                    android:id="@+id/radio_button_4"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Уменьшить цену одежды соразмерно дефекту и взыскать разницу"/>
                <RadioButton
                    android:id="@+id/radio_button_5"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Провести экспертизу (при отказе продавца на проведение экспертизы) — но обязан проводить Продавец"/>
                <RadioButton
                    android:id="@+id/radio_button_6"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Не знаю, что выбрать, подскажите с учетом прилагаемых документов"/>

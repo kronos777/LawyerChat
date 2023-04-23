@@ -64,7 +64,17 @@ class FSituationMedicalServices2 : Fragment() {
 
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
-    private lateinit var listUrlFile: ArrayList<Uri>
+
+    private lateinit var listUrlFileFirst: ArrayList<Uri>
+    private var boolFileFirst: Boolean = false
+    private lateinit var listUrlFileTwo: ArrayList<Uri>
+    private var boolFileTwo: Boolean = false
+    private lateinit var listUrlFileFree: ArrayList<Uri>
+    private var boolFileFree: Boolean = false
+    private lateinit var listUrlFileFour: ArrayList<Uri>
+    private var boolFileFour: Boolean = false
+    private lateinit var listUrlFileFive: ArrayList<Uri>
+    private var boolFileFive: Boolean = false
 
     var PICK_IMAGE_MULTIPLE = 1
 
@@ -85,7 +95,11 @@ class FSituationMedicalServices2 : Fragment() {
         context = requireActivity()
         //val radioGroup = binding.radioGroupSituation
         parseParams()
-        listUrlFile = ArrayList<Uri>()
+        listUrlFileFirst = ArrayList<Uri>()
+        listUrlFileTwo = ArrayList<Uri>()
+        listUrlFileFree = ArrayList<Uri>()
+        listUrlFileFour = ArrayList<Uri>()
+        listUrlFileFive = ArrayList<Uri>()
 
         storage = FirebaseStorage.getInstance()
         storageReference = storage.getReference()
@@ -93,98 +107,117 @@ class FSituationMedicalServices2 : Fragment() {
        // binding.enterButton.isClickable = false
       //  binding.enterButton.isEnabled = false
 
+        //first field
         binding.textD1Attachment.setOnClickListener {
+            boolFileFirst = true
             multipleChoiseImage()
         }
 
         binding.imageD1AttachmentReady.setOnClickListener {
-            listUrlFile.clear()
+            listUrlFileFirst.clear()
             showFirstFieldReady()
         }
+        //first field
 
+        //two field
+        binding.textD2Attachment.setOnClickListener {
+            boolFileTwo = true
+            multipleChoiseImage()
+        }
+
+        binding.imageD2AttachmentReady.setOnClickListener {
+            listUrlFileTwo.clear()
+            showTwoFieldReady()
+        }
+        //two field
+        //free field
+        binding.textD3Attachment.setOnClickListener {
+            boolFileFree = true
+            multipleChoiseImage()
+        }
+
+        binding.imageD3AttachmentReady.setOnClickListener {
+            listUrlFileFree.clear()
+            showFreeFieldReady()
+        }
+        //free field
+        //four field
+        binding.textD4Attachment.setOnClickListener {
+            boolFileFour = true
+            multipleChoiseImage()
+        }
+
+        binding.imageD4AttachmentReady.setOnClickListener {
+            listUrlFileFour.clear()
+            showFourFieldReady()
+        }
+        //four field
+        //five field
+        binding.textD7Attachment.setOnClickListener {
+            boolFileFive = true
+            multipleChoiseImage()
+        }
+
+        binding.imageD5AttachmentReady.setOnClickListener {
+            listUrlFileFour.clear()
+            showFourFieldReady()
+        }
+        //five field
 
 
         binding.enterButton.setOnClickListener {
-            if(listUrlFile.size == 0) {
+            if(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && listUrlFileFree.size == 0 && listUrlFileFour.size == 0 && listUrlFileFive.size == 0) {
                 Toast.makeText(getActivity(), "Вы не выбрали не одного файла.", Toast.LENGTH_SHORT).show()
-            } else {
+             } else {
                 addLeadDb()
             }
 
             //sleep(1500)
            // Toast.makeText(getActivity(), "situationId" + situationId.toString(), Toast.LENGTH_SHORT).show()
            // launchFragmentNext()
+
         }
 
     }
 
-    private fun addLeadDb() {
-        val uid = preference.getUid()
-        val lastIdLead = getDocumentRef(context)
-        lastIdLead.get()
-            .addOnSuccessListener { result ->
-                //Log.d("lastid", "${result.last().id}")
-                var leadId: Int
-                if (result.isEmpty) {
-                    leadId = 0
-                    situationId = leadId.toString()
-                } else {
-                    if((result.last().id).toInt() >= 0){
-                        val arraListInt = ArrayList<Int>()
-                        for (document in result) {
-                            //Log.d("TAG", "${document.id} => ${document.data}")
-                            arraListInt.add(document.id.toInt())
-                        }
-                        leadId = findMax(arraListInt)!! + 1
-                        situationId = leadId.toString()
-                    } else {
-                        leadId = 0
-                        situationId = leadId.toString()
-                    }
+    private fun getReadyImagesForUpload(paramsUpload: String) {
+       val listAll: ArrayList<ArrayList<Uri>> = ArrayList<ArrayList<Uri>>()
+        listAll.add(listUrlFileFirst)
+        listAll.add(listUrlFileTwo)
+        listAll.add(listUrlFileFree)
+        listAll.add(listUrlFileFour)
+        listAll.add(listUrlFileFive)
+        //проверим все списки файлы
+        for (index in listAll.indices) {
+            if(listAll[index].size > 0) {
+                var categoryFile = ""
+                when(index) {
+                    0 -> categoryFile = "firstGroup"
+                    1 -> categoryFile = "twoGroup"
+                    2 -> categoryFile = "freeGroup"
+                    3 -> categoryFile = "fourGroup"
+                    4 -> categoryFile = "fiveGroup"
                 }
-              // createLead()
-
-                /*  val lead = LeadItem(arrayValue.get(0).toString(), arrayValue.get(1).toString(), arrayValue.get(2).toString(), arrayValue.get(3).toString(), arrayValue.get(4).toString(),
-                      arrayValue.get(5).toString(), arrayValue.get(6).toString(), arrayValue.get(7).toString(), arrayValue.get(8).toString(), arrayValue.get(9).toString(), arrayValue.get(9).toString(),
-                      uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)*/
-                val messLead = binding.etMessageData.text.toString()
-
-                val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm")
-                val currentDate = sdf.format(Date())
-
-                val lead = LeadItem(situation1, "", "", "", "", "", "", "", "", "", messLead,
-                    uid.toString(), "", "medical", "newLead", currentDate, "", leadId)
-
-
-                val db = FirebaseFirestore.getInstance()
-                db.collection("Leads").document(lead.id.toString())
-                    .set(lead, SetOptions.merge())
-                    .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
-                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
-
-                uploadImages(leadId.toString())
-                launchFragmentNext()
-                /* */
-                /*for (document in result) {
-                    Log.d("TAG", "${document.id} => ${document.data}")
-                }*/
+                uploadImages(paramsUpload, listAll[index], categoryFile)
+                //Log.d("thisIndex ", index.toString())
             }
-            .addOnFailureListener { exception ->
-                Log.d("TAG", "Error getting documents: ", exception)
-            }
+
+        }
+
     }
 
-    private fun uploadImages(paramsUpload: String) {
 
-        for (index in listUrlFile.indices) {
-            val imageUri = listUrlFile[index]
+    private fun uploadImages(paramsUpload: String, dataUrl: ArrayList<Uri>, category: String) {
+
+        for (index in dataUrl.indices) {
+            val imageUri = dataUrl[index]
             //contentResolver.takePersistableUriPermission(imageUri, takeFlags)
             if (imageUri != null) {
                 val progressDialog = ProgressDialog(getActivity())
                 progressDialog.setTitle("Загрузка...")
                 progressDialog.show()
                 val ref: StorageReference =
-                    storageReference.child("Leads/" + paramsUpload + "/" + "image" + index)
+                    storageReference.child("Leads/" + paramsUpload + "/" + category + "_image" + index)
                 ref.putFile(imageUri!!)
                     .addOnSuccessListener {
                         progressDialog.dismiss()
@@ -212,6 +245,49 @@ class FSituationMedicalServices2 : Fragment() {
             }
         }
     }
+
+    private fun showFirstFieldReady() {
+        if(listUrlFileFirst.size > 0) {
+            binding.imageD1AttachmentReady.visibility = View.VISIBLE
+        } else {
+            binding.imageD1AttachmentReady.visibility = View.GONE
+        }
+    }
+
+    private fun showTwoFieldReady() {
+        if(listUrlFileTwo.size > 0) {
+            binding.imageD2AttachmentReady.visibility = View.VISIBLE
+        } else {
+            binding.imageD2AttachmentReady.visibility = View.GONE
+        }
+    }
+
+
+    private fun showFreeFieldReady() {
+        if(listUrlFileFree.size > 0) {
+            binding.imageD3AttachmentReady.visibility = View.VISIBLE
+        } else {
+            binding.imageD3AttachmentReady.visibility = View.GONE
+        }
+    }
+
+    private fun showFourFieldReady() {
+        if(listUrlFileFour.size > 0) {
+            binding.imageD4AttachmentReady.visibility = View.VISIBLE
+        } else {
+            binding.imageD4AttachmentReady.visibility = View.GONE
+        }
+    }
+
+    private fun showFiveFieldReady() {
+        if(listUrlFileFive.size > 0) {
+            binding.imageD5AttachmentReady.visibility = View.VISIBLE
+        } else {
+            binding.imageD5AttachmentReady.visibility = View.GONE
+        }
+    }
+
+
 
 
     fun getDocumentRef(context: Context): CollectionReference {
@@ -277,19 +353,57 @@ class FSituationMedicalServices2 : Fragment() {
                 var count = data.clipData?.itemCount
                 for (i in 0..count!! - 1) {
                     var imageUri: Uri = data.clipData?.getItemAt(i)!!.uri
-                    listUrlFile.add(imageUri)
-                  //  Log.d("imagePath", imageUri.toString())
-                    // getPathFromURI(imageUri)
+                    if(boolFileFirst) {
+                        listUrlFileFirst.add(imageUri)
+                    } else if(boolFileTwo) {
+                        listUrlFileTwo.add(imageUri)
+                    } else if(boolFileFree) {
+                        listUrlFileFree.add(imageUri)
+                    } else if(boolFileFour) {
+                        listUrlFileFour.add(imageUri)
+                    } else if(boolFileFive) {
+                        listUrlFileFive.add(imageUri)
+                    }
+                    // listUrlFile.add(imageUri)
+
                 }
             } else if (data.getData() != null) {
                 // var imagePath: String = data.data?.path!!
                 val phUri =  ImageUtils.getPhotoUri(data)
                 if (phUri != null) {
-                    listUrlFile.add(phUri)
+                    if(boolFileFirst) {
+                        listUrlFileFirst.add(phUri)
+                    } else if(boolFileTwo) {
+                        listUrlFileTwo.add(phUri)
+                    } else if(boolFileFree) {
+                        listUrlFileFree.add(phUri)
+                    } else if(boolFileFour) {
+                        listUrlFileFour.add(phUri)
+                    } else if(boolFileFive) {
+                        listUrlFileFive.add(phUri)
+                    }
+                   // listUrlFile.add(phUri)
                 }
-             //   Log.d("imagePath", phUri.toString())
+
             }
-            showFirstFieldReady()
+
+            if(boolFileFirst) {
+                showFirstFieldReady()
+                boolFileFirst = false
+            } else if(boolFileTwo) {
+                showTwoFieldReady()
+                boolFileTwo = false
+            } else if(boolFileFree) {
+                showFreeFieldReady()
+                boolFileFree = false
+            } else if(boolFileFour) {
+                showFourFieldReady()
+                boolFileFour = false
+            } else if(boolFileFive) {
+                showFiveFieldReady()
+                boolFileFive = false
+            }
+
             //  Log.d("imageArrayList", listUrlFile.toString())
             //  uploadImages("diplomdata")
             // displayImageData()
@@ -297,14 +411,64 @@ class FSituationMedicalServices2 : Fragment() {
 
     }
 
-    private fun showFirstFieldReady() {
-        if(listUrlFile.size > 0) {
-            binding.imageD1AttachmentReady.visibility = View.VISIBLE
-        } else {
-            binding.imageD1AttachmentReady.visibility = View.GONE
-        }
-    }
 
+
+    private fun addLeadDb() {
+        val uid = preference.getUid()
+        val lastIdLead = getDocumentRef(context)
+        lastIdLead.get()
+            .addOnSuccessListener { result ->
+                //Log.d("lastid", "${result.last().id}")
+                var leadId: Int
+                if (result.isEmpty) {
+                    leadId = 0
+                    situationId = leadId.toString()
+                } else {
+                    if((result.last().id).toInt() >= 0){
+                        val arraListInt = ArrayList<Int>()
+                        for (document in result) {
+                            //Log.d("TAG", "${document.id} => ${document.data}")
+                            arraListInt.add(document.id.toInt())
+                        }
+                        leadId = findMax(arraListInt)!! + 1
+                        situationId = leadId.toString()
+                    } else {
+                        leadId = 0
+                        situationId = leadId.toString()
+                    }
+                }
+                // createLead()
+
+                /*  val lead = LeadItem(arrayValue.get(0).toString(), arrayValue.get(1).toString(), arrayValue.get(2).toString(), arrayValue.get(3).toString(), arrayValue.get(4).toString(),
+                      arrayValue.get(5).toString(), arrayValue.get(6).toString(), arrayValue.get(7).toString(), arrayValue.get(8).toString(), arrayValue.get(9).toString(), arrayValue.get(9).toString(),
+                      uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)*/
+                val messLead = binding.etMessageData.text.toString()
+
+                val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm")
+                val currentDate = sdf.format(Date())
+
+                val lead = LeadItem(situation1, "", "", "", "", "", "", "", "", "", messLead,
+                    uid.toString(), "", "medical", "newLead", currentDate, "", leadId)
+
+
+                val db = FirebaseFirestore.getInstance()
+                db.collection("Leads").document(lead.id.toString())
+                    .set(lead, SetOptions.merge())
+                    .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
+                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+
+                //uploadImages(leadId.toString())
+                getReadyImagesForUpload(leadId.toString())
+                launchFragmentNext()
+                /* */
+                /*for (document in result) {
+                    Log.d("TAG", "${document.id} => ${document.data}")
+                }*/
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "Error getting documents: ", exception)
+            }
+    }
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {

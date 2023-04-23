@@ -66,7 +66,6 @@ class FSituationClothing1 : Fragment() {
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -74,9 +73,7 @@ class FSituationClothing1 : Fragment() {
                 binding.enterButton.getBackground().setAlpha(255)
                 getMaterialButtom()
                 val radio: RadioButton = group.findViewById(checkedId)
-                /*Toast.makeText(getActivity()," On checked change :"+
-                        " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()*/
+
                 radioSelect = radio.text.toString()
             })
 
@@ -89,16 +86,15 @@ class FSituationClothing1 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-           // putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
+            putString(FSituationClothing2.SITUATION_ITEM, radioSelect)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        //navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationClothing1_to_FSituationClothing2, btnArgsLessons)
     }
 
 }

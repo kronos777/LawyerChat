@@ -42,6 +42,7 @@ class FSituationClothing4 : Fragment() {
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
+    private var situation3: String = String()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,11 +60,10 @@ class FSituationClothing4 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
         val radioGroup = binding.radioGroupSituation
-
+        parseParams()
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -83,19 +83,29 @@ class FSituationClothing4 : Fragment() {
 
     }
 
+    private fun parseParams() {
+        val args = requireArguments()
+        situation3 = args.getString(SITUATION_ITEM).toString()
+    }
+
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-           // putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
+            putString(FSituationClothing5.SITUATION_ITEM, situation3 +"&"+ radioSelect)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        //navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationClothing4_to_FSituationClothing5, btnArgsLessons)
+    }
+
+
+    companion object {
+        const val SITUATION_ITEM = "situation_item"
+
     }
 
 }

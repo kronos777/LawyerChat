@@ -23,7 +23,6 @@
                 />
             <RadioGroup
                 android:id="@+id/radioGroupSituation"
-                android:checkedButton="@+id/radio_button_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -36,16 +35,19 @@
                 android:textSize="14sp">
                 <RadioButton
                     android:id="@+id/radio_button_1"
+                    android:gravity="start"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Обязать обменять мебель надлежащего качества (при условии, что купленная мебель (диван, стол, стул и тд) не подошла по форме, габаритам, фасону, расцветке, размеру или комплектации в течение 14 дней, не считая дня его покупки и не является набором или гарнитуром (состоящих из нескольких изделий) не была в эксплуатации, сохранившая товарный вид, потребительские свойства, фабричные ярлыки."/>
                 <RadioButton
                     android:id="@+id/radio_button_2"
+                    android:gravity="start"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Отказаться от исполнения договора купли-продажи и потребовать возврата уплаченной суммы (в случае, если товар отсутствует в продаже на день обращения потребителя к продавцу)"/>
                 <RadioButton
                     android:id="@+id/radio_button_3"
+                    android:gravity="start"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Не знаю, что выбрать, подскажите с учетом прилагаемых документов"/>

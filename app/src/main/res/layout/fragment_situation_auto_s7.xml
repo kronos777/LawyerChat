@@ -33,18 +33,21 @@
               android:textSize="14sp">
                <RadioButton
                    android:id="@+id/radio_button_1"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Направление претензии продавцу (автосалон) о расторжении договора
 на дополнительное оборудование (дополнительные услуги) и возвращении уплаченных денежных средств, а также возмещении убытков"/>
                <RadioButton
                    android:id="@+id/radio_button_2"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Обращение в суд с иском к продавцу (автосалон) о расторжении договора
 на дополнительное оборудование (дополнительные услуги) и возвращении уплаченных денежных средств, а также возмещении убытков"/>
                <RadioButton
                    android:id="@+id/radio_button_3"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Не знаю, что выбрать, подскажите с учетом прилагаемых документов"/>

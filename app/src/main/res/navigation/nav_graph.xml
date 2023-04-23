@@ -217,6 +217,18 @@
         <action
             android:id="@+id/action_FSituation_to_FSituationMedicalServices1"
             app:destination="@id/FSituationMedicalServices1" />
+        <action
+            android:id="@+id/action_FSituation_to_FSituationAppliances1"
+            app:destination="@id/FSituationAppliances1" />
+        <action
+            android:id="@+id/action_FSituation_to_FSituationClothing1"
+            app:destination="@id/FSituationClothing1" />
+        <action
+            android:id="@+id/action_FSituation_to_FSituationFurniture1"
+            app:destination="@id/FSituationFurniture1" />
+        <action
+            android:id="@+id/action_FSituation_to_FSituationNewBuildings1"
+            app:destination="@id/FSituationNewBuildings1" />
     </fragment>
     <fragment
         android:id="@+id/FSituationAuto1"
@@ -338,4 +350,140 @@
         android:id="@+id/FMyBussines_page"
         android:name="com.example.lawyerapplication.fragments.my_business.FMyBussines_page"
         android:label="FMyBussines_page" />
+    <fragment
+        android:id="@+id/FSituationAppliances1"
+        android:name="com.example.lawyerapplication.fragments.situation.appliances.FSituationAppliances1"
+        android:label="FSituationAppliances1" >
+        <action
+            android:id="@+id/action_FSituationAppliances1_to_FSituationAppliances2"
+            app:destination="@id/FSituationAppliances2" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAppliances2"
+        android:name="com.example.lawyerapplication.fragments.situation.appliances.FSituationAppliances2"
+        android:label="FSituationAppliances2" >
+        <action
+            android:id="@+id/action_FSituationAppliances2_to_FSituationAppliances3"
+            app:destination="@id/FSituationAppliances3" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationAppliances3"
+        android:name="com.example.lawyerapplication.fragments.situation.appliances.FSituationAppliances3"
+        android:label="FSituationAppliances3" >
+        <action
+            android:id="@+id/action_FSituationAppliances3_to_FSituationFinish"
+            app:destination="@id/FSituationFinish" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationClothing1"
+        android:name="com.example.lawyerapplication.fragments.situation.clothing.FSituationClothing1"
+        android:label="FSituationClothing1" >
+        <action
+            android:id="@+id/action_FSituationClothing1_to_FSituationClothing2"
+            app:destination="@id/FSituationClothing2" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationClothing2"
+        android:name="com.example.lawyerapplication.fragments.situation.clothing.FSituationClothing2"
+        android:label="FSituationClothing2" >
+        <action
+            android:id="@+id/action_FSituationClothing2_to_FSituationClothing3"
+            app:destination="@id/FSituationClothing3" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationClothing3"
+        android:name="com.example.lawyerapplication.fragments.situation.clothing.FSituationClothing3"
+        android:label="FSituationClothing3" >
+        <action
+            android:id="@+id/action_FSituationClothing3_to_FSituationClothing4"
+            app:destination="@id/FSituationClothing4" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationClothing4"
+        android:name="com.example.lawyerapplication.fragments.situation.clothing.FSituationClothing4"
+        android:label="FSituationClothing4" >
+        <action
+            android:id="@+id/action_FSituationClothing4_to_FSituationClothing5"
+            app:destination="@id/FSituationClothing5" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationClothing5"
+        android:name="com.example.lawyerapplication.fragments.situation.clothing.FSituationClothing5"
+        android:label="FSituationClothing5" >
+        <action
+            android:id="@+id/action_FSituationClothing5_to_FSituationClothing6"
+            app:destination="@id/FSituationClothing6" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationClothing6"
+        android:name="com.example.lawyerapplication.fragments.situation.clothing.FSituationClothing6"
+        android:label="FSituationClothing6" >
+        <action
+            android:id="@+id/action_FSituationClothing6_to_FSituationFinish"
+            app:destination="@id/FSituationFinish" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationFurniture1"
+        android:name="com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture1"
+        android:label="FSituationFurniture1" >
+        <action
+            android:id="@+id/action_FSituationFurniture1_to_FSituationFurniture2"
+            app:destination="@id/FSituationFurniture2" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationFurniture2"
+        android:name="com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture2"
+        android:label="FSituationFurniture2" >
+        <action
+            android:id="@+id/action_FSituationFurniture2_to_FSituationFurniture3"
+            app:destination="@id/FSituationFurniture3" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationFurniture3"
+        android:name="com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture3"
+        android:label="FSituationFurniture3" >
+        <action
+            android:id="@+id/action_FSituationFurniture3_to_FSituationFurniture4"
+            app:destination="@id/FSituationFurniture4" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationFurniture4"
+        android:name="com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture4"
+        android:label="FSituationFurniture4" >
+        <action
+            android:id="@+id/action_FSituationFurniture4_to_FSituationFurniture5"
+            app:destination="@id/FSituationFurniture5" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationFurniture5"
+        android:name="com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture5"
+        android:label="FSituationFurniture5" >
+        <action
+            android:id="@+id/action_FSituationFurniture5_to_FSituationFinish"
+            app:destination="@id/FSituationFinish" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationNewBuildings1"
+        android:name="com.example.lawyerapplication.fragments.situation.new_buidings.FSituationNewBuildings1"
+        android:label="FSituationNewBuildings1" >
+        <action
+            android:id="@+id/action_FSituationNewBuildings1_to_FSituationNewBuildings2"
+            app:destination="@id/FSituationNewBuildings2" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationNewBuildings2"
+        android:name="com.example.lawyerapplication.fragments.situation.new_buidings.FSituationNewBuildings2"
+        android:label="FSituationNewBuildings2" >
+        <action
+            android:id="@+id/action_FSituationNewBuildings2_to_FSituationNewBuildings3"
+            app:destination="@id/FSituationNewBuildings3" />
+    </fragment>
+    <fragment
+        android:id="@+id/FSituationNewBuildings3"
+        android:name="com.example.lawyerapplication.fragments.situation.new_buidings.FSituationNewBuildings3"
+        android:label="FSituationNewBuildings3" >
+        <action
+            android:id="@+id/action_FSituationNewBuildings3_to_FSituationFinish"
+            app:destination="@id/FSituationFinish" />
+    </fragment>
 </navigation>

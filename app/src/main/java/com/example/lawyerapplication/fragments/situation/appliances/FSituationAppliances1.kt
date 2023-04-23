@@ -66,7 +66,6 @@ class FSituationAppliances1 : Fragment() {
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -89,7 +88,6 @@ class FSituationAppliances1 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
     }
 
 

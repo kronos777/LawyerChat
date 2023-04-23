@@ -120,6 +120,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
 
+    //firebase storage
+    //implementation "com.google.firebase.storage.ktx.component1"
+    //implementation "com.google.firebase.storage.ktx.component2"
+    //firebase storage
+
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //Image loader

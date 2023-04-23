@@ -32,11 +32,13 @@
               android:textSize="14sp">
                <RadioButton
                    android:id="@+id/radio_button_1"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Недостаток обнаружен в течение 15 дней со дня передачи автомобиля покупателю"/>
                <RadioButton
                    android:id="@+id/radio_button_2"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Недостаток обнаружен по истечении 15 дней со дня передачи автомобиля покупателю и недостаток является существенным"/>

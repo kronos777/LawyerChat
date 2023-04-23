@@ -42,6 +42,7 @@
               android:textSize="14sp">
                <RadioButton
                    android:id="@+id/radio_button_1"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="150 тыс. рублей (рассрочка на 2 месяца) +15% от всех взысканных судом и поступивших на Ваш счет денежных средств"/>
@@ -56,6 +57,7 @@
                    android:text="(досудебную экспертизу оплачиваете самостоятельно, от 30 до 50 тыс. руб.)"/>
                <RadioButton
                    android:id="@+id/radio_button_2"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="60 тыс. рублей + 30% от всех взысканных судом и поступивших на Ваш счет денежных средств"/>
@@ -70,6 +72,7 @@
                    android:text="(досудебную экспертизу оплачиваете самостоятельно, от 30 до 50 тыс. руб.)"/>
                <RadioButton
                    android:id="@+id/radio_button_3"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="500 рублей + 50% от всех взысканных судом и поступивших на Ваш счет денежных средств"/>
@@ -110,5 +113,6 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintBottom_toBottomOf="parent"
               />
+
      </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

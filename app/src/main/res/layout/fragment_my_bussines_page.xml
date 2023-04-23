@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/group_list_recycler_layout"
         android:layout_width="match_parent"
@@ -80,7 +83,9 @@
             <com.github.florent37.expansionpanel.ExpansionLayout
                 android:id="@+id/expansionLayout"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:layout_width="match_parent"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp">
 
                 <!-- CONTENT -->
                 <TextView
@@ -90,6 +95,7 @@
                     android:textSize="14dp"
                     android:lineHeight="20dp"
                     android:textColor="@color/black"
+                    android:minHeight="50dp"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"/>
 
@@ -134,7 +140,7 @@
                     android:textSize="16dp"
                     android:lineHeight="24dp"
                     android:textColor="@color/black"
-                    android:text="Вариант оплаты"/>
+                    android:text="Прилагаемые файлы"/>
 
                 <!-- HEADER INDICATOR -->
                 <ImageView
@@ -155,15 +161,121 @@
                 android:layout_width="match_parent">
 
                 <!-- CONTENT -->
-                <TextView
+                <LinearLayout
                     android:id="@+id/accordion_description_2"
                     android:textFontWeight="400"
                     android:fontFamily="@font/roboto"
                     android:textSize="14dp"
                     android:lineHeight="20dp"
                     android:textColor="@color/black"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Договор купли-продажи ТС"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_1"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="31dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_2"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Документы об оплате"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_2"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="31dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_3"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Акт об оказанных услугах"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_3"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="31dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Претензионная переписка"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_4"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="31dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_5"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Сопроводительный текст"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_5"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                </LinearLayout>
 
             </com.github.florent37.expansionpanel.ExpansionLayout>
         </LinearLayout>
@@ -177,6 +289,91 @@
             android:src="@drawable/separator_hr"
             android:layout_marginTop="14dp"
             />
+        <LinearLayout
+            android:id="@+id/accordion_free_linear"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s3"
+            >
+
+            <com.github.florent37.expansionpanel.ExpansionHeader
+                android:id="@+id/accordion_free"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:expansion_headerIndicator="@id/headerIndicator3"
+                app:expansion_layout="@id/expansionLayout3"
+                app:expansion_toggleOnClick="true">
+
+                <!-- HEADER -->
+
+                <TextView
+                    android:id="@+id/accordion_title3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textFontWeight="500"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="16dp"
+                    android:lineHeight="24dp"
+                    android:textColor="@color/black"
+                    android:text="Вариант оплаты"/>
+
+                <!-- HEADER INDICATOR -->
+                <ImageView
+                    android:adjustViewBounds="true"
+                    android:id="@+id/headerIndicator3"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+
+
+            </com.github.florent37.expansionpanel.ExpansionHeader>
+
+            <com.github.florent37.expansionpanel.ExpansionLayout
+                android:id="@+id/expansionLayout3"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp">
+
+                <!-- CONTENT -->
+                <TextView
+                    android:id="@+id/accordion_description_3"
+                    android:textFontWeight="400"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14dp"
+                    android:lineHeight="20dp"
+                    android:textColor="@color/black"
+                    android:minHeight="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"/>
+
+            </com.github.florent37.expansionpanel.ExpansionLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_hr_situation_s4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/accordion_free_linear"
+            android:src="@drawable/separator_hr"
+            android:layout_marginTop="14dp"
+            />
+
+        <ImageView
+            android:id="@+id/fullSizeImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/FView"
+            android:background="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -55,31 +55,37 @@
         android:textSize="14sp">
         <RadioButton
             android:id="@+id/radio_button_1"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="ДТП (водитель или страховая компания отказываются возмещать причиненный автомобилю ущерб, вред здоровью, занижают сумму выплаты)"/>
         <RadioButton
             android:id="@+id/radio_button_2"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Повреждение транспортного средства действиями третьих лиц (не в результате ДТП)."/>
         <RadioButton
             android:id="@+id/radio_button_3"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Сразу после покупки автомобиля или в процессе эксплуатации выявились недостатки"/>
         <RadioButton
             android:id="@+id/radio_button_4"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="При покупке автомобиля навязали дополнительное оборудование (доп. услуги), страхование жизни и здоровья"/>
         <RadioButton
             android:id="@+id/radio_button_5"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Отказывают в ремонте по гарантии или требуют оплатить стоимость запасных частей или работ либо срок ремонта превышает 45 дней."/>
         <RadioButton
             android:id="@+id/radio_button_6"
+            android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Иное (вы опишите кратко ситуацию, загрузите скан или фотодокументов, специалисты проконсультируют вас устно или письменно, уточнив предварительно информацию по телефону) "/>

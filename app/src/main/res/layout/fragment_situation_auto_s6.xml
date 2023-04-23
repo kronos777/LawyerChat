@@ -33,11 +33,13 @@
               android:textSize="14sp">
                <RadioButton
                    android:id="@+id/radio_button_1"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Отказаться от исполнения договора купли-продажи и потребовать возврата уплаченной за автомобиль суммы"/>
                <RadioButton
                    android:id="@+id/radio_button_2"
+                   android:gravity="start"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:text="Предъявить требование о замене на автомобиль этой же марки или на такой же автомобиль другой марки с соответствующим перерасчетом покупной цены"/>

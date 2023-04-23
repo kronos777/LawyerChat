@@ -19,6 +19,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.auto.FSituationAuto2
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
@@ -42,6 +43,7 @@ class FSituationFurniture2 : Fragment() {
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
+    private var situation1: String = String()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,11 +61,10 @@ class FSituationFurniture2 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
         val radioGroup = binding.radioGroupSituation
-
+        parseParams()
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-        binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -82,20 +83,25 @@ class FSituationFurniture2 : Fragment() {
         }
 
     }
-
+    private fun parseParams() {
+        val args = requireArguments()
+        situation1 = args.getString(SITUATION_ITEM).toString()
+        //  Toast.makeText(getActivity(),"first choice" + situation1, Toast.LENGTH_SHORT).show()
+    }
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-        binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     fun launchFragmentNext() {
         val btnArgsLessons = Bundle().apply {
-          //  putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
+            putString(FSituationFurniture3.SITUATION_ITEM, situation1 + "&" + radioSelect)
         }
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        //navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2, btnArgsLessons)
+        navController.navigate(R.id.action_FSituationFurniture2_to_FSituationFurniture3, btnArgsLessons)
     }
-
+    companion object {
+        const val SITUATION_ITEM = "situation_item"
+    }
 }
