@@ -1,6 +1,7 @@
 package com.example.lawyerapplication.fragments.situation.auto
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -21,9 +22,12 @@ import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
 import com.example.lawyerapplication.fragments.situation.finish.FSituationFinish
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
+import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices3
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.views.CustomProgressView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -41,16 +45,12 @@ class FSituationAuto10 : Fragment() {
     @Inject
     lateinit var userCollection: CollectionReference
 
-    private var situation9: String = String()
-    private var situation9File: String = String()
+    private var situationId: String = String()
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,13 +63,10 @@ class FSituationAuto10 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
         val radioGroup = binding.radioGroupSituation
-
         parseParams()
-
         binding.enterButton.getBackground().setAlpha(160)
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-       // binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener(
@@ -77,48 +74,50 @@ class FSituationAuto10 : Fragment() {
                 binding.enterButton.getBackground().setAlpha(255)
                 getMaterialButtom()
                 val radio: RadioButton = group.findViewById(checkedId)
-                /*Toast.makeText(getActivity()," On checked change :"+
-                        " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()*/
                 radioSelect = radio.text.toString()
             })
 
+
+
         binding.enterButton.setOnClickListener {
-            launchFragmentNext()
+            if(binding.checkboxRememberMe.isChecked) {
+                val data = hashMapOf("paymentInfo" to radioSelect)
+                val docRef = getDocumentRef(context).document(situationId)
+                docRef.set(data, SetOptions.merge())
+                launchFragmentNext()
+            } else {
+                Toast.makeText(getContext(), "Дайте свое согласие на обработку данных", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
 
+    fun getDocumentRef(context: Context): CollectionReference {
+        val preference = MPreference(context)
+        val db = FirebaseFirestore.getInstance()
+        return db.collection("Leads")
+    }
+
+
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-      //  binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     private fun parseParams() {
         val args = requireArguments()
-        situation9 = args.getString(SITUATION_ITEM).toString()
-        situation9File = args.getString(SITUATION_ITEM_FILE).toString()
-       // Toast.makeText(getActivity(),"all choice" + situation9, Toast.LENGTH_SHORT).show()
-       // Toast.makeText(getActivity(),"all choice file" + situation9File, Toast.LENGTH_SHORT).show()
+        situationId = args.getString(SITUATION_ITEM).toString()
     }
 
 
     fun launchFragmentNext() {
-        val btnArgsAuto = Bundle().apply {
-          //  putString(FSituationFinish.SITUATION_ITEM, situation9 + "&" +radioSelect + "&" + "auto")
-           // putString(FSituationFinish.SITUATION_ITEM_FILE, situation9File)
-        }
-
-
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+       navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationAuto10_to_FSituationFinish)
     }
 
     companion object {
         const val SITUATION_ITEM = "situation_item"
-        const val SITUATION_ITEM_FILE = "situation_item_file"
     }
 
 }

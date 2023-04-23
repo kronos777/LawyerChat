@@ -187,15 +187,15 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
 
     private fun setupClickListener() {
         situationListAdapter.onPaymentItemClickListener = {
-            navController.navigate(R.id.FSituationMedicalServices1)
-            /*when(it.id) {
-                0 -> launchFragment(CreateSituationAutoOneFragment())
-                1 -> launchFragment(CreateSituationAppliancesOneFragment())
-                2 -> launchFragment(CreateSituationNewBuildingsOneFragment())
-                3 -> launchFragment(CreateSituationFurnitureOneFragment())
-                4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
-                5 -> launchFragment(CreateSituationClothingOneFragment())
-            }*/
+            when(it.id) {
+                0 -> navController.navigate(R.id.FSituationAuto1)
+                1 -> navController.navigate(R.id.FSituationAppliances1)
+                2 -> navController.navigate(R.id.FSituationNewBuildings1)
+                3 -> navController.navigate(R.id.FSituationFurniture1)
+                4 -> navController.navigate(R.id.FSituationMedicalServices1)
+                5 -> navController.navigate(R.id.FSituationClothing1)
+
+            }
         }
     }
 
@@ -205,9 +205,5 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
         }
     }
 
-    private fun launchFragment() {
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FMainScreen_to_FSituation)
-    }
 
 }

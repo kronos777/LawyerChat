@@ -116,19 +116,9 @@ class FSituation : Fragment() {
                 3 -> navController.navigate(R.id.action_FSituation_to_FSituationFurniture1)
                 4 -> navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
                 5 -> navController.navigate(R.id.action_FSituation_to_FSituationClothing1)
-               /* 3 -> launchFragment(CreateSituationFurnitureOneFragment())
-                4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
-                5 -> launchFragment(CreateSituationClothingOneFragment())*/
-            }/**/
+
+            }
         }
-    }
-
-
-    fun launchFragment(fragment: Fragment) {
-        /*fragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_item_container, fragment)
-            ?.addToBackStack(null)
-            ?.commit()*/
     }
 
 }
