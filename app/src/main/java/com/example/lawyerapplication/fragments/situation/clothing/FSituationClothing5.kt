@@ -280,7 +280,7 @@ class FSituationClothing5 : Fragment() {
                       uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)*/
                 val messLead = binding.etMessageData.text.toString()
 
-                val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm")
+                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
                 val currentDate = sdf.format(Date())
                 val leadTxt = situation4.split("&")
 

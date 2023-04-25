@@ -62,6 +62,7 @@ class FMyBussines_page : Fragment() {
     private var arrayListImgeData = mutableMapOf<Int, Uri?>()
 
     private var category: String = String()
+    private var originFieldCategory: String = String()
     private var accompanyingText: String = String()
 
 
@@ -90,13 +91,33 @@ class FMyBussines_page : Fragment() {
                     .addOnSuccessListener { document ->
                         if (document != null) {
                             Log.d("Snapshotdata", "DocumentSnapshot data: ${document.data}")
-                            category = getCategory(document.data!!.get("category") as String)
-                            val ftext = document.data!!.get("firstText") as String
-                            val ttext =  document.data!!.get("paymentInfo") as String
+                            originFieldCategory = document.data!!.get("category") as String
+                            category = getCategory(originFieldCategory)
+                            setFieldTitleCategory(originFieldCategory)
+                            var firstText = document.data!!.get("firstText") as String
+                            val paymentInfo =  document.data!!.get("paymentInfo") as String
+
+                            if(originFieldCategory == "clothing") {
+                                firstText += "\n" + "\n" + document.data!!.get("twoText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("freeText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("fourText") as String
+                            } else if (originFieldCategory == "furniture") {
+                                firstText += "\n" + "\n" + document.data!!.get("twoText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("freeText") as String
+                            } else if (originFieldCategory == "auto") {
+                                firstText += "\n" + "\n" + document.data!!.get("twoText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("freeText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("fourText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("fiveText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("sixText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("sevenText") as String
+                                firstText += "\n" + "\n" + document.data!!.get("eightText") as String
+                            }
+
                             accompanyingText = document.data!!.get("messageLead") as String
                             binding.titleSituationH1.text = category
-                            binding.accordionDescription1.text = ftext
-                            binding.accordionDescription3.text = ttext
+                            binding.accordionDescription1.text = firstText
+                            binding.accordionDescription3.text = paymentInfo
 
                         } else {
                             Log.d("TAG", "No such document")
@@ -127,49 +148,40 @@ class FMyBussines_page : Fragment() {
                         // download URL is available here
 
                             val url = urlTask.path
-                           // Log.d("fileStoragePrefix", url.toString())
+
                             if(url!!.contains("firstGroup")) {
-                                Log.d("filefirstGroup ${index} category ${category}", urlTask.toString())
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear1
                                 arrayListImgeData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("twoGroup")) {
-                                Log.d("filetwoGroup ${index}", urlTask.toString())
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear2
                                 arrayListImgeData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("freeGroup")) {
-                                Log.d("filefreeGroup", urlTask.toString())
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear3
                                 arrayListImgeData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("fourGroup")) {
-                                Log.d("filefourGroup", urlTask.toString())
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear4
                                 arrayListImgeData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("fiveGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear5
-                                if(category == "Медицинские услуги") {
-                                    Log.d("filefiveGroup", "Медицинские услуги")
-                                    val tv_dynamic = TextView(context)
-                                    tv_dynamic.textSize = 14f
-                                    tv_dynamic.text = accompanyingText
-                                    mainLayout.addView(tv_dynamic)
-                                }
                                 arrayListImgeData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
-                            }/* else if(url!!.contains("sixGroup")) {
-                                Log.d("filefiveGroup", urlTask.toString())
+                            } else if(url!!.contains("sixGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear6
                                 arrayListImgeData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             }  else if(url!!.contains("sevenGroup")) {
-                                Log.d("filefiveGroup", urlTask.toString())
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear7
                                 arrayListImgeData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
-                            }*/
+                            }  else if(url!!.contains("eightGroup")) {
+                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear8
+                                arrayListImgeData[index] = urlTask
+                                mainLayout.addView(setImageView(index))
+                            }
 
 
 
@@ -202,6 +214,73 @@ class FMyBussines_page : Fragment() {
 
    //     expansionLayoutCollection.openOnlyOne(true)
 
+
+    }
+
+    private fun setFieldTitleCategory(categoryOrigin: Any?) {
+
+        when(categoryOrigin) {
+            "medical" -> setStandartField()
+            "auto" -> setAutoField()
+            "appliances" -> setStandartField()
+            "newBuildings" -> setNewBuildingsField()
+            "furniture" -> setStandartField()
+            "clothing" -> setStandartField()
+            else -> setStandartField()
+        }
+
+    }
+
+    private fun setNewBuildingsField() {
+            binding.accordionDescriptionTitle1.text = "Договор долевого участия"
+            binding.accordionDescriptionTitle2.text = "Разрешение на ввод объекта в эксплуатацию"
+            binding.accordionDescriptionTitle3.text = "Уведомление от застройщика о готовности объекта и необходимости его принятия участником"
+            binding.accordionDescriptionTitle4.text = "Акт приема-передачи (при наличии)"
+            binding.accordionDescriptionTitle5.text = "Документы об оплате цены объекта"
+            binding.accordionDescriptionTitle6.text = "Акт осмотра объекта (акт о несоответствиях, перечень несоответствий)"
+            binding.accordionDescriptionTitle7.text = "Претензионная переписка"
+            binding.accordionDescriptionTitle8.text = "Сопроводительный текст"
+
+            val mainLayout: LinearLayout = binding.accordionDescriptionLinear8
+            val tv_dynamic = TextView(context)
+            tv_dynamic.textSize = 14f
+            tv_dynamic.text = accompanyingText
+            mainLayout.addView(tv_dynamic)
+
+    }
+
+    private fun setAutoField() {
+        binding.accordionDescriptionTitle1.text = "Договор купли-продажи ТС"
+        binding.accordionDescriptionTitle2.text = "Документы об оплате ТС"
+        binding.accordionDescriptionTitle3.text = "Паспорт ТС"
+        binding.accordionDescriptionTitle4.text = "Свидетельство о регистрации ТС"
+        binding.accordionDescriptionTitle5.text = "Акт осмотра ТС (акт о несоответствиях, перечень несоответствий)"
+        binding.accordionDescriptionTitle6.text = "Претензионная переписка"
+        binding.accordionDescriptionTitle7.text = "Сопроводительный текст"
+        binding.accordionDescriptionTitle8.visibility = View.GONE
+        binding.accordionDescriptionLinear8.visibility = View.GONE
+
+        val mainLayout: LinearLayout = binding.accordionDescriptionLinear7
+        val tv_dynamic = TextView(context)
+        tv_dynamic.textSize = 14f
+        tv_dynamic.text = accompanyingText
+        mainLayout.addView(tv_dynamic)
+
+    }
+
+    private fun setStandartField() {
+        binding.accordionDescriptionTitle6.visibility = View.GONE
+        binding.accordionDescriptionLinear6.visibility = View.GONE
+        binding.accordionDescriptionTitle7.visibility = View.GONE
+        binding.accordionDescriptionLinear7.visibility = View.GONE
+        binding.accordionDescriptionTitle8.visibility = View.GONE
+        binding.accordionDescriptionLinear8.visibility = View.GONE
+
+        val mainLayout: LinearLayout = binding.accordionDescriptionLinear5
+        val tv_dynamic = TextView(context)
+        tv_dynamic.textSize = 14f
+        tv_dynamic.text = accompanyingText
+        mainLayout.addView(tv_dynamic)
 
     }
 
@@ -241,7 +320,11 @@ class FMyBussines_page : Fragment() {
     private fun getCategory(str: Any): String {
         return when(str) {
             "medical" -> "Медицинские услуги"
-
+            "auto" -> "Медицинские услуги"
+            "appliances" -> "Бытовая техника"
+            "newBuildings" -> "Новостройки"
+            "furniture" -> "Мебель"
+            "clothing" -> "Одежда"
             else -> "услуга не определена"
         }
     }

@@ -50,6 +50,7 @@ class FSituationNewBuildings3 : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        parseParams()
     }
 
     override fun onCreateView(
@@ -108,7 +109,7 @@ class FSituationNewBuildings3 : Fragment() {
 
     private fun parseParams() {
         val args = requireArguments()
-        situationId = args.getString(FSituationMedicalServices3.SITUATION_ITEM).toString()
+        situationId = args.getString(SITUATION_ITEM).toString()
         //Toast.makeText(getActivity(),"situationId" + situationId, Toast.LENGTH_SHORT).show()
         // Toast.makeText(getActivity(),"all choice file" + situation9File, Toast.LENGTH_SHORT).show()
     }

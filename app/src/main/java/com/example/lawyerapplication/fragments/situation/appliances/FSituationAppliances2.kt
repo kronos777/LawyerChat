@@ -159,8 +159,8 @@ class FSituationAppliances2 : Fragment() {
         }
 
         binding.imageD5AttachmentReady.setOnClickListener {
-            listUrlFileFour.clear()
-            showFourFieldReady()
+            listUrlFileFive.clear()
+            showFiveFieldReady()
         }
         //five field
 
@@ -439,7 +439,7 @@ class FSituationAppliances2 : Fragment() {
                       uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)*/
                 val messLead = binding.etMessageData.text.toString()
 
-                val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm")
+                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
                 val currentDate = sdf.format(Date())
 
                 val lead = LeadItem(situation1, "", "", "", "", "", "", "", "", "", messLead,

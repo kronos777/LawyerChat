@@ -24,7 +24,10 @@ import com.example.lawyerapplication.utils.*
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class FMyBussines_main : Fragment() {
@@ -63,6 +66,9 @@ class FMyBussines_main : Fragment() {
 
         val uid = preference.getUid()
 
+
+
+
         val docRef = getDocumentRef(context)
         docRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -75,7 +81,7 @@ class FMyBussines_main : Fragment() {
                     if(uid == itemLead.data.get("idClient") as String) {
                         Log.d("CURRENTDATA", "Current uid: ${uid}")
                         val id = itemLead.data.get("id")
-                        val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, itemLead.data.get("category") as String, itemLead.data.get("dateTime") as String)
+                        val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, getCategory(itemLead.data.get("category") as String), itemLead.data.get("dateTime") as String)
                         listArraySituation.add(lead)
                     }
                     //Log.d("TAG", "Current data: ${itemLead.data}")
@@ -91,6 +97,18 @@ class FMyBussines_main : Fragment() {
 
 
 
+    }
+
+    private fun getCategory(str: Any): String {
+        return when(str) {
+            "medical" -> "Медицинские услуги"
+            "auto" -> "Авто"
+            "appliances" -> "Бытовая техника"
+            "newBuildings" -> "Новостройки"
+            "furniture" -> "Мебель"
+            "clothing" -> "Одежда"
+            else -> "услуга не определена"
+        }
     }
 
 

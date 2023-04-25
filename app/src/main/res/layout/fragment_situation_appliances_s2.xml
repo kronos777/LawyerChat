@@ -83,7 +83,7 @@
                 app:layout_constraintBottom_toTopOf="@id/image_d1_attachment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/situation_info"
-                android:text="Договор купли-продажи ТС" />
+                android:text="Договор купли-продажи" />
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/image_d1_attachment_ready"
@@ -275,7 +275,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_d3_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_d4_title"
                 android:src="@drawable/foto_add"
                 android:layout_marginTop="12dp"
                 />

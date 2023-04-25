@@ -84,8 +84,7 @@
                 android:id="@+id/expansionLayout"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:paddingTop="24dp"
-                android:paddingBottom="24dp">
+                >
 
                 <!-- CONTENT -->
                 <TextView
@@ -95,7 +94,6 @@
                     android:textSize="14dp"
                     android:lineHeight="20dp"
                     android:textColor="@color/black"
-                    android:minHeight="50dp"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"/>
 
@@ -275,6 +273,68 @@
                         android:layout_height="wrap_content">
 
                     </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="31dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_6"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Сопроводительный текст"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_6"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="31dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_7"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Сопроводительный текст"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_7"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                    </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="31dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_title_8"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:text="Сопроводительный текст"
+                        android:textSize="16dp"
+                        android:textFontWeight="500"
+                        android:lineHeight="24dp"
+                        android:textColor="@color/colorGrey"
+                        />
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:id="@+id/accordion_description_linear_8"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </com.github.florent37.expansionpanel.ExpansionLayout>
@@ -336,9 +396,8 @@
             <com.github.florent37.expansionpanel.ExpansionLayout
                 android:id="@+id/expansionLayout3"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:paddingTop="24dp"
-                android:paddingBottom="24dp">
+                android:layout_width="match_parent">
+
 
                 <!-- CONTENT -->
                 <TextView
@@ -348,7 +407,6 @@
                     android:textSize="14dp"
                     android:lineHeight="20dp"
                     android:textColor="@color/black"
-                    android:minHeight="50dp"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"/>
 
