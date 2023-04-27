@@ -16,8 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/about_app_temp"
-        android:layout_marginTop="60dp"
+        android:src="@drawable/logo_for_about_page"
+        android:layout_marginTop="140dp"
         />
     <TextView
         android:id="@+id/about_application_h1"
@@ -26,9 +26,9 @@
         android:layout_weight="1"
         android:textSize="45sp"
         android:fontFamily="@font/roboto"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:textFontWeight="600"
-        android:textColor="@color/color_primary"
+        android:textColor="@color/black"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,58 +43,46 @@
         android:layout_weight="1"
         android:textSize="16sp"
         android:fontFamily="@font/roboto"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="12dp"
         android:textFontWeight="500"
         android:lineHeight="24dp"
         android:textColor="@color/black"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/about_application_h1"
-        android:text="Официальное приложение Судный день. Оказание юридических услуг на дистанционной основе." />
+        android:text="Официальное приложение Судный день.\nОказание юридических услуг на\nдистанционной основе." />
 
     <TextView
         android:id="@+id/about_application_href1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="16dp"
         android:layout_marginTop="30dp"
         android:textFontWeight="500"
-        android:textColor="@color/color_primary"
-        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textAlignment="center"
         android:fontFamily="@font/roboto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/about_application_p1"
         android:text="Политика конфиденциальности" />
     <TextView
         android:id="@+id/about_application_href2_delete"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:textSize="16dp"
         android:textFontWeight="500"
         android:lineHeight="24dp"
-        android:textColor="@color/color_primary"
+        android:textColor="@color/black"
         android:fontFamily="@font/roboto"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/about_application_href1"
         android:text="Лицензионное соглашение" />
-    <TextView
-        android:id="@+id/about_application_href3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="16dp"
-        android:textFontWeight="500"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/color_primary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_application_href2_delete"
-        android:text="Условия использование регистрации на «Судный день»" />
+
 
 
 

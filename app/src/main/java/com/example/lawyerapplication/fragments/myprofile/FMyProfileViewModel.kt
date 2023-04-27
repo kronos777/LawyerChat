@@ -2,16 +2,15 @@ package com.example.lawyerapplication.fragments.myprofile
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.firebase.firestore.SetOptions
-import com.google.firebase.storage.UploadTask
 import com.example.lawyerapplication.utils.LoadState
 import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.utils.UserUtils
 import com.example.lawyerapplication.utils.toast
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
@@ -26,9 +25,9 @@ class FMyProfileViewModel @Inject constructor(
 
     private var userProfile = preference.getUserProfile()
 
-    val userName = MutableLiveData(userProfile?.userName)
-    val userSerName = MutableLiveData(userProfile?.serName)
-    val userLastName = MutableLiveData(userProfile?.lastName)
+    val userName = MutableLiveData(firstUpperCase(userProfile?.userName.toString()))
+    val userSerName = MutableLiveData(firstUpperCase(userProfile?.serName.toString()))
+    val userLastName = MutableLiveData(firstUpperCase(userProfile?.lastName.toString()))
 
     val imageUrl = MutableLiveData(userProfile?.image)
 
@@ -167,6 +166,12 @@ class FMyProfileViewModel @Inject constructor(
             e.printStackTrace()
         }
     }
+
+    fun firstUpperCase(word: String?): String? {
+        return if (word == null || word.isEmpty()) "" else word.substring(0, 1)
+            .uppercase(Locale.getDefault()) + word.substring(1) //или return word;
+    }
+
 
     override fun onCleared() {
         super.onCleared()

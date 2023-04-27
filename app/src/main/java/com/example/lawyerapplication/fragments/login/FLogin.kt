@@ -137,7 +137,7 @@ class FLogin : Fragment() {
             viewModel.userProfileGot.observe(viewLifecycleOwner, { success ->
                 if (success && viewModel.getCredential().value?.smsCode.isNullOrEmpty()
                                && findNavController().isValidDestination(R.id.FLogIn)) {
-                    requireActivity().toastLong("Authenticated successfully using Instant verification")
+                    requireActivity().toastLong("Аутентификация прошла успешно с использованием мгновенной проверки")
                     findNavController().navigate(R.id.action_FLogIn_to_FProfile)
                 }
             })

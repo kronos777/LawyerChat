@@ -62,7 +62,7 @@ class LoginRepo @Inject constructor(@ActivityRetainedScoped val actContxt: MainA
         failedState.value = LogInFailedState.Verification
         when (exp) {
             is FirebaseAuthInvalidCredentialsException ->
-                context.toast("Invalid Request")
+                context.toast("Неверный запрос")
             else -> context.toast(exp.message.toString())
         }
     }
@@ -70,7 +70,7 @@ class LoginRepo @Inject constructor(@ActivityRetainedScoped val actContxt: MainA
     override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
         Timber.v("onCodeSent:$verificationId")
         this.verificationId.value = verificationId
-        context.toast("Verification code sent successfully")
+        context.toast("Код подтверждения успешно отправлен")
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
@@ -82,7 +82,7 @@ class LoginRepo @Inject constructor(@ActivityRetainedScoped val actContxt: MainA
                 } else {
                     Timber.v("signInWithCredential:failure ${task.exception}")
                     if (task.exception is FirebaseAuthInvalidCredentialsException)
-                        context.toast("Invalid verification code!")
+                        context.toast("Неверный код подтверждения!")
                     failedState.value = LogInFailedState.SignIn
                 }
             }
