@@ -12,8 +12,8 @@
     <string name="err_no_net">Нет соединения с интернетом</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_verify">Verify</string>
-    <string name="txt_resend">Resend</string>
+    <string name="txt_verify">Проверить</string>
+    <string name="txt_resend">Отправить</string>
     <string name="txt_name">Имя</string>
     <string name="txt_pic_name_desc">Это имя пользователя и изображение будут видны вашим пользователям Letschat. Другие пользователи смогут найти вас с помощью поиска.</string>
     <string name="txt_options">Опции</string>
@@ -29,7 +29,7 @@
     <string name="txt_chats">Чаты</string>
     <string name="txt_main">Главная</string>
     <string name="txt_letschat_contact">Letschat Contacts</string>
-    <string name="txt_refresh">Refresh</string>
+    <string name="txt_refresh">Обновить</string>
     <string name="txt_contacts">Контакты</string>
     <string name="txt_select_a_contact">Выбрать контакт</string>
     <string name="txt_invite_friends">Пригласить друзей</string>
@@ -121,6 +121,7 @@
     <string name="title_main_screen">Популярные услуги</string>
     <string name="all_services_main_screen">Все</string>
     <string name="txt_forum">Сообщения</string>
+    <string name="chat_with_lawyer">Чат с юристом</string>
 
 
 </resources>

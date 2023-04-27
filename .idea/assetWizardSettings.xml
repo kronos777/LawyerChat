@@ -328,7 +328,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/C:/AndroidSdk/icons/material/materialicons/format_textdirection_r_to_l/baseline_format_textdirection_r_to_l_24.xml" />
+                                      <entry key="url" value="file:/C:/AndroidSdk/icons/material/materialicons/assignment/baseline_assignment_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -338,9 +338,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="opacityPercent" value="50" />
-                            <entry key="outputName" value="ic_baseline_format_textdirection_r_to_l_24" />
+                            <entry key="color" value="e25908" />
+                            <entry key="opacityPercent" value="65" />
+                            <entry key="outputName" value="ic_baseline_assignment_lead_24" />
                             <entry key="sourceFile" value="E:\portfolioAndroidProjects\laywerApplication\cleanChatsApp\cleanChatsApp" />
                           </map>
                         </option>

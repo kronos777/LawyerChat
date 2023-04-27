@@ -162,9 +162,9 @@ class FProfile : Fragment() {
     private fun validate() {
         val name = viewModel.name.value
         if(isLawyer == true){
-            viewModel.role.value = "Юрист"
+            viewModel.role.value = "Lawyer"
         } else {
-            viewModel.role.value = "Клиент"
+            viewModel.role.value = "Client"
         }
 
         if (!name.isNullOrEmpty() && name.length > 1 && !viewModel.progressProPic.value!!)

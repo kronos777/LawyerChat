@@ -110,7 +110,19 @@ object UserUtils {
         return db.collection("Users").document(preference.getUid()!!)
     }
 
+    //get account for bussines page
+    fun getStorageRefBussines(context: Context, uid: String): StorageReference {
+        val preference = MPreference(context)
+        val ref = Firebase.storage.getReference("Users")
+        return ref.child(uid)
+    }
 
+    fun getDocumentRefBussines(context: Context, uid: String): DocumentReference {
+        val preference = MPreference(context)
+        val db = FirebaseFirestore.getInstance()
+        return db.collection("Users").document(uid!!)
+    }
+    //get account for bussines page
 
     fun getMessageSubCollectionRef(): Query {
         val db = FirebaseFirestore.getInstance()

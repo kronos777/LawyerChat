@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -22,6 +23,7 @@ import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.ActivityMainBinding
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Group
+import com.example.lawyerapplication.fragments.my_business.BussinesPageViewModel
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -42,7 +44,7 @@ class MainActivity : ActBase() {
     private lateinit var searchView: SearchView
 
     private lateinit var searchItem: MenuItem
-
+    private val viewModelProfile: BussinesPageViewModel by viewModels()
     private var stopped=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,6 +128,17 @@ class MainActivity : ActBase() {
                 val action = FSingleChatHomeDirections.actionFSingleChatHomeToFGroupChat(groupData)
                 navController.navigate(action)
             }
+
+            //if lawyer hide item menu
+            if(viewModelProfile.isLawyer()) {
+              //  binding.bottomNav.findViewById<MenuItem>(R.id.nav_services).setVisible(false)
+                //BottomNavigationView.findItem(R.id.nav_services).isVisible = false
+                val navView: BottomNavigationView = binding.bottomNav
+                // Find the menu item and then disable it
+               // navView.menu.findItem(R.id.nav_services).isEnabled = false
+                navView.menu.findItem(R.id.nav_services).isVisible = false
+            }
+            //if lawyer hide item menu
 
             //navController.navigate(R.id.FMainScreen)
 

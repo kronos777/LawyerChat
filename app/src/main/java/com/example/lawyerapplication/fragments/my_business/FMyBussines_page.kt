@@ -1,27 +1,22 @@
 package com.example.lawyerapplication.fragments.my_business
 
-import android.R
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.print.PrintAttributes
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.DialogTitle
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.example.lawyerapplication.databinding.FragmentMyBussinesPageBinding
 import com.example.lawyerapplication.models.MyImage
 import com.example.lawyerapplication.utils.ImageUtils
@@ -31,13 +26,13 @@ import com.github.florent37.expansionpanel.ExpansionLayout
 import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.component1
 import com.google.firebase.storage.ktx.component2
 import com.google.firebase.storage.ktx.storage
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
-import io.grpc.InternalChannelz.id
 import javax.inject.Inject
 
 
@@ -64,7 +59,7 @@ class FMyBussines_page : Fragment() {
     private var category: String = String()
     private var originFieldCategory: String = String()
     private var accompanyingText: String = String()
-
+    private val viewModelProfile: BussinesPageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +76,11 @@ class FMyBussines_page : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
+        binding.viewModel = viewModelProfile
+
+        val role = viewModelProfile.isLawyer()
+        Log.d("CurrentRole", "Current role user: ${role}")
+
 
         navController = Navigation.findNavController(activity!!, com.example.lawyerapplication.R.id.nav_host_fragment)
 
@@ -92,10 +92,75 @@ class FMyBussines_page : Fragment() {
                         if (document != null) {
                             Log.d("Snapshotdata", "DocumentSnapshot data: ${document.data}")
                             originFieldCategory = document.data!!.get("category") as String
+                            accompanyingText = document.data!!.get("messageLead") as String
+
                             category = getCategory(originFieldCategory)
                             setFieldTitleCategory(originFieldCategory)
                             var firstText = document.data!!.get("firstText") as String
                             val paymentInfo =  document.data!!.get("paymentInfo") as String
+                            val lawyer = (document.data!!.get("idLawyer") as String).trim()
+                            val client = (document.data!!.get("idClient") as String).trim()
+                            if(!role && lawyer != "") {
+                                //user bus
+                                    val lawyer = viewModelProfile.getDataUser(context, lawyer)
+                                    lawyer.get().addOnSuccessListener { documentUser ->
+                                            if (documentUser != null) {
+                                                val nameLawyer = documentUser.data!!.get("userName") as String
+                                                val serNameLawyer = documentUser.data!!.get("serName") as String
+                                               //val userRole = documentUser.data!!.get("role") as String
+                                                val userImg = documentUser.data!!.get("image") as String
+
+                                                binding.aboutUserH1.text = nameLawyer + " " + serNameLawyer
+                                                //binding.imageProfile.setImageURI(userImg.toUri())
+                                                Glide.with(context)
+                                                    .load(userImg.toUri())
+                                                    .into(binding.imageProfile)
+                                                binding.roleApplicationH1.text = "Юрист"
+                                                binding.cardProfileData.visibility = View.VISIBLE
+                                               // Log.d("dataUser", "name data: ${userImg.toUri()}")
+                                                //Log.d("dataUser", "sername data: ${serNameLawyer}")
+                                            }
+                                        }
+
+                                binding.buttonForClient.visibility = View.VISIBLE
+
+                            //user bus
+                            } else if(role) {
+                                val user = viewModelProfile.getDataUser(context, client)
+                                user.get().addOnSuccessListener { documentUser ->
+                                    if (documentUser != null) {
+                                        val nameLawyer = documentUser.data!!.get("userName") as String
+                                        val serNameLawyer = documentUser.data!!.get("serName") as String
+                                        //val userRole = documentUser.data!!.get("role") as String
+                                        val userImg = documentUser.data!!.get("image") as String
+
+                                        binding.aboutUserH1.text = nameLawyer + " " + serNameLawyer
+                                        //binding.imageProfile.setImageURI(userImg.toUri())
+                                        Glide.with(context)
+                                            .load(userImg.toUri())
+                                            .into(binding.imageProfile)
+                                        binding.roleApplicationH1.text = "Пользователь"
+                                        binding.cardProfileData.visibility = View.VISIBLE
+                                    }
+                                }
+
+                                binding.buttonsForLawyer.visibility = View.VISIBLE
+
+                                if(lawyer == "") {
+                                    binding.buttonForLawyer4.visibility = View.GONE
+                                    binding.buttonForLawyer2.setOnClickListener {
+                                        takeBusiness(item)
+                                        showButtonLawyer()
+                                    }
+
+                                } else {
+                                    binding.buttonForLawyer2.visibility = View.GONE
+                                    binding.buttonForLawyer4.visibility = View.GONE
+                                }
+
+                            }
+
+
 
                             if(originFieldCategory == "clothing") {
                                 firstText += "\n" + "\n" + document.data!!.get("twoText") as String
@@ -114,7 +179,7 @@ class FMyBussines_page : Fragment() {
                                 firstText += "\n" + "\n" + document.data!!.get("eightText") as String
                             }
 
-                            accompanyingText = document.data!!.get("messageLead") as String
+
                             binding.titleSituationH1.text = category
                             binding.accordionDescription1.text = firstText
                             binding.accordionDescription3.text = paymentInfo
@@ -208,13 +273,27 @@ class FMyBussines_page : Fragment() {
         }*/
         val expansionLayout: ExpansionLayout = binding.expansionLayout
         val expansionLayout2: ExpansionLayout = binding.expansionLayout2
+        val expansionLayout3: ExpansionLayout = binding.expansionLayout3
         val expansionLayoutCollection = ExpansionLayoutCollection()
         expansionLayoutCollection.add(expansionLayout)
         expansionLayoutCollection.add(expansionLayout2)
+        expansionLayoutCollection.add(expansionLayout3)
 
    //     expansionLayoutCollection.openOnlyOne(true)
 
 
+    }
+
+    private fun showButtonLawyer() {
+        binding.buttonForLawyer2.visibility = View.GONE
+        binding.buttonForLawyer3.visibility = View.GONE
+        binding.buttonForLawyer4.visibility = View.VISIBLE
+    }
+
+    private fun takeBusiness(item: String) {
+        val data = hashMapOf("idLawyer" to preference.getUid())
+        val docRef = getDocumentRef(context).document(item)
+        docRef.set(data, SetOptions.merge())
     }
 
     private fun setFieldTitleCategory(categoryOrigin: Any?) {
@@ -287,7 +366,7 @@ class FMyBussines_page : Fragment() {
 
     fun setImageView(id: Int) : ImageView {
         val imageView = ImageView(context)
-        imageView.setImageResource(com.example.lawyerapplication.R.drawable.foto_add)
+        imageView.setImageResource(com.example.lawyerapplication.R.drawable.foto_add_2)
         imageView.id = id
 
         imageView.setOnClickListener {
@@ -305,29 +384,35 @@ class FMyBussines_page : Fragment() {
 
 
         }
-        val imageViewLayoutParams =
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-        imageView.setLayoutParams(imageViewLayoutParams)
-
-        return imageView
-    }
+             val imageViewLayoutParams =
+                ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
 
 
-    private fun getCategory(str: Any): String {
-        return when(str) {
-            "medical" -> "Медицинские услуги"
-            "auto" -> "Медицинские услуги"
-            "appliances" -> "Бытовая техника"
-            "newBuildings" -> "Новостройки"
-            "furniture" -> "Мебель"
-            "clothing" -> "Одежда"
-            else -> "услуга не определена"
-        }
-    }
+            imageView.setLayoutParams(imageViewLayoutParams)
+
+/*
+            imageView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                setMargins(0,0,15,0)
+            }*/
+
+            return imageView
+}
+
+
+private fun getCategory(str: Any): String {
+return when(str) {
+    "medical" -> "Медицинские услуги"
+    "auto" -> "Медицинские услуги"
+    "appliances" -> "Бытовая техника"
+    "newBuildings" -> "Новостройки"
+    "furniture" -> "Мебель"
+    "clothing" -> "Одежда"
+    else -> "услуга не определена"
+}
+}
 
 
     fun getDocumentRef(context: Context): CollectionReference {

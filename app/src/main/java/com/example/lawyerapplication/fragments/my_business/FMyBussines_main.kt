@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.lawyerapplication.R
@@ -44,7 +45,7 @@ class FMyBussines_main : Fragment() {
 
     private lateinit var myBusinessListAdapter: MyBusinessAdapterHorizontal
     private lateinit var navController: NavController
-
+    private val viewModelProfile: BussinesPageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +66,7 @@ class FMyBussines_main : Fragment() {
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
 
         val uid = preference.getUid()
-
-
+        val role = viewModelProfile.isLawyer()
 
 
         val docRef = getDocumentRef(context)
@@ -78,17 +78,21 @@ class FMyBussines_main : Fragment() {
             if (snapshot != null && !snapshot.isEmpty) {
 
                 for (itemLead in snapshot) {
-                    if(uid == itemLead.data.get("idClient") as String) {
+                    if(uid == itemLead.data.get("idClient") as String && role == false) {
                         Log.d("CURRENTDATA", "Current uid: ${uid}")
                         val id = itemLead.data.get("id")
                         val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, getCategory(itemLead.data.get("category") as String), itemLead.data.get("dateTime") as String)
                         listArraySituation.add(lead)
+                    } else if(role == true && (uid == itemLead.data.get("idLawyer") || itemLead.data.get("idLawyer") == "")) {
+                        val id = itemLead.data.get("id")
+                        val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, getCategory(itemLead.data.get("category") as String), itemLead.data.get("dateTime") as String)
+                        listArraySituation.add(lead)
                     }
-                    //Log.d("TAG", "Current data: ${itemLead.data}")
-                    //Log.d("TAG", "Current data: ${itemLead.data.get("status")}")
-                    //Log.d("TAG", "Current data: ${itemLead.data.get("category")}")
 
-                    myBusinessListAdapter.submitList(listArraySituation)
+                }
+                myBusinessListAdapter.submitList(listArraySituation)
+                if(listArraySituation.size == 0) {
+                    binding.noLeadText.visibility = View.VISIBLE
                 }
             } else {
                 Log.d("TAG", "Current data: null")
