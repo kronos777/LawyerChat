@@ -161,12 +161,13 @@ class FProfile : Fragment() {
 
     private fun validate() {
         val name = viewModel.name.value
-        if(isLawyer == true){
+  /*      if(isLawyer == true){
             viewModel.role.value = "Lawyer"
         } else {
             viewModel.role.value = "Client"
         }
-
+*/
+        viewModel.role.value = "Client"
         if (!name.isNullOrEmpty() && name.length > 1 && !viewModel.progressProPic.value!!)
             viewModel.storeProfileData()
     }
