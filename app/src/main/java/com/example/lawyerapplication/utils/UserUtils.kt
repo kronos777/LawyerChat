@@ -117,6 +117,13 @@ object UserUtils {
         return ref.child(uid)
     }
 
+    //get account for cards
+    fun getStorageRefCards(context: Context, uid: String): StorageReference {
+        val preference = MPreference(context)
+        val ref = Firebase.storage.getReference("Cards")
+        return ref.child(uid)
+    }
+
     fun getDocumentRefBussines(context: Context, uid: String): DocumentReference {
         val preference = MPreference(context)
         val db = FirebaseFirestore.getInstance()

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="cardItem"
+            type="com.example.lawyerapplication.db.data.BanksCardItem"
+            />
+    </data>
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:outlineProvider="none"
+        app:cardElevation="0dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/banks_logo"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/img_sber_ex" />
+
+            <TextView
+                style="@style/card_situation_h1"
+                android:id="@+id/banks_notes_h1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VISA **** 7777"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto"
+                android:lineHeight="16dp"
+                android:textFontWeight="500"
+                android:textSize="12sp"
+                android:layout_toRightOf="@+id/banks_logo"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="12dp"
+                 />
+            <TextView
+                style="@style/card_situation_description"
+                android:id="@+id/banks_description_h1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Основная карта"
+                android:textColor="@color/colorGreen"
+                android:layout_below="@id/banks_notes_h1"
+                android:layout_toRightOf="@+id/banks_logo"
+                android:fontFamily="@font/roboto"
+                android:lineHeight="16dp"
+                android:textFontWeight="500"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="12dp"
+                 />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginRight="23dp"
+                android:src="@drawable/delete_banks_card" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

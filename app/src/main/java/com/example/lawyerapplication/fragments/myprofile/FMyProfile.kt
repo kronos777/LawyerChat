@@ -78,6 +78,13 @@ class FMyProfile : Fragment(R.layout.f_my_profile) {
                 }
             }
         }*/
+
+        binding.cardBanksCard.setOnClickListener {
+            val navOptions =
+                NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
+            Navigation.findNavController(activity!!, R.id.nav_host_fragment).navigate(R.id.action_FMyProfile_to_FMyCards, null, navOptions)
+        }
+
         binding.aboutApplicationHref2Delete.setOnClickListener {
         //binding.btnLogout.setOnClickListener {
             dialog.show()

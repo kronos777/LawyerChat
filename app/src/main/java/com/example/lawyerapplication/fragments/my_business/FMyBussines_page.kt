@@ -386,7 +386,9 @@ class FMyBussines_page : Fragment() {
         }
              val imageViewLayoutParams =
                 ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                   ViewGroup.LayoutParams.WRAP_CONTENT,
+                    // 220,
+                    //35
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
 

@@ -115,7 +115,11 @@
         android:id="@+id/FMyProfile"
         android:name="com.example.lawyerapplication.fragments.myprofile.FMyProfile"
         android:label="Профиль"
-        tools:layout="@layout/f_my_profile" />
+        tools:layout="@layout/f_my_profile" >
+        <action
+            android:id="@+id/action_FMyProfile_to_FMyCards"
+            app:destination="@id/FMyCards" />
+    </fragment>
     <fragment
         android:id="@+id/FContacts"
         android:name="com.example.lawyerapplication.fragments.contacts.FContacts"
@@ -486,4 +490,16 @@
             android:id="@+id/action_FSituationNewBuildings3_to_FSituationFinish"
             app:destination="@id/FSituationFinish" />
     </fragment>
+    <fragment
+        android:id="@+id/FMyCards"
+        android:name="com.example.lawyerapplication.fragments.mycards.FMyCards"
+        android:label="FMyCards" >
+        <action
+            android:id="@+id/action_FMyCards_to_FAddCards"
+            app:destination="@id/FAddCards" />
+    </fragment>
+    <fragment
+        android:id="@+id/FAddCards"
+        android:name="com.example.lawyerapplication.fragments.mycards.FAddCards"
+        android:label="FAddCards" />
 </navigation>

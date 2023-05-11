@@ -258,7 +258,7 @@
                         android:layout_alignParentLeft="true"
                         android:id="@+id/accordion_description_linear_1"
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_height="wrap_content">
 
                     </LinearLayout>
@@ -279,7 +279,7 @@
                         android:layout_alignParentLeft="true"
                         android:id="@+id/accordion_description_linear_2"
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_height="wrap_content">
 
                     </LinearLayout>
@@ -300,7 +300,7 @@
                         android:layout_alignParentLeft="true"
                         android:id="@+id/accordion_description_linear_3"
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_height="wrap_content">
 
                     </LinearLayout>
@@ -321,7 +321,7 @@
                         android:layout_alignParentLeft="true"
                         android:id="@+id/accordion_description_linear_4"
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_height="wrap_content">
 
                     </LinearLayout>

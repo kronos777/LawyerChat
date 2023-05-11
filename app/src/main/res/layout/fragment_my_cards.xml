@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/group_list_recycler_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/title_cards_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:lineHeight="28dp"
+            android:text="Банковские карты"
+            android:textColor="@color/black"
+            android:textFontWeight="400"
+            style="@style/title"
+            android:layout_marginLeft="16dp"
+            android:gravity="left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_cards_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_cards_h1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_card"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/add_banks_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_cards_list"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="0dp"
+            android:outlineProvider="none"
+            app:cardElevation="0dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp">
+
+                <ImageView
+                    android:id="@+id/imageViewBanksCard"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/add_card" />
+
+                <TextView
+                    android:id="@+id/banks_card_h1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@id/imageViewBanksCard"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto"
+                    android:lineHeight="16dp"
+                    android:text="Добавить карту"
+                    android:textColor="@color/black"
+                    android:textFontWeight="500"
+                    android:textSize="11sp" />
+
+                <TextView
+
+                    android:id="@+id/banks_card_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/banks_card_h1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_gravity="left"
+                    android:layout_toRightOf="@id/imageViewBanksCard"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto"
+                    android:lineHeight="16dp"
+                    android:text="для оплаты услуг"
+                    android:textColor="@color/colorGrey"
+                    android:textFontWeight="500"
+                    android:layout_marginTop="4dp"
+                    android:textSize="8sp" />
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
