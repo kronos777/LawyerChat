@@ -146,7 +146,7 @@ class FMyCards : Fragment() {
             )
             layoutBinder.txtOk.setOnClickListener {
                 dialog.dismiss()
-                //выйти из приложения
+                //удалить карту
                 viewModel.deleteCardUser(numberCard)
                 setDataInView()
             }
