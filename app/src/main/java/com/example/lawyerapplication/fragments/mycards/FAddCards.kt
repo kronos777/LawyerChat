@@ -1,6 +1,7 @@
 package com.example.lawyerapplication.fragments.mycards
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -50,6 +51,28 @@ class FAddCards : Fragment() {
 
     private val viewModel: ViewModelMyCards by viewModels()
 
+    private lateinit var navController: NavController
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnEditingFinishedListener")
+        }
+    }
+
+    private fun observeViewModel() {
+        viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
+            onEditingFinishedListener.onEditingFinished()
+        }
+    }
+    interface OnEditingFinishedListener {
+
+        fun onEditingFinished()
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -64,7 +87,9 @@ class FAddCards : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
+        observeViewModel()
 
+        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
         //binding.etCardNumber.addTextChangedListener(PhoneTextFormatter(binding.etCardNumber, "+7 (###) ###-####"))
         binding.etCvs.addTextChangedListener(PhoneTextFormatter(binding.etCvs, "###"))
         binding.etValidity.addTextChangedListener(PhoneTextFormatter(binding.etValidity, "##/##"))
@@ -78,7 +103,9 @@ class FAddCards : Fragment() {
             val cvs = binding.etCvs.text.toString()
             val res = viewModel.addUserCard(cardNumber, validity, cvs)
             setHideErrorInput()
-            Toast.makeText(context, res.toString(), Toast.LENGTH_SHORT).show()
+            if (res == "ok") {
+                navController.navigate(R.id.FMyCards)
+            }
         }
 
 

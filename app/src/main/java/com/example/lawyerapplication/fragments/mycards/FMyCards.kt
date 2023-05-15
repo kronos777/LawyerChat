@@ -1,6 +1,7 @@
 package com.example.lawyerapplication.fragments.mycards
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -20,9 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImage
 import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
-import com.example.lawyerapplication.databinding.FProfileBinding
-import com.example.lawyerapplication.databinding.FragmentChoiceBySituationBinding
-import com.example.lawyerapplication.databinding.FragmentMyCardsBinding
+import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.BanksCardItem
 import com.example.lawyerapplication.db.data.SituationItem
 import com.example.lawyerapplication.fragments.mycards.adapter.BanksCardAdapter
@@ -47,8 +47,11 @@ class FMyCards : Fragment() {
     @Inject
     lateinit var userCollection: CollectionReference
 
+    private lateinit var dialog: Dialog
+
     private lateinit var banksCardAdapter: BanksCardAdapter
     private lateinit var navController: NavController
+    private val viewModel: ViewModelMyCards by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,11 +68,13 @@ class FMyCards : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
-        val listArrayCards: ArrayList<BanksCardItem> = ArrayList()
+
         setupRecyclerView()
         navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        setDataInView()
 
-        val urlImg1 = getURLForResource(R.drawable.auto_s1)
+
+      /*  val urlImg1 = getURLForResource(R.drawable.auto_s1)
         val urlImg2 = getURLForResource(R.drawable.appliances_s2)
         val urlImg3 = getURLForResource(R.drawable.new_buildings_s3)
         val urlImg4 = getURLForResource(R.drawable.furniture_s4)
@@ -81,16 +86,24 @@ class FMyCards : Fragment() {
         listArrayCards.add(BanksCardItem(3, "Мебель", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg4.toString()))
         listArrayCards.add(BanksCardItem(4, "Медицинские услуги", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg5.toString()))
         listArrayCards.add(BanksCardItem(5, "Одежда", "Поддержание высокого уровня сервиса — одна из наших главных задач.", urlImg6.toString()))
-/*
-        for (item in 6..85) {
-            val situation = SituationItem(item, "cars name"+ item.toString(), urlImg5.toString())
-            listArraySituation.add(situation)
-        }*/
-        banksCardAdapter.submitList(listArrayCards)
+*/
+
 
         binding.addBanksCard.setOnClickListener {
-            navController.navigate(R.id.action_FMyCards_to_FAddCards)
+            navController.navigate(R.id.FAddCards)
         }
+    }
+
+    fun setDataInView() {
+        val listArrayCards: ArrayList<BanksCardItem> = ArrayList()
+        viewModel.getResponseFromFirestoreUsingLiveData().observe(context as FragmentActivity, {
+            val urlImg1 = getURLForResource(R.drawable.img_sber_ex)
+            for (index in it.products!!.indices){
+                //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
+                listArrayCards.add(BanksCardItem(it.products!![index].id, it.products!![index].number, it.products!![index].validity, urlImg1.toString()))
+            }
+            banksCardAdapter.submitList(listArrayCards)
+        })
     }
 
     fun getURLForResource(resourceId: Int): String? {
@@ -115,17 +128,33 @@ class FMyCards : Fragment() {
 
     private fun setupClickListener() {
         banksCardAdapter.onPaymentItemClickListener = {
-            Toast.makeText(context, "we are here", Toast.LENGTH_SHORT).show()
-           // navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
-          /* when(it.id) {
-                0 -> navController.navigate(R.id.action_FSituation_to_FSituationAuto1)
-                1 -> navController.navigate(R.id.action_FSituation_to_FSituationAppliances1)
-                2 -> navController.navigate(R.id.action_FSituation_to_FSituationNewBuildings1)
-                3 -> navController.navigate(R.id.action_FSituation_to_FSituationFurniture1)
-                4 -> navController.navigate(R.id.action_FSituation_to_FSituationMedicalServices1)
-                5 -> navController.navigate(R.id.action_FSituation_to_FSituationClothing1)
+            //Toast.makeText(context, "we are here"+ it.nameString, Toast.LENGTH_SHORT).show()
+            initDialog(it.nameString)
+            dialog.show()
+        }
+    }
 
-            }*/
+
+    private fun initDialog(numberCard: String) {
+        try {
+            dialog = Dialog(requireContext())
+            val layoutBinder = AlertDeleteCardBinding.inflate(layoutInflater)
+            dialog.setContentView(layoutBinder.root)
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            layoutBinder.txtOk.setOnClickListener {
+                dialog.dismiss()
+                //выйти из приложения
+                viewModel.deleteCardUser(numberCard)
+                setDataInView()
+            }
+            layoutBinder.txtCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

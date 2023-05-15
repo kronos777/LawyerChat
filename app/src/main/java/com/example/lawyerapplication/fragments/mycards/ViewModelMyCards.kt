@@ -3,11 +3,13 @@ package com.example.lawyerapplication.fragments.mycards
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lawyerapplication.db.data.CardItem
 import com.example.lawyerapplication.db.data.LeadItem
+import com.example.lawyerapplication.db.data.ResponseCard
 import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.utils.UserUtils
 import com.google.firebase.firestore.CollectionReference
@@ -58,6 +60,10 @@ constructor(
         _errorInputCvs.value = false
     }
 
+    private val _shouldCloseScreen = MutableLiveData<Unit>()
+    val shouldCloseScreen: LiveData<Unit>
+        get() = _shouldCloseScreen
+
 
     fun addUserCard(numberCard: String, validity: String, cvs: String): String {
         val fieldsValid = validateInput(numberCard, validity, cvs)
@@ -66,7 +72,7 @@ constructor(
             addCardDbCard(numberCard, validity, cvs)
             return "ok" + uId
         } else {
-            return "hui mulnii" + uId
+            return "error" + uId
         }
     }
 
@@ -135,13 +141,18 @@ constructor(
 */
                 val card = CardItem(numberCard, validity, cvs, leadId)
 
-
+                lastIdCard.document(preference.getUid().toString()).collection("cards").document(card.number)
+                    .set(card, SetOptions.merge())
+                    .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
+                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+                finishWork()
+                /*
                 val db = FirebaseFirestore.getInstance()
                 db.collection("Cards").document(preference.getUid().toString())
                     .set(card, SetOptions.merge())
                     .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
-
+                */
 
             }
             .addOnFailureListener { exception ->
@@ -149,12 +160,76 @@ constructor(
             }
     }
 
+    fun deleteCardUser(numberCard: String) {
+        /*
+        * db.collection("cities").document("DC")
+            .delete()
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+        * */
+        getDocumentRef().document(preference.getUid().toString()).collection("cards").document(numberCard)
+            .delete()
+            .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
+    }
+/*
+    fun getCardUserInfo(): MutableLiveData<ResponseCard> {
+        val mutableLiveData = MutableLiveData<ResponseCard>()
+        //val resultFunction = ArrayList<CardItem>()
+        getDocumentRef().document(preference.getUid().toString()).collection("cards").get()
+            .addOnSuccessListener { result ->
+                val response = ResponseCard()
+                for (item in result){
+                    val id = item.data.get("id").toString()
+                    val cvs = item.data.get("cvs").toString()
+                    val number = item.data.get("number").toString()
+                    val validity = item.data.get("validity").toString()
+                    val card = CardItem(number, validity, cvs, id.toInt())
+                 }
 
 
 
-fun findMax(list: List<Int>): Int? {
-    return list.reduce { a: Int, b: Int -> a.coerceAtLeast(b) }
-}
+            }
+            .addOnFailureListener { exception ->
+                Log.d("TAG", "Error getting documents: ", exception)
+            }
+    }
+*/
+    fun getResponseFromFirestoreUsingLiveData() : MutableLiveData<ResponseCard> {
+        val mutableLiveData = MutableLiveData<ResponseCard>()
+        val resultFunction = ArrayList<CardItem>()
+        getDocumentRef().document(preference.getUid().toString()).collection("cards").get().addOnCompleteListener { task ->
+            val response = ResponseCard()
+            if (task.isSuccessful) {
+                /*val result = task.result
+                result?.let {
+                    response.products = result.documents.mapNotNull { snapShot ->
+                        snapShot.toObject(CardItem::class.java)
+                    }
+                }*/
+                for (item in task.result!!.documents){
+                    val id = item.data!!.get("id").toString()
+                    val cvs = item.data!!.get("cvs").toString()
+                    val number = item.data!!.get("number").toString()
+                    val validity = item.data!!.get("validity").toString()
+                    val card = CardItem(number, validity, cvs, id.toInt())
+                    resultFunction.add(card)
+                }
+                response.products = resultFunction
+            } else {
+                response.exception = task.exception
+            }
+            mutableLiveData.value = response
+        }
+        return mutableLiveData
+    }
 
 
+    fun findMax(list: List<Int>): Int? {
+        return list.reduce { a: Int, b: Int -> a.coerceAtLeast(b) }
+    }
+
+    private fun finishWork() {
+        _shouldCloseScreen.value = Unit
+    }
 }

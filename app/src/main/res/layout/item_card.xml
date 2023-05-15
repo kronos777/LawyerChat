@@ -39,7 +39,7 @@
                 android:id="@+id/banks_notes_h1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="VISA **** 7777"
+                android:text="@{cardItem.nameString}"
                 android:textColor="@color/black"
                 android:fontFamily="@font/roboto"
                 android:lineHeight="16dp"
@@ -67,6 +67,7 @@
                  />
 
             <ImageView
+                android:id="@+id/deleteCard"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"

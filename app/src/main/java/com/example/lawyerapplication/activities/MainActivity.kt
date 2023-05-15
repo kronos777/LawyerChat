@@ -24,6 +24,7 @@ import com.example.lawyerapplication.databinding.ActivityMainBinding
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Group
 import com.example.lawyerapplication.fragments.my_business.BussinesPageViewModel
+import com.example.lawyerapplication.fragments.mycards.FAddCards
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-class MainActivity : ActBase() {
+class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -418,4 +419,9 @@ class MainActivity : ActBase() {
         Timber.v("onResime")
         stopped=false
     }
+
+    override fun onEditingFinished() {
+        supportFragmentManager.popBackStack()
+    }
+
 }

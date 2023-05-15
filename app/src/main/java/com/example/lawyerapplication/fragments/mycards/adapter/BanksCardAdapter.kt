@@ -35,11 +35,15 @@ class BanksCardAdapter: ListAdapter<BanksCardItem, BanksCardViewHolder>(
         val cardItem = getItem(position)
         val binding = viewHolder.binding
 
-        binding.root.setOnClickListener {
+        /*binding.root.setOnClickListener {
+            onPaymentItemClickListener?.invoke(cardItem)
+        }*/
+
+        binding.deleteCard.setOnClickListener {
             onPaymentItemClickListener?.invoke(cardItem)
         }
 
-        Log.d("itemsit", cardItem.nameString)
+       // Log.d("itemsit", cardItem.nameString)
         /*       when (binding) {
             is ItemStudentDisabledBinding -> {
                 binding.studentItem = studentItem
