@@ -96,14 +96,21 @@ class FMyCards : Fragment() {
 
     fun setDataInView() {
         val listArrayCards: ArrayList<BanksCardItem> = ArrayList()
-        viewModel.getResponseFromFirestoreUsingLiveData().observe(context as FragmentActivity, {
+        viewModel.getResponseFromFirestoreUsingLiveData().observe(context as FragmentActivity) {
             val urlImg1 = getURLForResource(R.drawable.img_sber_ex)
-            for (index in it.products!!.indices){
+            for (index in it.products!!.indices) {
                 //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
-                listArrayCards.add(BanksCardItem(it.products!![index].id, it.products!![index].number, it.products!![index].validity, urlImg1.toString()))
+                listArrayCards.add(
+                    BanksCardItem(
+                        it.products!![index].id,
+                        it.products!![index].number,
+                        it.products!![index].validity,
+                        urlImg1.toString()
+                    )
+                )
             }
             banksCardAdapter.submitList(listArrayCards)
-        })
+        }
     }
 
     fun getURLForResource(resourceId: Int): String? {
@@ -139,11 +146,13 @@ class FMyCards : Fragment() {
         try {
             dialog = Dialog(requireContext())
             val layoutBinder = AlertDeleteCardBinding.inflate(layoutInflater)
+
             dialog.setContentView(layoutBinder.root)
             dialog.window?.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
+            layoutBinder.txtSubTitle.text = "Карта ${numberCard} не будет отображаться в списке способов оплаты. Вы сможете в любой момент снова добавить её данные в приложение"
             layoutBinder.txtOk.setOnClickListener {
                 dialog.dismiss()
                 //удалить карту

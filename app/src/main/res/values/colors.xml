@@ -45,7 +45,7 @@
     <color name="colorPrimaryLaweyr2">#E25908</color>
     <color name="card_profile_background">#FCFAFD</color>
     <color name="card_profile_background_bussines_card">#E7E8F1</color>
-    <color name="card_background">#FFFBFE</color>
+    <color name="card_background">#f8f8fc</color>
     <color name="card_profile_required">#2AB31E</color>
     <color name="color_error">#B3261E</color>
 

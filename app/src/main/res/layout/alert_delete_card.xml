@@ -2,7 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="cardItem"
+            type="com.example.lawyerapplication.db.data.BanksCardItem"
+            />
     </data>
 
     <RelativeLayout style="@style/VView"
@@ -12,15 +15,18 @@
             android:id="@+id/txt_title"
             style="@style/TxtSemiSmallStyle"
             android:text="Удалить карту?"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="16dp"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/txt_sub_title"
-            android:layout_below="@id/txt_title"
             style="@style/TxtRgStyle"
-            android:gravity="start"
+            android:layout_below="@id/txt_title"
             android:layout_marginTop="5dp"
-            android:text="Карта не будет отображаться в списке способов оплаты. Вы сможете в любой момент снова добавить её данные в приложение"/>
+            android:gravity="start"
+            android:layout_marginBottom="22dp"
+             />
 
         <TextView
             android:id="@+id/txt_cancel"
@@ -30,25 +36,27 @@
             android:padding="10dp"
             android:layout_marginTop="5dp"
             android:text="@string/txt_cancel"
+            android:textColor="@color/colorPrimary"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
             android:textSize="18sp" />
 
         <TextView
-            android:layout_marginTop="5dp"
             android:id="@+id/txt_ok"
             style="@style/TxtSemiSmallStyle"
-            android:text="@string/txt_ok"
-            android:paddingStart="12dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingEnd="12dp"
             android:layout_below="@id/txt_sub_title"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:textSize="18sp"/>
+            android:paddingStart="12dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorThemeRed"
+            android:text="@string/txt_delete"
+            android:textSize="18sp" />
     </RelativeLayout>
 </layout>

@@ -79,6 +79,9 @@ class UserAccountSettings : Fragment(R.layout.fragment_setting_user_account) {
                 NavOptions.Builder().setPopUpTo(R.id.nav_host_fragment, true).build()
             Navigation.findNavController(activity!!, R.id.nav_host_fragment).navigate(R.id.changeUserPassword, null, navOptions)
         }
+        binding.changeFotoProfile.setOnClickListener {
+            ImageUtils.askPermission(this)
+        }
       /*  binding.imageProfile.setOnClickListener {
              ImageUtils.askPermission(this)
         }

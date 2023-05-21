@@ -42,15 +42,15 @@
     <string name="introductory_text">Судный день</string>
 
     <string name="txt_notifications">Уведомления</string>
-    <string name="txt_not_description">Enable Notification</string>
+    <string name="txt_not_description">Включить уведомление</string>
     <string name="txt_message">Напишите что нибудь...</string>
-    <string name="txt_user_name">User Name</string>
+    <string name="txt_user_name">Имя пользователя</string>
     <string name="txt_u_name">Имя пользователя</string>
-    <string name="txt_add_contacts">Add contacts</string>
-    <string name="txt_add_group_mems">Add Group Members</string>
-    <string name="txt_group_name">Enter group name</string>
-    <string name="txt_add_a_friend">Add a friend</string>
-    <string name="txt_select_a_option">Select a option</string>
+    <string name="txt_add_contacts">Добавить контакты</string>
+    <string name="txt_add_group_mems">Добавить участников группы</string>
+    <string name="txt_group_name">Введите название группы</string>
+    <string name="txt_add_a_friend">Добавить в друзья</string>
+    <string name="txt_select_a_option">Выберите вариант</string>
     <string name="txt_log_out">Выйти</string>
     <string name="txt_save_changes">Сохранить</string>
     <string name="txt_your_status">Статус</string>
@@ -59,20 +59,20 @@
     <string name="txt_alert_msg">Не беспокойтесь, когда вы снова войдете в систему, ваши сообщения будут восстановлены автоматически.</string>
     <string name="txt_cancel">Отмена</string>
     <string name="txt_ok">Ok</string>
-    <string name="txt_take_video">Take Video</string>
+    <string name="txt_take_video">Снять видео</string>
 
     <string name="title_onboarding_1">Начать.</string>
-    <string name="title_onboarding_2">Инструкция на все случаи жизни.</string>
+    <string name="title_onboarding_2">Инструкция на все случаи жизни.</string>
     <string name="title_onboarding_3">Вопросы юристу.</string>
-    <string name="description_onboarding_1">Наше приложение поможет найти решение юридических вопросов любой степени сложности. Вам не нужно тратить время на поход к юристу, все ответы вы найдете в нашем приложени.</string>
+    <string name="description_onboarding_1">Наше приложение поможет найти решение юридических вопросов любой степени сложности. Вам не нужно тратить время на поход к юристу, все ответы вы найдете в нашем приложени.</string>
     <string name="description_onboarding_2">Не знаете, как вернуть некачественный тьовар? Что писать в договоре аренды? Когда подавать декларацию? Выберите подходящую ситуацию, и мы подберем для вас решение!</string>
-    <string name="description_onboarding_3">Если у вас есть вопрос, на который вы не смогли получить ответ в инструкциях, то задайте его нашему юристу напрямую в чате.</string>
+    <string name="description_onboarding_3">Если у вас есть вопрос, на который вы не смогли получить ответ в инструкциях, то задайте его нашему юристу напрямую в чате.</string>
 
     <string name="registration_text">Регистрация</string>
     <string name="registration_user_role">Пользователь</string>
     <string name="registration_email">Email</string>
     <string name="registration_passport_data">Паспортные данные</string>
-    <string name="registration_passport_data_ext">Также прикрепите сканы первого разворота и страницы с регистрацией</string>
+    <string name="registration_passport_data_ext">Также прикрепите сканы первого разворота и страницы с регистрацией</string>
     <string name="registration_diplom_data">Диплом о высшем образовании</string>
     <string name="registration_diplom_data_ext">Также прикрепите сканы дипломов</string>
     <string name="registration_phone">Телефон</string>
@@ -88,7 +88,7 @@
     <string name="registration_enter_account">Войти в аккуаунт</string>
     <string name="registration_terms_of_use">Нажимая кнопку “Зарегистрироваться”, я принимаю условия Пользовательского соглашения и условия Политики конфиденциальности.</string>
     <string name="registration_choose_image">Загрузить аватар.</string>
-    <string name="register_checkbox">Я принимаю условия Пользовательского соглашения и условия Политики конфиденциальности.</string>
+    <string name="register_checkbox">Я принимаю условия Пользовательского соглашения и условия Политики конфиденциальности.</string>
     <string name="change_user_email_h1">Новая электронная почта</string>
     <string name="change_user_email_p1">На этот адрес будет отправлено письмо для подтверждения электронной почты</string>
     <string name="bottom_send">Отправить</string>
@@ -104,24 +104,25 @@
     <string name="txt_auto1_title">ДТП (водитель или страховая компания отказываются возмещать причиненный автомобилю ущерб, вред здоровью, занижают сумму выплаты)</string>
     <string name="txt_auto2_title">Повреждение транспортного средства действиями третьих лиц (не в результате ДТП).</string>
     <string name="txt_auto3_title">Сразу после покупки автомобиля или в процессе эксплуатации выявились недостатки</string>
-    <string name="txt_auto5_title"><![CDATA[Недостаток обнаружен в течение 15 дней со дня передачи автомобиля покупателю]]></string>
-    <string name="txt_auto6_title"><![CDATA[Недостаток обнаружен по истечении 15 дней со дня передачи автомобиля покупателю и недостаток является существенным]]></string>
+    <string name="txt_auto5_title">Недостаток обнаружен в течение 15 дней со дня передачи автомобиля покупателю</string>
+    <string name="txt_auto6_title">Недостаток обнаружен по истечении 15 дней со дня передачи автомобиля покупателю и недостаток является существенным</string>
     <string name="txt_auto7_title">При покупке автомобиля навязали дополнительное оборудование (доп. услуги), страхование жизни и здоровья</string>
-    <string name="txt_auto8_title"><![CDATA[Отказывают в ремонте по гарантии или требуют оплатить стоимость запасных частей или работ либо срок ремонта превышает 45 дней.]]></string>
-    <string name="txt_services_alternative_situation"><![CDATA[Если имеются альтернативные способы разрешения ситуации, которые могут быть наиболее выгодны для вас (сокращение времени, увеличение получаемых денежных сумм), то наши специалисты сообщат вам об этом.]]></string>
-    <string name="txt_situation_rules"><![CDATA[Требования о взыскании морального вреда,\nрасходов на представителя или досудебную\nэкспертизу, штраф в пользу потребителя\nза неудовлетворение его требований\nв добровольном порядке, а также взыскание\nвсех возможных видов неустойки, будут \nзаявлены автоматически исходя\nиз конкретной ситуации и анализа\nпредставленных документов.]]></string>
+    <string name="txt_auto8_title">Отказывают в ремонте по гарантии или требуют оплатить стоимость запасных частей или работ либо срок ремонта превышает 45 дней.</string>
+    <string name="txt_services_alternative_situation">Если имеются альтернативные способы разрешения ситуации, которые могут быть наиболее выгодны для вас (сокращение времени, увеличение получаемых денежных сумм), то наши специалисты сообщат вам об этом.</string>
+    <string name="txt_situation_rules">Требования о взыскании морального вреда,\nрасходов на представителя или досудебную\nэкспертизу, штраф в пользу потребителя\nза неудовлетворение его требований\nв добровольном порядке, а также взыскание\nвсех возможных видов неустойки, будут \nзаявлены автоматически исходя\nиз конкретной ситуации и анализа\nпредставленных документов.</string>
     <string name="go_payment">Перейти к оплате</string>
     <string name="payment">Оплатить</string>
-    <string name="txt_appliances_rules"><![CDATA[Доставка тяжелых предметов (более 5 килограммов) или вещей больших размеров для их замены, возврата или устранения дефектов оплачивается продавцом или производителем. Если данное правило не исполняется, и покупатель сам привозит товар, торговец обязан возместить связанные с этим расходы.]]></string>
-    <string name="txt_furniture1_title"><![CDATA[Купленная мебель (диван, стол, стул и тд) не подошла по форме, габаритам, фасону, расцветке.]]></string>
-    <string name="txt_furniture2_title"><![CDATA[Купленная мебель (диван, стол, стул и тд) не подошла по форме, габаритам, фасону, расцветке.]]></string>
+    <string name="txt_appliances_rules">Доставка тяжелых предметов (более 5 килограммов) или вещей больших размеров для их замены, возврата или устранения дефектов оплачивается продавцом или производителем. Если данное правило не исполняется, и покупатель сам привозит товар, торговец обязан возместить связанные с этим расходы.</string>
+    <string name="txt_furniture1_title">Купленная мебель (диван, стол, стул и тд) не подошла по форме, габаритам, фасону, расцветке.</string>
+    <string name="txt_furniture2_title">Купленная мебель (диван, стол, стул и тд) не подошла по форме, габаритам, фасону, расцветке.</string>
     <string name="txt_clothing1_title">Одежда/обувь не подошла по фасону, цвету или размеру (отказываются принимать товар надлежащего качества)</string>
-    <string name="txt_clothing2_title"><![CDATA[Обнаружены существенные недостатки товара (товар оказался некачественным, имеются порезы, торчат швы и т. д.)]]></string>
-    <string name="txt_clothing3_title"><![CDATA[Недостатки обнаружены по истечении срока возврата товара (в пределах гарантийного срока)]]></string>
+    <string name="txt_clothing2_title">Обнаружены существенные недостатки товара (товар оказался некачественным, имеются порезы, торчат швы и ,т.д.)</string>
+    <string name="txt_clothing3_title">Недостатки обнаружены по истечении срока возврата товара (в пределах гарантийного срока)</string>
     <string name="title_main_screen">Популярные услуги</string>
     <string name="all_services_main_screen">Все</string>
     <string name="txt_forum">Сообщения</string>
     <string name="chat_with_lawyer">Чат с юристом</string>
+    <string name="txt_delete">Удалить</string>
 
 
 </resources>

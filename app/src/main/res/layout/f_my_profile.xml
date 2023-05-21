@@ -27,8 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@color/card_profile_background"
-
+            app:cardBackgroundColor="@color/card_background"
             app:strokeWidth="1dp"
             app:cardCornerRadius="4dp"
             >
@@ -109,7 +108,7 @@
             android:id="@+id/card_banks_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_profile_data"

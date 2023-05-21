@@ -30,21 +30,16 @@
         android:src="@drawable/ic_other_user"
         android:layout_marginTop="20dp"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/change_foto_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="12sp"
-        android:fontFamily="@font/roboto"
-        android:layout_marginTop="20dp"
-        android:textFontWeight="600"
-        android:textColor="@color/colorPrimaryLaweyr2"
-        android:textAlignment="center"
+        android:src="@drawable/edit_profile_pic"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="65dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        android:text="Изменить фото" />
+        app:layout_constraintTop_toTopOf="@id/imageView" />
     <TextView
         android:id="@+id/about_application_h1"
         android:layout_width="match_parent"
@@ -58,7 +53,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/change_foto_profile"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         android:text="@{viewModel.userName +' '+ viewModel.userSerName +' '+ viewModel.userLastName}" />
 
     <com.google.android.material.card.MaterialCardView
@@ -116,12 +111,11 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="16dp"
-                android:drawableStart="@drawable/ic_baseline_check_circle_outline_24"
                 android:gravity="center"
                 android:lineHeight="16dp"
                 android:text="@{viewModel.email}"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/color_gray"
+                android:textColor="@color/colorPrimary"
                 android:textFontWeight="400"
                 android:textSize="12sp" />
 
@@ -184,12 +178,11 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="16dp"
-                android:drawableStart="@drawable/ic_baseline_check_circle_outline_24"
                 android:gravity="center"
                 android:lineHeight="16dp"
                 android:text="@{viewModel.mobile}"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="@color/color_gray"
+                android:textColor="@color/colorPrimary"
                 android:textFontWeight="400"
                 android:textSize="12sp" />
 

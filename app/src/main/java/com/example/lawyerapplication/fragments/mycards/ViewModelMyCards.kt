@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -76,23 +77,40 @@ constructor(
         }
     }
 
-    fun validateInput(numberCard: String, validity: String, cvs: String): Boolean {
+    private fun validateInput(numberCard: String, validity: String, cvs: String): Boolean {
         var result = true
-        if (numberCard.isBlank()) {
+
+
+        if (!cvs.isDigitsOnly()) {
+            Log.d("numberCard", numberCard)
+            Log.d("numberCard", numberCard.length.toString())
+            Log.d("validity", validity)
+            Log.d("validity", validity.length.toString())
+            Log.d("cvs", cvs)
+            Log.d("cvs", cvs.length.toString())
+        }
+
+
+        if (numberCard.isBlank() || !numberCard.isDigitsOnly()) {
             _errorInputCardNumber.value = true
             result = false
+        } else {
+            _errorInputCardNumber.value = false
         }
 
-        if (validity.isBlank()) {
+        if (validity.isBlank() || validity.length < 4 || !validity.isDigitsOnly()) {
               _errorInputValidity.value = true
               result = false
+         } else {
+            _errorInputValidity.value = false
          }
 
-        if (cvs.isBlank()) {
+        if (cvs.isBlank() || cvs.length < 3 || !cvs.isDigitsOnly()) {
             _errorInputCvs.value = true
             result = false
+        } else {
+            _errorInputCvs.value = false
         }
-
 
         return result
     }

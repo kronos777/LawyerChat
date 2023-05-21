@@ -58,8 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Срок действия"
-                android:inputType="text"
                 android:maxLength="5"
+                android:inputType="number"
                 android:text=""
                 />
         </com.google.android.material.textfield.TextInputLayout>
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="CVS"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:maxLength="3"
                 android:text=""
                 />
