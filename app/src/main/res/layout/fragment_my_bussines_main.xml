@@ -7,6 +7,37 @@
         android:id="@+id/group_list_recycler_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/sorting_data_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/rv_situation_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            >
+            <TextView
+                android:id="@+id/title_sorting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="@font/roboto"
+                android:lineHeight="28dp"
+                android:text="Сортировка: По дате"
+                android:textColor="@color/black"
+                android:textFontWeight="400"
+                android:textSize="22sp" />
+            <ImageView
+                android:id="@+id/image_sorting"
+                android:layout_width="24dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="11dp"
+                android:layout_height="24dp"
+                android:layout_toRightOf="@+id/title_sorting"
+                android:src="@drawable/sorting_swap_vert_24" />
+        </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_situation_list"
             android:layout_width="0dp"
@@ -14,7 +45,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sorting_data_main"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_my_business"/>
         <RelativeLayout

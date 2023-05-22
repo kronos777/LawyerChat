@@ -328,7 +328,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/C:/AndroidSdk/icons/material/materialicons/assignment/baseline_assignment_24.xml" />
+                                      <entry key="url" value="jar:file:/D:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/swap_vert/baseline_swap_vert_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -338,9 +338,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="e25908" />
-                            <entry key="opacityPercent" value="65" />
-                            <entry key="outputName" value="ic_baseline_assignment_lead_24" />
+                            <entry key="color" value="1a1c19" />
+                            <entry key="outputName" value="sorting_swap_vert_24" />
                             <entry key="sourceFile" value="E:\portfolioAndroidProjects\laywerApplication\cleanChatsApp\cleanChatsApp" />
                           </map>
                         </option>

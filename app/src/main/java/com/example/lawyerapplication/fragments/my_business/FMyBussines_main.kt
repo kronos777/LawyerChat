@@ -4,28 +4,24 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.FragmentMyBussinesMainBinding
-import com.example.lawyerapplication.db.ChatUserDatabase
 import com.example.lawyerapplication.db.data.BusinessItem
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.MyBusinessAdapterHorizontal
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
-import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices3
 import com.example.lawyerapplication.utils.*
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -45,7 +41,8 @@ class FMyBussines_main : Fragment() {
 
     private lateinit var myBusinessListAdapter: MyBusinessAdapterHorizontal
     private lateinit var navController: NavController
-    private val viewModelProfile: BussinesPageViewModel by viewModels()
+    private val viewModelProfile: BussinesViewModel by viewModels()
+    private var sortingData: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,45 +58,22 @@ class FMyBussines_main : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
-        val listArraySituation: ArrayList<BusinessItem> = ArrayList()
+
         setupRecyclerView()
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 
-        val uid = preference.getUid()
-        val role = viewModelProfile.isLawyer()
+        setDataInView(sortingData)
 
-
-        val docRef = getDocumentRef(context)
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.d("TAG", "Listen failed.", e)
-                return@addSnapshotListener
-            }
-            if (snapshot != null && !snapshot.isEmpty) {
-
-                for (itemLead in snapshot) {
-                    if(uid == itemLead.data.get("idClient") as String && role == false) {
-                        Log.d("CURRENTDATA", "Current uid: ${uid}")
-                        val id = itemLead.data.get("id")
-                        val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, getCategory(itemLead.data.get("category") as String), itemLead.data.get("dateTime") as String)
-                        listArraySituation.add(lead)
-                    } else if(role == true && (uid == itemLead.data.get("idLawyer") || itemLead.data.get("idLawyer") == "")) {
-                        val id = itemLead.data.get("id")
-                        val lead = BusinessItem(id, "Дело номер $id", itemLead.data.get("status") as String, getCategory(itemLead.data.get("category") as String), itemLead.data.get("dateTime") as String)
-                        listArraySituation.add(lead)
-                    }
-
-                }
-                myBusinessListAdapter.submitList(listArraySituation)
-                if(listArraySituation.size == 0) {
-                    binding.noLeadText.visibility = View.VISIBLE
-                }
+        binding.imageSorting.setOnClickListener {
+            if(sortingData) {
+                //Toast.makeText(context, "Click sorting "+sortingData.toString(), Toast.LENGTH_SHORT).show()
+                sortingData = false
+                setDataInView(sortingData)
             } else {
-                Log.d("TAG", "Current data: null")
+                sortingData = true
+                setDataInView(sortingData)
             }
         }
-
-
 
     }
 
@@ -155,6 +129,28 @@ class FMyBussines_main : Fragment() {
                  4 -> launchFragment(CreateSituationMedicalServicesOneFragment())
                  5 -> launchFragment(CreateSituationClothingOneFragment())
             }*/
+        }
+    }
+
+    private fun setDataInView(sort: Boolean) {
+        val uid = preference.getUid()
+        val role = viewModelProfile.isLawyer()
+        val listArrayBusiness: ArrayList<BusinessItem> = ArrayList()
+        viewModelProfile.getBussinesLiveData(uid!!, role, sort).observe(context as FragmentActivity) {
+
+            for (index in it.products!!.indices) {
+                //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
+                listArrayBusiness.add(
+                    BusinessItem(
+                        it.products!![index].id,
+                        it.products!![index].title,
+                        it.products!![index].typeLead,
+                        it.products!![index].categoryLead,
+                        it.products!![index].dateTimeLead
+                    )
+                )
+            }
+            myBusinessListAdapter.submitList(listArrayBusiness)
         }
     }
 

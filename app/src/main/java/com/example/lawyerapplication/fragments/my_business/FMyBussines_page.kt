@@ -59,7 +59,7 @@ class FMyBussines_page : Fragment() {
     private var category: String = String()
     private var originFieldCategory: String = String()
     private var accompanyingText: String = String()
-    private val viewModelProfile: BussinesPageViewModel by viewModels()
+    private val viewModelProfile: BussinesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

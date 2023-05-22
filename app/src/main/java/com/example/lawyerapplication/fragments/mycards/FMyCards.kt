@@ -70,7 +70,7 @@ class FMyCards : Fragment() {
         context = requireActivity()
 
         setupRecyclerView()
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         setDataInView()
 
 

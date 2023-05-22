@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.lawyerapplication.fragments.my_business.BussinesPageViewModel" />
+            type="com.example.lawyerapplication.fragments.my_business.BussinesViewModel" />
     </data>
     <ScrollView
         android:layout_width="match_parent"

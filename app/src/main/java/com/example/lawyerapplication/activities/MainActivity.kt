@@ -2,8 +2,6 @@ package com.example.lawyerapplication.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -23,7 +20,7 @@ import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.ActivityMainBinding
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Group
-import com.example.lawyerapplication.fragments.my_business.BussinesPageViewModel
+import com.example.lawyerapplication.fragments.my_business.BussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.FAddCards
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.utils.*
@@ -45,7 +42,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     private lateinit var searchView: SearchView
 
     private lateinit var searchItem: MenuItem
-    private val viewModelProfile: BussinesPageViewModel by viewModels()
+    private val viewModelProfile: BussinesViewModel by viewModels()
     private var stopped=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,6 +135,8 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                 // Find the menu item and then disable it
                // navView.menu.findItem(R.id.nav_services).isEnabled = false
                 navView.menu.findItem(R.id.nav_services).isVisible = false
+                navView.menu.findItem(R.id.nav_home).isVisible = false
+                navController.navigate(R.id.FMyBussines_page)
             }
             //if lawyer hide item menu
 
