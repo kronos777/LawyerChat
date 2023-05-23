@@ -77,18 +77,6 @@ class FMyBussines_main : Fragment() {
 
     }
 
-    private fun getCategory(str: Any): String {
-        return when(str) {
-            "medical" -> "Медицинские услуги"
-            "auto" -> "Авто"
-            "appliances" -> "Бытовая техника"
-            "newBuildings" -> "Новостройки"
-            "furniture" -> "Мебель"
-            "clothing" -> "Одежда"
-            else -> "услуга не определена"
-        }
-    }
-
 
     fun getDocumentRef(context: Context): CollectionReference {
         val preference = MPreference(context)
@@ -151,6 +139,11 @@ class FMyBussines_main : Fragment() {
                 )
             }
             myBusinessListAdapter.submitList(listArrayBusiness)
+
+            if (listArrayBusiness.isNotEmpty()) {
+                //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
+                binding.rvSituationList.smoothScrollToPosition(0)
+            }
         }
     }
 

@@ -173,7 +173,12 @@ class FVerify : Fragment() {
 
             viewModel.userProfileGot.observe(viewLifecycleOwner, { success ->
                 if (success && findNavController().isValidDestination(R.id.FVerify)) {
-                    findNavController().navigate(R.id.action_FVerify_to_FProfile)
+                    val user = preferences.getUserProfile()
+                    if (user!!.userName != "" && user!!.role != "") {
+                        findNavController().navigate(R.id.FMainScreen)
+                    } else {
+                        findNavController().navigate(R.id.action_FVerify_to_FProfile)
+                    }
                     //findNavController().navigate(R.id.FMainScreen)
                 }/* else if(!success) {
                     findNavController().navigate(R.id.action_FVerify_to_FProfile)

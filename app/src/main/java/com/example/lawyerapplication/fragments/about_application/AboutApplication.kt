@@ -14,6 +14,8 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImage
 import com.google.firebase.firestore.CollectionReference
@@ -40,7 +42,7 @@ class AboutApplication : Fragment() {
     @Inject
     lateinit var userCollection: CollectionReference
 
-
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,15 @@ class AboutApplication : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+
+        binding.aboutApplicationHref1.setOnClickListener {
+            navController.navigate(R.id.action_aboutApplication_to_privacyPolicy)
+        }
+
+        binding.aboutApplicationHref2.setOnClickListener {
+            navController.navigate(R.id.action_aboutApplication_to_licenseAgreement)
+        }
 
     }
 

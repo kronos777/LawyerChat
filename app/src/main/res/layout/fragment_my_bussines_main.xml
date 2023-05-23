@@ -37,6 +37,7 @@
                 android:layout_height="24dp"
                 android:layout_toRightOf="@+id/title_sorting"
                 android:src="@drawable/sorting_swap_vert_24" />
+
         </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_situation_list"

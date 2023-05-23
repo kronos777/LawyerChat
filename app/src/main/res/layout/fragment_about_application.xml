@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@id/about_application_p1"
         android:text="Политика конфиденциальности" />
     <TextView
-        android:id="@+id/about_application_href2_delete"
+        android:id="@+id/about_application_href2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

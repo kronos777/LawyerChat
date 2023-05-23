@@ -179,7 +179,14 @@
     <fragment
         android:id="@+id/aboutApplication"
         android:name="com.example.lawyerapplication.fragments.about_application.AboutApplication"
-        android:label="О приложении" />
+        android:label="О приложении" >
+        <action
+            android:id="@+id/action_aboutApplication_to_licenseAgreement"
+            app:destination="@id/licenseAgreement" />
+        <action
+            android:id="@+id/action_aboutApplication_to_privacyPolicy"
+            app:destination="@id/privacyPolicy" />
+    </fragment>
     <fragment
         android:id="@+id/userAccountSettings"
         android:name="com.example.lawyerapplication.fragments.myprofile.user_account_settings.UserAccountSettings"
@@ -502,4 +509,12 @@
         android:id="@+id/FAddCards"
         android:name="com.example.lawyerapplication.fragments.mycards.FAddCards"
         android:label="FAddCards" />
+    <fragment
+        android:id="@+id/privacyPolicy"
+        android:name="com.example.lawyerapplication.fragments.about_application.PrivacyPolicy"
+        android:label="PrivacyPolicy" />
+    <fragment
+        android:id="@+id/licenseAgreement"
+        android:name="com.example.lawyerapplication.fragments.about_application.LicenseAgreement"
+        android:label="LicenseAgreement" />
 </navigation>
