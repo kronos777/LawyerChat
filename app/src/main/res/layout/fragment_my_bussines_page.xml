@@ -110,13 +110,88 @@
             android:layout_marginTop="16dp"
             />
         <LinearLayout
+            android:id="@+id/stage_bussines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_hr_situation_s1"
+            >
+            <TextView
+                android:id="@+id/stage_title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textFontWeight="500"
+                android:fontFamily="@font/roboto"
+                android:textSize="16dp"
+                android:lineHeight="24dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="14dp"
+                android:text="Текущий статус"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_add_stage"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp">
+
+                    <ImageView
+                        android:id="@+id/imageViewAddStage"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/add_stage_img" />
+
+                    <TextView
+                        android:id="@+id/banks_card_h1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="left"
+                        android:layout_toRightOf="@id/imageViewAddStage"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:lineHeight="16dp"
+                        android:text="Добавить этап"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="11sp" />
+
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_stage_list"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_stage"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
             android:id="@+id/accordion_first_linear"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="14dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_hr_situation_s1"
+            app:layout_constraintTop_toBottomOf="@+id/stage_bussines"
             >
 
             <com.github.florent37.expansionpanel.ExpansionHeader

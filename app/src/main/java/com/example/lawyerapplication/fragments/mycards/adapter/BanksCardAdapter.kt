@@ -1,16 +1,12 @@
 package com.example.lawyerapplication.fragments.mycards.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.ItemCardBinding
-import com.example.lawyerapplication.databinding.ItemSituationBinding
 import com.example.lawyerapplication.db.data.BanksCardItem
-
-import com.example.lawyerapplication.db.data.SituationItem
 
 class BanksCardAdapter: ListAdapter<BanksCardItem, BanksCardViewHolder>(
     BanksCardDiffCallback()

@@ -1,9 +1,11 @@
 package com.example.lawyerapplication.fragments.my_business
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +15,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+import com.example.lawyerapplication.databinding.AlertAddStageBinding
 import com.example.lawyerapplication.databinding.FragmentMyBussinesPageBinding
+import com.example.lawyerapplication.db.data.StageBussines
+import com.example.lawyerapplication.fragments.my_business.stage_bussines.StageBussinesViewModel
+import com.example.lawyerapplication.fragments.mycards.adapter.StageItemAdapter
 import com.example.lawyerapplication.models.MyImage
 import com.example.lawyerapplication.utils.ImageUtils
 import com.example.lawyerapplication.utils.MPreference
@@ -33,7 +40,9 @@ import com.google.firebase.storage.ktx.component2
 import com.google.firebase.storage.ktx.storage
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -54,12 +63,17 @@ class FMyBussines_page : Fragment() {
 
     private var item: String = String()
 
-    private var arrayListImgeData = mutableMapOf<Int, Uri?>()
+    private var arrayListImgData = mutableMapOf<Int, Uri?>()
 
     private var category: String = String()
     private var originFieldCategory: String = String()
     private var accompanyingText: String = String()
     private val viewModelProfile: BussinesViewModel by viewModels()
+    private val viewModelStage: StageBussinesViewModel by viewModels()
+    private lateinit var dialog: Dialog
+    private lateinit var stageItemAdapter: StageItemAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,11 +92,13 @@ class FMyBussines_page : Fragment() {
         context = requireActivity()
         binding.viewModel = viewModelProfile
 
+        setupRecyclerView()
         val role = viewModelProfile.isLawyer()
-        Log.d("CurrentRole", "Current role user: ${role}")
+
+       // Log.d("lastIdStageBussines", "lastIdStageBussines value: ${viewModelStage.getLastIdStageBussines(item).value!!.lastId}")
 
 
-        navController = Navigation.findNavController(activity!!, com.example.lawyerapplication.R.id.nav_host_fragment)
+        navController = Navigation.findNavController(requireActivity(), com.example.lawyerapplication.R.id.nav_host_fragment)
 
         //Log.d("TAG", "Current data id: ${item}")
         (activity as AppCompatActivity).findViewById<Toolbar>(com.example.lawyerapplication.R.id.toolbar).title = "Дело № ${item}"
@@ -90,7 +106,7 @@ class FMyBussines_page : Fragment() {
                 docRef.get()
                     .addOnSuccessListener { document ->
                         if (document != null) {
-                            Log.d("Snapshotdata", "DocumentSnapshot data: ${document.data}")
+                         //   Log.d("Snapshotdata", "DocumentSnapshot data: ${document.data}")
                             originFieldCategory = document.data!!.get("category") as String
                             accompanyingText = document.data!!.get("messageLead") as String
 
@@ -148,6 +164,7 @@ class FMyBussines_page : Fragment() {
 
                                 if(lawyer == "") {
                                     binding.buttonForLawyer4.visibility = View.GONE
+
                                     binding.buttonForLawyer2.setOnClickListener {
                                         takeBusiness(item)
                                         showButtonLawyer()
@@ -155,7 +172,10 @@ class FMyBussines_page : Fragment() {
 
                                 } else {
                                     binding.buttonForLawyer2.visibility = View.GONE
-                                    binding.buttonForLawyer4.visibility = View.GONE
+                                    binding.buttonForLawyer4.visibility = View.VISIBLE
+                                    binding.buttonForLawyer4.setOnClickListener {
+                                        refuseBusiness(item)
+                                    }
                                 }
 
                             }
@@ -216,35 +236,35 @@ class FMyBussines_page : Fragment() {
 
                             if(url!!.contains("firstGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear1
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("twoGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear2
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("freeGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear3
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("fourGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear4
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("fiveGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear5
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             } else if(url!!.contains("sixGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear6
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             }  else if(url!!.contains("sevenGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear7
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             }  else if(url!!.contains("eightGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear8
-                                arrayListImgeData[index] = urlTask
+                                arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
                             }
 
@@ -280,8 +300,35 @@ class FMyBussines_page : Fragment() {
         expansionLayoutCollection.add(expansionLayout3)
 
    //     expansionLayoutCollection.openOnlyOne(true)
+        binding.cardAddStage.setOnClickListener {
+            initDialog()
+            dialog.show()
+        }
+
+        setDataInView()
 
 
+    }
+
+
+    fun setDataInView() {
+        val listArrayStages: ArrayList<StageBussines> = ArrayList()
+        viewModelStage.getStageBussinesLiveData(item).observe(context as FragmentActivity) {
+            //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+            for (index in it.products!!.indices) {
+
+                listArrayStages.add(
+                    StageBussines(
+                        it.products!![index].id,
+                        item.toInt(),
+                        it.products!![index].title,
+                        it.products!![index].description,
+                        it.products!![index].dateTime
+                    )
+                )
+            }
+            stageItemAdapter.submitList(listArrayStages)
+        }
     }
 
     private fun showButtonLawyer() {
@@ -290,10 +337,34 @@ class FMyBussines_page : Fragment() {
         binding.buttonForLawyer4.visibility = View.VISIBLE
     }
 
+    private fun refuseBusiness(item: String) {
+        val data = hashMapOf("idLawyer" to "")
+        val docRef = getDocumentRef(context).document(item)
+        docRef.set(data, SetOptions.merge())
+        viewModelStage.deleteAllStage(item)
+    }
+
+
     private fun takeBusiness(item: String) {
         val data = hashMapOf("idLawyer" to preference.getUid())
         val docRef = getDocumentRef(context).document(item)
         docRef.set(data, SetOptions.merge())
+        //добавляем первый этап в стадии
+        addFirstStage()
+    }
+
+    private fun addFirstStage() {
+        val nameLawyer = firstUpperCase(viewModelProfile.name.value.toString()) + " " + firstUpperCase(viewModelProfile.serName.value.toString())
+        val title = "Дело принято"
+        val description  = "Юрист " + nameLawyer + " взял дело в работу."
+        viewModelStage.addStageBussines(item.toInt(), title, description)
+
+    }
+
+
+    fun firstUpperCase(word: String?): String? {
+        return if (word == null || word.isEmpty()) "" else word.substring(0, 1)
+            .uppercase(Locale.getDefault()) + word.substring(1) //или return word;
     }
 
     private fun setFieldTitleCategory(categoryOrigin: Any?) {
@@ -375,7 +446,7 @@ class FMyBussines_page : Fragment() {
             binding.fullSizeImageView.show()
             StfalconImageViewer.Builder(
                 context,
-                listOf(MyImage(arrayListImgeData[id].toString()))
+                listOf(MyImage(arrayListImgData[id].toString()))
             ) { imageView, myImage ->
                 ImageUtils.loadGalleryImage(myImage.url, imageView)
             }
@@ -404,17 +475,17 @@ class FMyBussines_page : Fragment() {
 }
 
 
-private fun getCategory(str: Any): String {
-return when(str) {
-    "medical" -> "Медицинские услуги"
-    "auto" -> "Медицинские услуги"
-    "appliances" -> "Бытовая техника"
-    "newBuildings" -> "Новостройки"
-    "furniture" -> "Мебель"
-    "clothing" -> "Одежда"
-    else -> "услуга не определена"
-}
-}
+    private fun getCategory(str: Any): String {
+        return when(str) {
+            "medical" -> "Медицинские услуги"
+            "auto" -> "Медицинские услуги"
+            "appliances" -> "Бытовая техника"
+            "newBuildings" -> "Новостройки"
+            "furniture" -> "Мебель"
+            "clothing" -> "Одежда"
+            else -> "услуга не определена"
+        }
+    }
 
 
     fun getDocumentRef(context: Context): CollectionReference {
@@ -435,6 +506,59 @@ return when(str) {
         val args = requireArguments()
         item = args.getString(BUSINESS_ITEM_ID).toString()
          //Toast.makeText(getActivity(),"item" + item, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun initDialog() {
+        //Toast.makeText(context, "init dialog", Toast.LENGTH_SHORT).show()
+        try {
+            dialog = Dialog(requireContext())
+            val layoutBinder = AlertAddStageBinding.inflate(layoutInflater)
+
+            dialog.setContentView(layoutBinder.root)
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            //layoutBinder.txtSubTitle.text = "Карта ${numberCard} не будет отображаться в списке способов оплаты. Вы сможете в любой момент снова добавить её данные в приложение"
+            layoutBinder.enterButton.setOnClickListener {
+                //Log.d("logDialog", )
+                //Log.d("logDialog", layoutBinder.etDescription.text.toString())
+                val title = layoutBinder.etTitle.text.toString()
+                val description  = layoutBinder.etDescription.text.toString()
+                viewModelStage.addStageBussines(item.toInt(), title, description)
+
+                Handler().postDelayed({
+                    dialog.dismiss()
+                    setDataInView()
+                }, 1500)
+
+                //addStageBussines
+
+
+            }
+            layoutBinder.imageClose.setOnClickListener {
+                dialog.dismiss()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun setupRecyclerView() {
+        with(binding.rvStageList) {
+            stageItemAdapter = StageItemAdapter()
+            adapter = stageItemAdapter
+            recycledViewPool.setMaxRecycledViews(
+                com.example.lawyerapplication.fragments.mycards.adapter.StageItemAdapter.VIEW_TYPE_ENABLED,
+                com.example.lawyerapplication.fragments.mycards.adapter.StageItemAdapter.MAX_POOL_SIZE
+            )
+
+        }
+//        setupClickListener()
+    }
+
+    private fun setupClickListener() {
+        TODO("Not yet implemented")
     }
 
     companion object {
