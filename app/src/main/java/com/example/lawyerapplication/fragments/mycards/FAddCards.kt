@@ -2,38 +2,19 @@ package com.example.lawyerapplication.fragments.mycards
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import com.canhub.cropper.CropImage
 import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
-import com.example.lawyerapplication.databinding.FProfileBinding
 import com.example.lawyerapplication.databinding.FragmentAddBanksCardBinding
-import com.example.lawyerapplication.databinding.FragmentChoiceBySituationBinding
-import com.example.lawyerapplication.databinding.FragmentMyCardsBinding
-import com.example.lawyerapplication.db.data.BanksCardItem
-import com.example.lawyerapplication.db.data.SituationItem
-import com.example.lawyerapplication.fragments.mycards.adapter.BanksCardAdapter
-import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
-import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
-import com.example.lawyerapplication.views.CustomProgressView
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 @AndroidEntryPoint
