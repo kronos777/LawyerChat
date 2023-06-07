@@ -71,9 +71,9 @@
     <string name="registration_text">Регистрация</string>
     <string name="registration_user_role">Пользователь</string>
     <string name="registration_email">Email</string>
-    <string name="registration_passport_data">Паспортные данные</string>
+    <string name="registration_passport_data">Паспортные данные*</string>
     <string name="registration_passport_data_ext">Также прикрепите сканы первого разворота и страницы с регистрацией</string>
-    <string name="registration_diplom_data">Диплом о высшем образовании</string>
+    <string name="registration_diplom_data">Диплом о высшем образовании*</string>
     <string name="registration_diplom_data_ext">Также прикрепите сканы дипломов</string>
     <string name="registration_phone">Телефон</string>
     <string name="registration_phone_code">Код</string>

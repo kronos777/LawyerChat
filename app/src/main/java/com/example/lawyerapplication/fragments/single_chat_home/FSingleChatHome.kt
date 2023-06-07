@@ -1,14 +1,18 @@
 package com.example.lawyerapplication.fragments.single_chat_home
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.core.ChatHandler
@@ -67,10 +71,23 @@ class FSingleChatHome : Fragment(), ItemClickListener {
     @Inject
     lateinit var chatUsersListener: ChatUserProfileListener
 
+    private lateinit var navController: NavController
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
+
         binding = FSingleChatHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -86,6 +103,17 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         profile = preference.getUserProfile()!!
         setDataInView()
         subScribeObservers()
+
+
+        //current destination
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            Toast.makeText(context, "destination id "+ destination.navigatorName.toString(), Toast.LENGTH_SHORT).show()
+            //onDestinationChanged(destination.id)
+        }
+        //current destination
+
+
     }
 
     private fun subScribeObservers() {

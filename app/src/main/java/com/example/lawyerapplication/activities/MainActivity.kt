@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +26,7 @@ import com.example.lawyerapplication.fragments.my_business.BussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.FAddCards
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.utils.*
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
@@ -53,7 +56,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-       /* binding.fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             if (searchItem.isActionViewExpanded)
                searchItem.collapseActionView()
             if (Utils.askContactPermission(returnFragment()!!)) {
@@ -63,13 +66,26 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                     navController.navigate(R.id.action_FGroupChatHome_to_FAddGroupMembers)
             }
 
-        }*/
+        }
         setDataInView()
         subscribeObservers()
-
+        /*message alert*/
+        val materialToolbar: Toolbar = binding.toolbar
+        materialToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_forum -> {
+                    navController.navigate(R.id.FSingleChatHome)
+                    true
+                }
+                else -> false
+            }
+        }
+        /*message alert*/
     }
 
     private fun subscribeObservers() {
+
+
         val badge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_chat
         badge.isVisible = false
         val groupChatBadge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_group
@@ -112,8 +128,9 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                 if (preference.getUserProfile() == null)
                     navController.navigate(R.id.action_FLogIn_to_FProfile)
                 else
-                    //navController.navigate(R.id.action_FLogIn_to_FSingleChatHome)
-                    navController.navigate(R.id.FMainScreen)
+                //navController.navigate(R.id.action_FLogIn_to_FSingleChatHome)
+                navController.navigate(R.id.FMainScreen)
+                //navController.navigate(R.id.FProfile)
             }
 
             //single chat message notification clicked
@@ -136,7 +153,8 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                // navView.menu.findItem(R.id.nav_services).isEnabled = false
                 navView.menu.findItem(R.id.nav_services).isVisible = false
                 navView.menu.findItem(R.id.nav_home).isVisible = false
-                navController.navigate(R.id.FMyBussines_page)
+                navController.navigate(R.id.fmyBussines_main)
+
             }
             //if lawyer hide item menu
 
@@ -153,9 +171,12 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
         try {
             when(currentDestination) {
                 R.id.FSingleChatHome -> {
-                    binding.bottomNav.selectedItemId = R.id.nav_home
+                   // binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
-                    binding.fab.hide()
+                    binding.fab.show()
+
+                // navController.navigate(R.id.FSingleChatHome)
+                   // Toast.makeText(this, "single cht home", Toast.LENGTH_SHORT).show()
                 }
                 R.id.FMainScreen -> {
                     binding.bottomNav.selectedItemId = R.id.nav_home
@@ -238,7 +259,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     }
 
     private fun initToolbarItem() {
-        /*  searchItem = binding.toolbar.menu.findItem(R.id.action_search)
+         searchItem = binding.toolbar.menu.findItem(R.id.action_search)
 
           searchView = searchItem.actionView as SearchView
           searchView.apply {
@@ -276,7 +297,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                   return true
               }
           })
-  */
+
     }
 
     private fun showView() {

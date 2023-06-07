@@ -9,7 +9,9 @@
             name="viewmodel"
             type="com.example.lawyerapplication.fragments.profile.ProfileViewModel" />
     </data>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -160,22 +162,8 @@
                     android:text="@={viewmodel.email}"
                     />
             </com.google.android.material.textfield.TextInputLayout>
-            <CheckBox
-                android:id="@+id/checkbox_remember_me"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:gravity="start"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_email"
-                android:text="@string/register_checkbox"
-                android:lineHeight="12dp"
-                android:textFontWeight="400"
-                android:textSize="10sp"
-                />
-            <!--com.google.android.material.textfield.TextInputLayout
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="16dp"
                 android:id="@+id/til_passport_data"
                 android:layout_width="0dp"
@@ -191,17 +179,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/registration_passport_data"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
                     />
             </com.google.android.material.textfield.TextInputLayout>
-
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/image_d1_attachment_ready"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/til_passport_data"
+                android:src="@drawable/foto_add"
+                android:layout_marginTop="12dp"
+                />
             <ImageView
                 android:id="@+id/imageViewPassport"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_d1_attachment_ready"
                 app:layout_constraintTop_toBottomOf="@+id/til_passport_data"
                 android:src="@drawable/ic_baseline_attachment_24"
                 android:layout_marginTop="6dp"
@@ -240,17 +235,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/registration_diplom_data"
-                    android:clickable="true"
-                    android:focusable="false"
                     android:inputType="text"
                     />
             </com.google.android.material.textfield.TextInputLayout>
-
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/image_d2_attachment_ready"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/til_diplom_data"
+                android:src="@drawable/foto_add"
+                android:layout_marginTop="12dp"
+                />
             <ImageView
                 android:id="@+id/imageViewDiplom"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_d2_attachment_ready"
                 app:layout_constraintTop_toBottomOf="@+id/til_diplom_data"
                 android:src="@drawable/ic_baseline_attachment_24"
                 android:layout_marginTop="6dp"
@@ -269,9 +271,26 @@
                 android:textAlignment="viewStart"
                 app:layout_constraintStart_toEndOf="@id/imageViewDiplom"
                 app:layout_constraintTop_toBottomOf="@+id/til_diplom_data"
-                app:layout_constraintBottom_toTopOf="@id/til_password"
+                app:layout_constraintBottom_toTopOf="@id/checkbox_remember_me"
                 android:text="@string/registration_diplom_data_ext" />
-
+            <CheckBox
+                android:id="@+id/checkbox_remember_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:gravity="start"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="49dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_diplom_data"
+                app:layout_constraintBottom_toTopOf="@id/save_button"
+                android:text="@string/register_checkbox"
+                android:lineHeight="12dp"
+                android:textFontWeight="400"
+                android:textSize="10sp"
+                />
+<!--
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_password"
                 android:layout_width="0dp"
@@ -325,7 +344,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/save_button"
-                android:layout_marginTop="40dp"
                 android:layout_marginBottom="50dp"
                 android:layout_width="0dp"
                 style="@style/BtnStyle"
@@ -340,4 +358,5 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

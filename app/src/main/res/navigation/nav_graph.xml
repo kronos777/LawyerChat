@@ -206,6 +206,7 @@
     <fragment
         android:id="@+id/FMainScreen"
         android:name="com.example.lawyerapplication.fragments.main_screen.FMainScreen"
+        tools:layout="@layout/f_main_screen"
         android:label="Судный день" >
         <argument
             android:defaultValue="@null"
@@ -217,6 +218,12 @@
         <action
             android:id="@+id/action_FMainScreen_to_fmyBussines_main"
             app:destination="@id/fmyBussines_main" />
+        <action
+            android:id="@+id/action_FMainScreen_to_FSingleChatHome"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            app:destination="@id/FSingleChatHome" />
     </fragment>
     <fragment
         android:id="@+id/FSituation"
@@ -352,7 +359,7 @@
     <fragment
         android:id="@+id/fmyBussines_main"
         android:name="com.example.lawyerapplication.fragments.my_business.FMyBussines_main"
-        android:label="Мои дела" >
+        android:label="FMyBussines_main" >
         <action
             android:id="@+id/action_fmyBussines_main_to_FMyBussines_page"
             app:destination="@id/FMyBussines_page" />

@@ -156,7 +156,7 @@
 
 
                 <TextView
-                    android:id="@+id/banks_settings_h1"
+                    android:id="@+id/chat_with_specialist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

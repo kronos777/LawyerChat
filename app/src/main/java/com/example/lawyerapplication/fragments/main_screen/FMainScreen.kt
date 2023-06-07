@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.AlertLogoutBinding
@@ -24,6 +25,8 @@ import com.example.lawyerapplication.db.data.SituationItem
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.MyBusinessAdapterHorizontal
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.SearchBySituationAdapterHorizontal
 import com.example.lawyerapplication.fragments.myprofile.FMyProfileViewModel
+import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHome
+import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.utils.*
 import com.example.lawyerapplication.views.CustomProgressView
@@ -80,12 +83,7 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
         progressView = CustomProgressView(context)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-
-
-
-
-
+        navController = Navigation.findNavController(context, R.id.nav_host_fragment)
 
         val listArraySituation: ArrayList<SituationItem> = ArrayList()
         binding.rvSituationList.setLayoutManager(LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL, false))
@@ -131,8 +129,22 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
             navController.navigate(R.id.action_FMainScreen_to_FSituation)
         }
 
+        binding.chatWithSpecialist.setOnClickListener {
+           // navController.navigate(R.id.action_FMainScreen_to_FSingleChatHome)
+            /*fragmentManager?.beginTransaction()
+                ?.replace(R.id.nav_host_fragment, FSingleChatHome())
+                ?.addToBackStack(null)
+                ?.commit()*/
+            val action = FMainScreenDirections.actionFMainScreenToFSingleChatHome()
+                findNavController().navigate(action)
+            //findNavController().navigate(R.id.action_FMainScreen_to_FSingleChatHome)
+        }
+
+
         goExitBackPressed()
     }
+
+
 
     private fun subscribeObservers() {
         viewModel.profileUpdateState.observe(viewLifecycleOwner, {

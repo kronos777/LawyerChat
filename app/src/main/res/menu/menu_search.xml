@@ -15,11 +15,11 @@
         android:title="@string/txt_notifications"
         app:showAsAction="collapseActionView|always"
         />
-    <!--item
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/txt_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|always"
-        /-->
+        />
 </menu>
