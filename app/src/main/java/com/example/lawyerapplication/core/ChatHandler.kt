@@ -60,7 +60,7 @@ class ChatHandler @Inject constructor(
         instanceCreated = true
         fromUser = preference.getUid()
         //Timber.v("ChatHandler init")
-       // Timber.v("ChatHandler init {$fromUser}")
+        Timber.v("ChatHandler init {$fromUser}")
         messageCollectionGroup = UserUtils.getMessageSubCollectionRef()
         preference.clearCurrentUser()
         Timber.v("ChatHandler init msgs collection{$messageCollectionGroup}")

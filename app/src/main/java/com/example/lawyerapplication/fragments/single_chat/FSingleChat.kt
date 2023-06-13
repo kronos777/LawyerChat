@@ -105,6 +105,7 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
        // Toast.makeText(activity, "Single view", Toast.LENGTH_SHORT).show()
         binding.viewmodel=viewModel
         chatUser= args.chatUserProfile!!
+
         viewModel.setUnReadCountZero(chatUser)
         setListeners()
         if(!chatUser.locallySaved && !chatUser.isSearchedUser)
@@ -115,11 +116,12 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
         subscribeObservers()
 
         lifecycleScope.launch {
+            Timber.v("chatUserId {$chatUserId}")
             viewModel.getMessagesByChatUserId(chatUserId).collect { mMessagesList ->
                 if(mMessagesList.isEmpty())
                     return@collect
                 messageList = mMessagesList as MutableList<Message>
-                Timber.v("message list {$messageList}")
+
                 if(AdChat.isPlaying()){
                     msgPostponed=true
                     return@collect

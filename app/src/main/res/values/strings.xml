@@ -43,7 +43,7 @@
 
     <string name="txt_notifications">Уведомления</string>
     <string name="txt_not_description">Включить уведомление</string>
-    <string name="txt_message">Напишите что нибудь...</string>
+    <string name="txt_message">Сообщение</string>
     <string name="txt_user_name">Имя пользователя</string>
     <string name="txt_u_name">Имя пользователя</string>
     <string name="txt_add_contacts">Добавить контакты</string>

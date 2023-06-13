@@ -174,6 +174,7 @@ object UserUtils {
         for (number in hashMap.keys){
             contacts.add(Contact(hashMap[number].toString(), number))
         }
+        Timber.v("ContactsResult ${contacts}")
         return contacts.sortedWith(compareBy { it.name })
     }
 

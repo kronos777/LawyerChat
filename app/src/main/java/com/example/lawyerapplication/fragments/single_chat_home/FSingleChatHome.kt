@@ -3,6 +3,7 @@ package com.example.lawyerapplication.fragments.single_chat_home
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -106,11 +108,11 @@ class FSingleChatHome : Fragment(), ItemClickListener {
 
 
         //current destination
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+        /*navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             Toast.makeText(context, "destination id "+ destination.navigatorName.toString(), Toast.LENGTH_SHORT).show()
-            //onDestinationChanged(destination.id)
-        }
+
+        }*/
         //current destination
 
 
@@ -119,6 +121,9 @@ class FSingleChatHome : Fragment(), ItemClickListener {
     private fun subScribeObservers() {
         lifecycleScope.launch {
             viewModel.getChatUsers().collect { list ->
+                /*for (i in list.indices) {
+                    Log.d("chatUser f", list[i].messages.toString())
+                }*/
                 updateList(list)
             }
         }
@@ -126,6 +131,7 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         sharedViewModel.getState().observe(viewLifecycleOwner,{state->
             if (state is ScreenState.IdleState){
                 CoroutineScope(Dispatchers.IO).launch {
+                    Log.d("chatUser s", viewModel.getChatUsersAsList().toString())
                     updateList(viewModel.getChatUsersAsList())
                 }
             }
@@ -157,6 +163,7 @@ class FSingleChatHome : Fragment(), ItemClickListener {
     private fun setDataInView() {
         binding.listChat.itemAnimator = null
         binding.listChat.adapter = adChat
+        //Timber.v("FSingleChatHome init chat {$adChat}")
         AdSingleChatHome.itemClickListener = this
     }
 
@@ -180,4 +187,11 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         val action= FSingleChatHomeDirections.actionFSingleChatToFChat(chatUser.user)
         findNavController().navigate(action)
     }
+
+    private fun getLeadContactMessage() {
+        TODO()
+    }
+
+
+
 }

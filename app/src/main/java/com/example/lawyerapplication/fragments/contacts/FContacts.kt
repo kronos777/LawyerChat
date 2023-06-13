@@ -58,7 +58,7 @@ class FContacts @Inject constructor(private val preference: MPreference) : Fragm
         context = requireActivity()
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
-        Toast.makeText(activity, "This is contact fragment", Toast.LENGTH_SHORT).show()
+       // Toast.makeText(activity, "This is contact fragment", Toast.LENGTH_SHORT).show()
         setToolbar()
         setDataInView()
         subscribeObservers()
@@ -71,7 +71,7 @@ class FContacts @Inject constructor(private val preference: MPreference) : Fragm
             val allContacts=contacts.filter { it.locallySaved }
             if (allContacts.isEmpty() && viewModel.queryState.value == null) {
                 viewModel.startQuery()
-                Toast.makeText(activity, "view model get query", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity, "view model get query", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.setContactCount(allContacts.size)
                 contactList.clear()

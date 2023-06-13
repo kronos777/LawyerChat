@@ -15,18 +15,20 @@
 
         <LinearLayout
             style="@style/LView"
+            android:background="@color/background_chat_text"
             android:gravity="center_vertical"
-            android:padding="5dp"
-            android:layout_marginBottom="5dp">
+            android:padding="16dp"
+            android:layout_marginBottom="0dp">
 
             <ImageView
                 android:id="@+id/image_add"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="3dp"
-                android:src="@drawable/ic_add_circle"
+                android:layout_marginStart="12.5dp"
+                android:layout_marginEnd="11.5dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/chat_file_message"
                 app:tint="@color/colorPrimary" />
 
             <RelativeLayout
@@ -47,9 +49,9 @@
                     android:text="@={viewmodel.message}"
                     android:inputType="textCapSentences|textMultiLine"
                     android:maxLines="4"
-                    android:textColorHint="@color/colorPrimary"
-                    android:padding="8dp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorGrey"
+                    android:padding="12dp"
+                    android:textColor="@color/colorGrey"
                     android:importantForAutofill="no" />
             </RelativeLayout>
 

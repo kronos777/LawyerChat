@@ -52,4 +52,6 @@
     <color name="border_gray">#79747E</color>
     <color name="color_gray">#99939F</color>
     <color name="top_panel_main">#0E1F3B</color>
+    <color name="background_chat_text">#F1F1F8</color>
+    <color name="background_chat_message">#5053A4</color>
 </resources>
