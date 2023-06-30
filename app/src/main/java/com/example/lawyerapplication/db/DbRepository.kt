@@ -97,6 +97,8 @@ class DbRepository @Inject constructor(
 
     fun getMessagesByChatUserId(chatUserId: String) = messageDao.getMessagesByChatUserId(chatUserId)
 
+    fun getMessagesByChatUserIdForLead(chatUserId: String, chatUserIdForLead: String) = messageDao.getMessagesByChatUserIdForLead(chatUserId, chatUserIdForLead)
+
     fun getChatsOfFriend(toUser: String) = messageDao.getChatsOfFriend(toUser)
 
     fun getGroupById(groupId: String) = groupDao.getGroupById(groupId)

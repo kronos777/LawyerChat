@@ -14,6 +14,7 @@ import com.example.lawyerapplication.utils.UserUtils
 import com.example.lawyerapplication.utils.getUnreadCount
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -61,10 +62,26 @@ class ChatHandler @Inject constructor(
         fromUser = preference.getUid()
         //Timber.v("ChatHandler init")
         Timber.v("ChatHandler init {$fromUser}")
+       /* CoroutineScope(Dispatchers.IO).launch {
+            chatUsers = dbRepository.getChatUserList()
+            Timber.v("ChatHandler chatUsers {$chatUsers}")
+        }*/
         messageCollectionGroup = UserUtils.getMessageSubCollectionRef()
         preference.clearCurrentUser()
-        Timber.v("ChatHandler init msgs collection{$messageCollectionGroup}")
-        Timber.v("ChatHandler init msgs collection{$fromUser}")
+      /*  Timber.v("ChatHandler init msgs collection{$messageCollectionGroup}")
+        Timber.v("ChatHandler init msgs collection{$fromUser}")*/
+       /* CoroutineScope(Dispatchers.IO).launch {
+            dbRepository.getChatUserWithMessages().collect {
+                //Timber.v("getChatUserWithMessages collection ${it[index].user}")
+                for (index in it.indices) {
+                    Timber.v("getChatUserWithMessages user ${it[index].user}")
+                    Timber.v("getChatUserWithMessages messages ${it[index].messages}")
+                }
+
+            }
+        }*/
+
+
        // fromUser = "06v9Upo82fOvZ9iSsesBQykQMh13"
         listenerDoc1 = messageCollectionGroup//.whereArrayContains("chatUsers", fromUser!!)
             .addSnapshotListener { snapShots, error ->
@@ -105,11 +122,13 @@ class ChatHandler @Inject constructor(
         if (isFirstQuery) {
             snapShots.forEach { doc ->
                 val parentDoc = doc.reference.parent.parent?.id!!
+                Timber.v("ChatHandler parentDoc {$parentDoc}")
                 val message = doc.data.toDataClass<Message>()
+                Timber.v("ChatHandler message {$message}")
                 message.chatUserId =
                     if (message.from != fromUser) message.from else message.to
                 messagesList.add(message)
-                Timber.v("ChatHandler init msgs fquery {$message}")
+               // Timber.v("ChatHandler init msgs fquery {$message}")
                 if (!listOfDocs.contains(parentDoc)) {
                     listOfDocs.add(doc.reference.parent.parent?.id.toString())
                     listOfIds.add(message.chatUserId!!)
@@ -123,10 +142,12 @@ class ChatHandler @Inject constructor(
                 ) {
                     val document = shot.document
                     val parentDoc = document.reference.parent.parent?.id!!
+                    Timber.v("ChatHandler parentDoc {$parentDoc}")
                     val message = document.data.toDataClass<Message>()
-                    Timber.v("message firestore {$message}")
+
                     message.chatUserId =
                         if (message.from != fromUser) message.from else message.to
+                    Timber.v("message firestore {$message}")
                     messagesList.add(message)
                     if (!listOfDocs.contains(parentDoc)) {
                         listOfDocs.add(document.reference.parent.parent?.id.toString())
@@ -135,7 +156,10 @@ class ChatHandler @Inject constructor(
                 }
             }
         }
+        Timber.v("listOfDocs {$listOfDocs}")
+        Timber.v("listOfIds {$listOfIds}")
         if (!messagesList.isNullOrEmpty())
+          //  Timber.v("insertMessageOnDb {$listOfIds}")
             insertMessageOnDb(listOfIds)
     }
 

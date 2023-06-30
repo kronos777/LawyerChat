@@ -9,49 +9,44 @@ import com.example.lawyerapplication.db.data.Message
 import com.example.lawyerapplication.utils.LogMessage
 import timber.log.Timber
 
-interface OnMessageResponse{
-    fun onSuccess(message: Message)
-    fun onFailed(message: Message)
-}
 
-class MessageSender(private val msgCollection: CollectionReference,
+class LeadMessageSender(private val msgCollection: CollectionReference,
                     private val dbRepo: DbRepository, private val chatUser: ChatUser,
                     private val listener: OnMessageResponse
 ) {
 
-    fun checkAndSend(fromUser: String, toUser: String, message: Message) {
+    fun checkAndSend(fromUser: String, toUser: String, message: Message, idLead: String) {
         val docId = chatUser.documentId
-       // Timber.v("documentId ${chatUser.documentId}")
         if (!docId.isNullOrEmpty()){
             Timber.v("Case 0 ${chatUser.documentId}")
             send(docId, message)
        } else {
             //so we don't create multiple nodes for same chat
-            msgCollection.document("${fromUser}_${toUser}").get()
+            msgCollection.document("${fromUser}_${toUser}_${idLead}").get()
                 .addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot.exists()) {
                         //this node exists send your message
                         Timber.v("Case 1")
-                        send("${fromUser}_${toUser}", message)
+                        send("${fromUser}_${toUser}_${idLead}", message)
                     } else {
                         //senderId_receiverId node doesn't exist check receiverId_senderId
-                        msgCollection.document("${toUser}_${fromUser}").get()
+                        msgCollection.document("${fromUser}_${toUser}_${idLead}").get()
                             .addOnSuccessListener { documentSnapshot2 ->
                                 if (documentSnapshot2.exists()) {
                                     Timber.v("Case 2")
-                                    send("${toUser}_${fromUser}", message)
+                                    send("${fromUser}_${toUser}_${idLead}", message)
                                 } else {
                                     //no previous chat history(senderId_receiverId & receiverId_senderId both don't exist)
                                     //so we create document senderId_receiverId then messages array then add messageMap to messages
                                     //this node exists send your message
                                     //add ids of chat members
                                     Timber.v("Case 3")
-                                    msgCollection.document("${fromUser}_${toUser}")
+                                    msgCollection.document("${fromUser}_${toUser}_${idLead}")
                                         .set(mapOf("chat_members" to FieldValue.arrayUnion(fromUser, toUser)),
                                             SetOptions.merge()
                                         ).addOnSuccessListener {
                                             LogMessage.v("chat member update successfully")
-                                            send("${fromUser}_${toUser}", message)
+                                            send("${fromUser}_${toUser}_${idLead}", message)
                                         }.addOnFailureListener {
                                             LogMessage.v("chat member update failed ${it.message}")
                                         }
@@ -95,6 +90,49 @@ class MessageSender(private val msgCollection: CollectionReference,
                 }*/
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+
+    fun checkAndSendId(fromUser: String, toUser: String, message: Message, idLead: String) {
+        val docId = chatUser.documentId
+        if (!docId.isNullOrEmpty()){
+            Timber.v("Case 0 ${chatUser.documentId}")
+            send(docId, message)
+        } else {
+            //so we don't create multiple nodes for same chat
+            msgCollection.document(idLead).get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        //this node exists send your message
+                        Timber.v("Case 1")
+                        send(idLead, message)
+                    } else {
+                        //senderId_receiverId node doesn't exist check receiverId_senderId
+                        msgCollection.document(idLead).get()
+                            .addOnSuccessListener { documentSnapshot2 ->
+                                if (documentSnapshot2.exists()) {
+                                    Timber.v("Case 2")
+                                    send((idLead), message)
+                                } else {
+                                    //no previous chat history(senderId_receiverId & receiverId_senderId both don't exist)
+                                    //so we create document senderId_receiverId then messages array then add messageMap to messages
+                                    //this node exists send your message
+                                    //add ids of chat members
+                                    Timber.v("Case 3")
+                                    msgCollection.document(idLead)
+                                        .set(mapOf("chat_members" to FieldValue.arrayUnion(fromUser, toUser)),
+                                            SetOptions.merge()
+                                        ).addOnSuccessListener {
+                                            LogMessage.v("chat member update successfully")
+                                            send(idLead, message)
+                                        }.addOnFailureListener {
+                                            LogMessage.v("chat member update failed ${it.message}")
+                                        }
+                                }
+                            }
+                    }
+                }
         }
     }
 

@@ -619,7 +619,7 @@
                     android:textFontWeight="500"
                      android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/button_for_lawyer"
+                    android:id="@+id/button_chat"
                     android:layout_marginBottom="15dp"
                     android:layout_width="match_parent"
                     style="@style/BtnStyle2"

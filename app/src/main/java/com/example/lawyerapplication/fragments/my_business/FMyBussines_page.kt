@@ -22,12 +22,19 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.lawyerapplication.databinding.AlertAddStageBinding
 import com.example.lawyerapplication.databinding.FragmentMyBussinesPageBinding
+import com.example.lawyerapplication.db.DbRepository
+import com.example.lawyerapplication.db.data.ChatUser
+import com.example.lawyerapplication.db.data.Message
 import com.example.lawyerapplication.db.data.StageBussines
+import com.example.lawyerapplication.db.data.TextMessage
 import com.example.lawyerapplication.fragments.my_business.stage_bussines.StageBussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.adapter.StageItemAdapter
+import com.example.lawyerapplication.fragments.single_chat.SingleChatViewModel
 import com.example.lawyerapplication.models.MyImage
+import com.example.lawyerapplication.models.UserProfile
 import com.example.lawyerapplication.utils.ImageUtils
 import com.example.lawyerapplication.utils.MPreference
+import com.example.lawyerapplication.utils.UserUtils
 import com.example.lawyerapplication.utils.show
 import com.github.florent37.expansionpanel.ExpansionLayout
 import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection
@@ -40,6 +47,7 @@ import com.google.firebase.storage.ktx.component2
 import com.google.firebase.storage.ktx.storage
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -73,7 +81,7 @@ class FMyBussines_page : Fragment() {
     private lateinit var dialog: Dialog
     private lateinit var stageItemAdapter: StageItemAdapter
 
-
+    private val viewModel: SingleChatViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,8 +126,8 @@ class FMyBussines_page : Fragment() {
                             val client = (document.data!!.get("idClient") as String).trim()
                             if(!role && lawyer != "") {
                                 //user bus
-                                    val lawyer = viewModelProfile.getDataUser(context, lawyer)
-                                    lawyer.get().addOnSuccessListener { documentUser ->
+                                    val lawyerLocal = viewModelProfile.getDataUser(context, lawyer)
+                                    lawyerLocal.get().addOnSuccessListener { documentUser ->
                                             if (documentUser != null) {
                                                 val nameLawyer = documentUser.data!!.get("userName") as String
                                                 val serNameLawyer = documentUser.data!!.get("serName") as String
@@ -139,7 +147,10 @@ class FMyBussines_page : Fragment() {
                                         }
 
                                 binding.buttonForClient.visibility = View.VISIBLE
-
+                                binding.buttonForClient.setOnClickListener {
+                                    initChatUser(item, lawyer)
+                                    Toast.makeText(context, "new msg client", Toast.LENGTH_SHORT).show()
+                                }
                             //user bus
                             } else if(role) {
                                 val user = viewModelProfile.getDataUser(context, client)
@@ -175,6 +186,11 @@ class FMyBussines_page : Fragment() {
                                     binding.buttonForLawyer4.visibility = View.VISIBLE
                                     binding.buttonForLawyer4.setOnClickListener {
                                         refuseBusiness(item)
+                                    }
+
+                                    binding.buttonChat.setOnClickListener {
+                                        initChatUser(item, client)
+                                        Toast.makeText(context, "new msg lawyer", Toast.LENGTH_SHORT).show()
                                     }
                                 }
 
@@ -309,7 +325,55 @@ class FMyBussines_page : Fragment() {
 
 
     }
+    /*пробуем создать новый чат */
+    private fun initChatUser(idLead: String, to: String) {
+        Timber.v("userProfile {$to}")
+        val usersCollection = UserUtils.getDocumentRefBussines(context, to)
+        usersCollection.get().addOnSuccessListener { profile ->
+            if (profile.exists()) {
+                val userProfile = profile.toObject(UserProfile::class.java)
+                val mobile = userProfile?.mobile?.country + " " +
+                        userProfile?.mobile?.number
+                val chatUser= ChatUser(
+                    //id= "${preference.getUid()}_${to}_${idLead}",localName = "Дело ${idLead}",user = userProfile!!,
+                    id= to + idLead,localName = "Дело ${idLead}",user = UserProfile(to + idLead,13232113L,123321321L, "", "Дело №" + idLead),
+                    documentId = idLead)
+                    //documentId = "${preference.getUid()}_${to}_${idLead}")
+                Timber.v("userProfile {$chatUser}")
+                viewModel.setChatUser(chatUser)
+                val message = createMessage(to, idLead).apply {
+                    textMessage= TextMessage("msg ${to}")
+                    chatUsers= ArrayList()
+                }
+                viewModel.sendMessageLead(message, idLead)
+                //viewModel.dbRepository.insertMessage(message)
+                //viewModel.removeTypingCallbacks()
+            } else {
+                Timber.v("userProfile not exists")
+            }
+        }
 
+
+    }
+
+
+    private fun createMessage(to: String, idLead: String): Message {
+        //val chatUserId = to
+        val chatUserId = to
+
+        return Message(
+            System.currentTimeMillis(),
+            //from = preference.getUid().toString() + "_" + idLead,
+            from = preference.getUid().toString() + idLead,
+            chatUserId=chatUserId,
+            to = to, senderName = preference.getUserProfile()!!.userName,
+            senderImage = preference.getUserProfile()!!.image
+        )
+    }
+
+
+
+    /*пробуем создать новый чат */
 
     fun setDataInView() {
         val listArrayStages: ArrayList<StageBussines> = ArrayList()

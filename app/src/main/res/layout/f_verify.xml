@@ -10,34 +10,26 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        style="@style/ScrollRoot"
-        tools:ignore="LabelFor,Autofill">
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            style="@style/StyleRoot"
-
-            android:id="@+id/view_holder">
-
-
-            <LinearLayout style="@style/FView">
-
-                <LinearLayout
+                <RelativeLayout
                     style="@style/VWView"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/shape_home_bg"
                     android:paddingTop="5dp"
                     android:padding="20dp"
+                    android:layout_height="match_parent"
                     >
 
                     <TextView
+                        android:id="@+id/main_text"
                         style="@style/TxtSemiStyle"
+                        android:layout_alignParentTop="true"
                         android:layout_marginTop="15dp"
                         android:textSize="22sp"
                         android:text="@string/txt_otp_verification" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/til_phone"
+                        android:layout_below="@+id/main_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -53,6 +45,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/til_code"
+                        android:layout_below="@+id/til_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -68,6 +61,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
+                        android:layout_below="@+id/til_code"
                         style="@style/LView"
                         android:visibility="gone"
                         android:layout_marginTop="20dp">
@@ -121,13 +115,16 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_below="@+id/til_code"
+                        android:id="@+id/to_retry"
                         style="@style/LView"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="280dp"
                         android:gravity="center">
 
                         <TextView
                             style="@style/TxtRgStyle"
                             android:textSize="16sp"
+                            android:textColor="@color/colorPrimary"
                             android:layout_marginEnd="5dp"
                             android:text="@string/txt_dont_receive" />
 
@@ -139,16 +136,26 @@
                             android:text="@{viewmodel.resendTxt}" />
                     </LinearLayout>
 
-                    <TextView
+                    <!--TextView
                         style="@style/BtnStyle"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:id="@+id/btn_verify"
                         android:layout_marginTop="80dp"
-                        android:text="@string/txt_verify" />
-                </LinearLayout>
+                        android:text="@string/txt_verify" /-->
 
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_verify"
+                        android:layout_below="@+id/to_retry"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginBottom="40dp"
+                        android:layout_width="match_parent"
+                        style="@style/BtnStyle"
+                        android:text="@string/button_next_verify"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </androidx.core.widget.NestedScrollView>
+                        />
+                </RelativeLayout>
+
 </layout>

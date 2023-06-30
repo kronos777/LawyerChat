@@ -10,6 +10,7 @@ import com.example.lawyerapplication.databinding.RowChatBinding
 import com.example.lawyerapplication.db.data.ChatUserWithMessages
 import com.example.lawyerapplication.utils.ItemClickListener
 import com.example.lawyerapplication.utils.MPreference
+import timber.log.Timber
 import java.util.*
 
 class AdSingleChatHome(private val context: Context) :
@@ -28,6 +29,7 @@ class AdSingleChatHome(private val context: Context) :
             if (query.isEmpty())
                 list.addAll(allChatList)
             else {
+               // Timber.v("allChatList $allChatList")
                 for (contact in allChatList) {
                     if (contact.user.localName.toLowerCase(Locale.getDefault())
                             .contains(query.toLowerCase(Locale.getDefault()))) {

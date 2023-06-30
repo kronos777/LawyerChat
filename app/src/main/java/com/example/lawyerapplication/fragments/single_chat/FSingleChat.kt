@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.canhub.cropper.CropImage
+import com.example.lawyerapplication.MApplication
 import com.example.lawyerapplication.db.data.*
 import com.example.lawyerapplication.databinding.FSingleChatBinding
 import com.example.lawyerapplication.fragments.FAttachment
@@ -36,6 +37,8 @@ import com.example.lawyerapplication.utils.Utils.edtValue
 import com.example.lawyerapplication.views.CustomEditText
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -104,8 +107,15 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
         super.onViewCreated(view, savedInstanceState)
        // Toast.makeText(activity, "Single view", Toast.LENGTH_SHORT).show()
         binding.viewmodel=viewModel
-        chatUser= args.chatUserProfile!!
-
+        chatUser = args.chatUserProfile!!
+        Timber.v("chatUserSingleChat {$args}")
+        Timber.v("chatUserSingleChat {${chatUser.documentId}}")
+        /*  CoroutineScope(Dispatchers.IO).launch {
+             val chatUsers = MApplication.userDaoo.getChatUserList()
+            for (user in chatUsers.indices) {
+                 Timber.v("ChatUserSingleChat $user ${chatUsers[user]}")
+             }
+         }*/
         viewModel.setUnReadCountZero(chatUser)
         setListeners()
         if(!chatUser.locallySaved && !chatUser.isSearchedUser)
@@ -116,8 +126,13 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
         subscribeObservers()
 
         lifecycleScope.launch {
-            Timber.v("chatUserId {$chatUserId}")
-            viewModel.getMessagesByChatUserId(chatUserId).collect { mMessagesList ->
+           // Timber.v("chatUserId single chat {$chatUserId}")
+          //  Timber.v("chatUserId from query ${localUserId + chatUser.documentId}")
+
+            val leadUserId = localUserId + chatUser.documentId
+
+            viewModel.getMessagesByChatUserIdForLead(chatUserId, leadUserId).collect { mMessagesList ->
+            //viewModel.getMessagesByChatUserId(chatUserId).collect { mMessagesList ->
                 if(mMessagesList.isEmpty())
                     return@collect
                 messageList = mMessagesList as MutableList<Message>
@@ -126,6 +141,7 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
                     msgPostponed=true
                     return@collect
                 }
+               // Timber.v("messageList {$messageList}")
                 AdChat.messageList = messageList
                 adChat.submitList(mMessagesList)
                 //scroll to last items in recycler (recent messages)
@@ -181,6 +197,7 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
         try {
             fromUser = preference.getUserProfile()!!
             localUserId=fromUser.uId!!
+            Timber.v("ChatUserSingleChat localUserId $localUserId")
             manager= LinearLayoutManager(context)
             binding.listMessage.apply {
                 manager.stackFromEnd=true
@@ -194,6 +211,7 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
             viewModel.setChatUser(chatUser)
             toUser=chatUser.user
             chatUserId=toUser.uId!!
+            Timber.v("ChatUserSingleChat chatUserId $chatUserId}")
             binding.chatUser = chatUser
             binding.viewChatBtm.edtMsg.addTextChangedListener(msgTxtChangeListener)
             binding.viewChatBtm.lottieSend.addAnimatorListener(object : Animator.AnimatorListener {
@@ -253,9 +271,10 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
 
     private fun subscribeObservers() {
         //pass messages list for recycler to show
-        viewModel.chatUserOnlineStatus.observe(viewLifecycleOwner, {
+        //получение онлайн статуса
+       /* viewModel.chatUserOnlineStatus.observe(viewLifecycleOwner, {
             Utils.setOnlineStatus(binding.viewChatHeader.txtLastSeen, it, localUserId)
-        })
+        })*/
     }
 
     private fun openSaveIntent() {
@@ -278,6 +297,7 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
         }
         viewModel.sendMessage(message)
         binding.viewChatBtm.edtMsg.setText("")
+
     }
 
     private fun createMessage(): Message {

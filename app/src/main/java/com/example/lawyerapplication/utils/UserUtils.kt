@@ -110,6 +110,13 @@ object UserUtils {
         return db.collection("Users").document(preference.getUid()!!)
     }
 
+    fun getDocumentRefUid(context: Context, uid: String): DocumentReference {
+        val preference = MPreference(context)
+        val db = FirebaseFirestore.getInstance()
+        return db.collection("Users").document(preference.getUid()!!)
+    }
+
+
     //get account for bussines page
     fun getStorageRefBussines(context: Context, uid: String): StorageReference {
         val preference = MPreference(context)
@@ -124,10 +131,15 @@ object UserUtils {
         return ref.child(uid)
     }
 
-    fun getDocumentRefBussines(context: Context, uid: String): DocumentReference {
+
+    fun getStorageRefLeads(context: Context, uid: String): StorageReference {
         val preference = MPreference(context)
+        return Firebase.storage.getReference("Leads")
+    }
+
+    fun getDocumentRefBussines(context: Context, uid: String): DocumentReference {
         val db = FirebaseFirestore.getInstance()
-        return db.collection("Users").document(uid!!)
+        return db.collection("Users").document(uid)
     }
     //get account for bussines page
 

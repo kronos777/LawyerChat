@@ -28,6 +28,9 @@ interface MessageDao {
     @Query("SELECT * FROM Message WHERE `to`=:chatUserId OR `from`=:chatUserId")
     fun getMessagesByChatUserId(chatUserId: String): Flow<List<Message>>
 
+    @Query("SELECT * FROM Message WHERE (`to`=:chatUserId OR `from`=:chatUserId) OR (`to`=:chatUserIdLead OR `from`=:chatUserIdLead)")
+    fun getMessagesByChatUserIdForLead(chatUserId: String, chatUserIdLead: String ): Flow<List<Message>>
+
     @Query("SELECT * FROM Message  WHERE createdAt=:createdAt")
     suspend fun getMessageById(createdAt: Long): Message?
 

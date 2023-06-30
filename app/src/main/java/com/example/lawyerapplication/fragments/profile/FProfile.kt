@@ -57,7 +57,7 @@ class FProfile : Fragment() {
     var imagesPathList: MutableList<String> = arrayListOf()
     private val PICK_IMAGE_CODE = 2
     private var imageUri: Uri? = null
-    private var isLawyer: Boolean? = null
+    private var isLawyer: Boolean? = false
 
     private lateinit var listUrlFileFirst: ArrayList<Uri>
     private var boolFileFirst: Boolean = false
@@ -153,12 +153,15 @@ class FProfile : Fragment() {
 
         binding.saveButton.setOnClickListener {
             if(binding.checkboxRememberMe.isChecked) {
-                if(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && isLawyer == true) {
-                    Toast.makeText(getContext(), "Загрузите данные пасспорта и диплома."+preference.getUid(), Toast.LENGTH_SHORT).show()
+
+                if(isLawyer == true) {
+                    if(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && isLawyer == true) {
+                        Toast.makeText(getContext(), "Загрузите данные пасспорта и диплома."+preference.getUid(), Toast.LENGTH_SHORT).show()
+                    } else if(listUrlFileFirst.size > 0 || listUrlFileTwo.size > 0) {
+                        getReadyImagesForUpload()
+                        validate()
+                    }
                 } else if(isLawyer == false) {
-                    validate()
-                } else if(listUrlFileFirst.size > 0 || listUrlFileTwo.size > 0 && isLawyer == true) {
-                    getReadyImagesForUpload()
                     validate()
                 }
 

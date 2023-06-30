@@ -101,6 +101,7 @@
     <string name="text_change_password_hint3">Повторите новый пароль</string>
     <string name="registration_phone_login">Номер телефона</string>
     <string name="button_next">Далее</string>
+    <string name="button_next_verify">Продолжить</string>
     <string name="txt_auto1_title">ДТП (водитель или страховая компания отказываются возмещать причиненный автомобилю ущерб, вред здоровью, занижают сумму выплаты)</string>
     <string name="txt_auto2_title">Повреждение транспортного средства действиями третьих лиц (не в результате ДТП).</string>
     <string name="txt_auto3_title">Сразу после покупки автомобиля или в процессе эксплуатации выявились недостатки</string>

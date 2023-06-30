@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.example.lawyerapplication.MApplication
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.core.ChatHandler
 import com.example.lawyerapplication.core.ChatUserProfileListener
@@ -89,7 +90,6 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
-
         binding = FSingleChatHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -105,8 +105,16 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         profile = preference.getUserProfile()!!
         setDataInView()
         subScribeObservers()
-
-
+        /* CoroutineScope(Dispatchers.IO).launch {
+              val chatUsers = MApplication.userDaoo.getChatUserList()
+              for (user in chatUsers.indices) {
+                  Timber.v("ChatUser $user ${chatUsers[user]}")
+              }
+          }
+          CoroutineScope(Dispatchers.IO).launch {
+              chatUserDao.deleteUserById("7hnvdormFcO5U2ReaD9pxuVKo0D3_URJAVFqIRJTZBgAVKFPYoY5QhMg1_48")
+              Toast.makeText(context, "7hnvdormFcO5U2ReaD9pxuVKo0D3_7hnvdormFcO5U2ReaD9pxuVKo0D3_48", Toast.LENGTH_SHORT).show()
+          }*/
         //current destination
         /*navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -121,7 +129,8 @@ class FSingleChatHome : Fragment(), ItemClickListener {
     private fun subScribeObservers() {
         lifecycleScope.launch {
             viewModel.getChatUsers().collect { list ->
-                /*for (i in list.indices) {
+              /*  for (i in list.indices) {
+                    Log.d("chatUser f", list[i].user.toString())
                     Log.d("chatUser f", list[i].messages.toString())
                 }*/
                 updateList(list)
@@ -131,13 +140,14 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         sharedViewModel.getState().observe(viewLifecycleOwner,{state->
             if (state is ScreenState.IdleState){
                 CoroutineScope(Dispatchers.IO).launch {
-                    Log.d("chatUser s", viewModel.getChatUsersAsList().toString())
-                    updateList(viewModel.getChatUsersAsList())
+                  //  Log.d("chatUser s", viewModel.getChatUsersAsList().toString())
+                     updateList(viewModel.getChatUsersAsList())
+
                 }
             }
         })
         sharedViewModel.lastQuery.observe(viewLifecycleOwner,{
-            if (sharedViewModel.getState().value is ScreenState.SearchState)
+           if (sharedViewModel.getState().value is ScreenState.SearchState)
                 adChat.filter(it)
         })
     }
@@ -151,6 +161,13 @@ class FSingleChatHome : Fragment(), ItemClickListener {
                 //sort by recent message
                 chatList = filteredList.sortedByDescending { it.messages.last().createdAt }
                     .toMutableList()
+
+            /*    for (item in chatList) {
+                    Timber.v("chatList ${item}")
+                    Timber.v("chatList ${item.user}")
+                    Timber.v("chatList ${item.messages}")
+                }*/
+
                 AdSingleChatHome.allChatList =chatList
                 adChat.submitList(chatList)
                 if(sharedViewModel.getState().value is ScreenState.SearchState)
@@ -163,7 +180,7 @@ class FSingleChatHome : Fragment(), ItemClickListener {
     private fun setDataInView() {
         binding.listChat.itemAnimator = null
         binding.listChat.adapter = adChat
-        //Timber.v("FSingleChatHome init chat {$adChat}")
+       // Timber.v("FSingleChatHome init chat {$adChat}")
         AdSingleChatHome.itemClickListener = this
     }
 
@@ -177,7 +194,7 @@ class FSingleChatHome : Fragment(), ItemClickListener {
                 findNavController().navigate(R.id.action_FSingleChatHome_to_FContacts)
         }
         else
-            activity.toast("Permission is needed!")
+            activity.toast("Требуется разрешение!")
     }
 
     override fun onItemClicked(v: View, position: Int) {

@@ -15,12 +15,14 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.reflect.TypeToken
 import com.example.lawyerapplication.TYPE_NEW_MESSAGE
+import com.example.lawyerapplication.core.LeadMessageSender
 import com.example.lawyerapplication.core.MessageSender
 import com.example.lawyerapplication.core.MessageStatusUpdater
 import com.example.lawyerapplication.core.OnMessageResponse
 import com.example.lawyerapplication.db.DbRepository
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Message
+import com.example.lawyerapplication.db.data.TextMessage
 import com.example.lawyerapplication.di.MessageCollection
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.services.UploadWorker
@@ -39,6 +41,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.full.memberProperties
 
@@ -46,7 +49,7 @@ import kotlin.reflect.full.memberProperties
 class SingleChatViewModel @Inject
 constructor(
     @ApplicationContext private val context: Context,
-    private val dbRepository: DbRepository,
+    private val dbRepository: DbRepository,//before change stay private
     @MessageCollection
     private val messageCollection: CollectionReference,
     private val preference: MPreference,
@@ -108,7 +111,11 @@ constructor(
     fun getMessagesByChatUserId(chatUserId: String) =
         dbRepository.getMessagesByChatUserId(chatUserId)
 
+    fun getMessagesByChatUserIdForLead(chatUserId: String, chatUserIdForLead: String) =
+        dbRepository.getMessagesByChatUserIdForLead(chatUserId, chatUserIdForLead)
+
     fun sendMessage(message: Message) {
+        Timber.v("chatUserDocId ${chatUser.documentId}")
         Handler(Looper.getMainLooper()).postDelayed({
             val messageSender = MessageSender(
                 messageCollection,
@@ -118,9 +125,29 @@ constructor(
             )
             messageSender.checkAndSend(fromUser!!, toUser, message)
         }, 400)
+        Timber.v("chatUserMessage ${message}")
         dbRepository.insertMessage(message)
         removeTypingCallbacks()
     }
+
+
+
+    fun sendMessageLead(message: Message, idLead: String) {
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            val messageSender = LeadMessageSender(
+                messageCollection,
+                dbRepository,
+                chatUser,
+                messageListener
+            )
+            messageSender.checkAndSendId(fromUser!!, toUser, message, idLead)
+        }, 400)
+        dbRepository.insertMessage(message)
+        removeTypingCallbacks()
+
+    }
+
 
     fun sendCachedTxtMesssages() {
         //Send msg that is not sent succesfully in last time
@@ -216,7 +243,7 @@ constructor(
         removeTypingCallbacks()
     }
 
-    private fun removeTypingCallbacks() {
+    private fun removeTypingCallbacks() {//before change stay private
         typingHandler.removeCallbacks(typingThread)
     }
 
