@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="message"
+            type="com.example.lawyerapplication.db.data.Message" />
+    </data>
+
+    <RelativeLayout style="@style/VView"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_gravity="end"
+            android:layout_width="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_height="24dp"
+            android:src="@drawable/file_icon"
+            android:layout_alignParentRight="true"
+            />
+        <TextView
+            android:text="@{message.fileMessage.name}"
+            android:layout_toLeftOf="@id/icon"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:id="@+id/file_msg" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginEnd="2dp"
+            android:layout_below="@+id/file_msg"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:id="@+id/txt_msg_status"
+                style="@style/TxtRgStyle"
+                android:textSize="14sp"
+                android:layout_marginEnd="5dp"
+                android:visibility="@{message.status==0 ? View.GONE : View.VISIBLE}"
+                messageStatus="@{message.status}" />
+
+            <ProgressBar
+                android:layout_toRightOf="@id/txt_msg_status"
+                android:layout_alignParentRight="true"
+                style="@style/WView"
+                android:layout_marginEnd="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="@{message.status==0 ? View.VISIBLE : View.GONE}" />
+
+            <TextView
+                android:layout_below="@id/txt_msg_status"
+                android:layout_alignParentRight="true"
+                android:id="@+id/txt_msg_time"
+                style="@style/TxtRgStyle"
+                android:textSize="16sp"
+                showMsgTime="@{message}" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

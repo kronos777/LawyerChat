@@ -1,25 +1,28 @@
 package com.example.lawyerapplication.fragments.single_chat
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lawyerapplication.utils.ItemClickListener
+import androidx.test.InstrumentationRegistry.getContext
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.Message
 import com.example.lawyerapplication.utils.Events.EventAudioMsg
+import com.example.lawyerapplication.utils.ItemClickListener
 import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.utils.gone
 import com.example.lawyerapplication.utils.show
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
 import java.io.IOException
-import java.util.ArrayList
+
 
 class AdChat(private val context: Context, private val msgClickListener: ItemClickListener) :
     ListAdapter<Message, RecyclerView.ViewHolder>(DiffCallbackMessages()) {
@@ -35,6 +38,8 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
         private const val TYPE_STICKER_RECEIVE = 5
         private const val TYPE_AUDIO_SENT = 6
         private const val TYPE_AUDIO_RECEIVE = 7
+        private const val TYPE_FILE_SENT = 8
+        private const val TYPE_FILE_RECEIVE = 9
         private var lastPlayedHolder: RowAudioSentBinding?=null
         private var lastReceivedPlayedHolder: RowAudioReceiveBinding?=null
         private var lastPlayedAudioId : Long=-1
@@ -89,6 +94,15 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
                 val binding = RowAudioSentBinding.inflate(layoutInflater, parent, false)
                 AudioSentVHolder(binding)
             }
+            TYPE_FILE_SENT -> {
+                val binding = RowFileSentBinding.inflate(layoutInflater, parent, false)
+                FileSentVHolder(binding)
+            }
+            TYPE_FILE_RECEIVE -> {
+                val binding = RowFileReceiveBinding.inflate(layoutInflater, parent, false)
+                FileReceiveVHolder(binding)
+            }
+
             else-> {
                 val binding = RowAudioReceiveBinding.inflate(layoutInflater, parent, false)
                 AudioReceiveVHolder(binding)
@@ -114,12 +128,16 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
                 holder.bind(context,getItem(position))
             is AudioReceiveVHolder ->
                 holder.bind(context,getItem(position))
+            is FileSentVHolder ->
+                holder.bind(getItem(position),msgClickListener)
+            is FileReceiveVHolder ->
+                holder.bind(getItem(position),msgClickListener)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         val message = getItem(position)
-        val fromMe=message.from == preference.getUid()
+        val fromMe=message.from.substring(0, 28) == preference.getUid()
         if (fromMe && message.type == "text")
             return TYPE_TXT_SENT
         else if (!fromMe && message.type == "text")
@@ -138,6 +156,10 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
             return TYPE_AUDIO_SENT
         else if (!fromMe && message.type == "audio")
             return TYPE_AUDIO_RECEIVE
+        else if (fromMe && message.type == "file")
+            return TYPE_FILE_SENT
+        else if (!fromMe && message.type == "file")
+            return TYPE_FILE_RECEIVE
         return super.getItemViewType(position)
     }
 
@@ -190,6 +212,39 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
             binding.executePendingBindings()
         }
     }
+
+
+    /*for file*/
+    class FileSentVHolder(val binding: RowFileSentBinding) :
+        RecyclerView.ViewHolder(binding.root)  {
+        fun bind(item: Message, msgClickListener: ItemClickListener) {
+            binding.message = item
+            binding.fileMsg.setOnClickListener {
+                msgClickListener.onItemClicked(it,bindingAdapterPosition)
+
+                //val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.fileMessage!!.uri))
+                //val i = Intent.parseUri(Uri.parse(item.fileMessage!!.uri).toString(), Intent.URI_INTENT_SCHEME)
+               // startActivity(getContext(), intent)
+               /* CoroutineScope(Dispatchers.Main).launch {
+                    startActivity(intent)
+                }*/
+               // Timber.v("this file message url" + item.fileMessage!!.uri)
+            }
+            binding.executePendingBindings()
+        }
+    }
+
+    class FileReceiveVHolder(val binding: RowFileReceiveBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Message, msgClickListener: ItemClickListener) {
+            binding.message = item
+            binding.fileMsg.setOnClickListener {
+                msgClickListener.onItemClicked(it,bindingAdapterPosition)
+            }
+            binding.executePendingBindings()
+        }
+    }
+    /*for file*/
 
     class StickerSentVHolder(val binding: RowStickerSentBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -270,7 +325,8 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             context: Context,
-            item: Message,) {
+            item: Message,
+        ) {
             binding.message = item
             binding.progressBar.setStoriesCountDebug(1,0)
             binding.progressBar.setAllStoryDuration(item.audioMessage?.duration!!.toLong()*1000)

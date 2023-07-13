@@ -3,6 +3,7 @@ package com.example.lawyerapplication.fragments.single_chat
 import android.Manifest
 import android.animation.Animator
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.media.MediaRecorder
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -108,8 +110,9 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
        // Toast.makeText(activity, "Single view", Toast.LENGTH_SHORT).show()
         binding.viewmodel=viewModel
         chatUser = args.chatUserProfile!!
-        Timber.v("chatUserSingleChat {$args}")
-        Timber.v("chatUserSingleChat {${chatUser.documentId}}")
+       // Timber.v("chatUserSingleChat {$args}")
+      //  Timber.v("chatUserSingleChat docId {${chatUser.documentId}}")
+       // Timber.v("chatUserSingleChat toUser.uId!! {${toUser.uId!!}}")
         /*  CoroutineScope(Dispatchers.IO).launch {
              val chatUsers = MApplication.userDaoo.getChatUserList()
             for (user in chatUsers.indices) {
@@ -157,7 +160,8 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
 
     private fun setListeners() {
         binding.viewChatBtm.lottieSend.setOnClickListener {
-            sendMessage()
+            //sendMessage()
+            sendMessageLead()
         }
         binding.viewChatHeader.viewBack.setOnClickListener {
             findNavController().popBackStack()
@@ -172,10 +176,11 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
                 stopRecording()
                 val duration=(recordDuration/1000).toInt()
                 if (duration<=1) {
-                    requireContext().toast("Nothing is recorded!")
+                    requireContext().toast("Ничего не записалось!")
                     return@setOnClickListener
                 }
-                val msg=createMessage().apply {
+                val msg=createMessageLead().apply {
+                    //createMessage().apply {
                     type="audio"
                     audioMessage= AudioMessage(lastAudioFile,duration)
                     chatUsers= ArrayList()
@@ -344,6 +349,10 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
             }
                 .withDismissListener { binding.fullSizeImageView.visibility = View.GONE }
                 .show()
+        } else if(message.type=="file") {
+           // Timber.v("urlFile" + message.fileMessage!!.uri)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(message.fileMessage!!.uri))
+            startActivity(intent)
         }
     }
 
@@ -363,17 +372,32 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 Timber.v("Cancelled Added Contact")
             }
-        }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-            onCropResult(data)
-        else
-            ImageUtils.cropImage(requireActivity(), data, true)
+        } else if (requestCode == 111) {
+            val selectedFile = data?.data
+            val filename = getFileNameFromUri(requireActivity(), selectedFile!!)
+            //Timber.v("thisIsFile" + filename)
+
+            val msg=createMessageLead().apply {
+                type="file"
+                fileMessage=FileMessage(filename, selectedFile.toString())
+                chatUsers= ArrayList()
+            }
+            viewModel.uploadToCloud(msg,selectedFile.toString())
+
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+           onCropResult(data)
+        } else {
+           ImageUtils.cropImage(requireActivity(), data, true)
+        }
+
     }
 
     private fun onCropResult(data: Intent?) {
         try {
             val imagePath: Uri? = ImageUtils.getCroppedImage(data)
             if (imagePath!=null){
-                val message=createMessage().apply {
+                val message=createMessageLead().apply {
+                    //createMessage().apply {
                     type="image"
                     imageMessage= ImageMessage(imagePath.toString())
                     chatUsers= ArrayList()
@@ -401,7 +425,8 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
     override fun onCommitContent(inputContentInfo: InputContentInfoCompat?,
         flags: Int,
         opts: Bundle?) {
-        val imageMsg=createMessage()
+        //val imageMsg=createMessage()
+        val imageMsg=createMessageLead()
         val image= ImageMessage("${inputContentInfo?.contentUri}")
         image.imageType=if(image.uri.toString().endsWith(".png")) "sticker" else "gif"
         imageMsg.apply {
@@ -423,7 +448,7 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
             }
             2->{
                 //create intent for gallery video
-                //ImageUtils.chooseDocFile(requireActivity())
+               // ImageUtils.chooseDocFile(requireActivity())
             }
             3->{
                 //create intent for camera video
@@ -527,8 +552,48 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
         }
     }
 
+
+    /*for lead message send*/
+    private fun sendMessageLead() {
+        val msg = edtValue(binding.viewChatBtm.edtMsg)
+        if (msg.isEmpty())
+            return
+        binding.viewChatBtm.lottieSend.playAnimation()
+        val message = createMessageLead().apply {
+            textMessage= TextMessage(msg)
+            chatUsers= ArrayList()
+        }
+        viewModel.sendMessageLead(message, chatUser.documentId!!)
+        binding.viewChatBtm.edtMsg.setText("")
+
+    }
+    private fun createMessageLead(): Message {
+        //val chatUserId = to
+        val chatUserId = toUser.uId!!
+
+        return Message(
+            System.currentTimeMillis(),
+            //from = preference.getUid().toString() + "_" + idLead,
+            from = preference.getUid().toString() + chatUser.documentId,
+            chatUserId=chatUserId,
+            to = toUser.uId!!.substring(0, 28), senderName = preference.getUserProfile()!!.userName,
+            senderImage = preference.getUserProfile()!!.image
+        )
+    }
+
+    fun getFileNameFromUri(context: Context, uri: Uri): String? {
+        val fileName: String?
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.moveToFirst()
+        fileName = cursor?.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+        cursor?.close()
+        return fileName
+    }
+    /*for lead message send*/
+
     companion object{
         private const val REQ_ADD_CONTACT=22
+        const val PICK_FILE = 99
     }
 }
 

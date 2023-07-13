@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -49,19 +50,31 @@ class UploadWorker @AssistedInject constructor(
         val stringData=params.inputData.getString(Constants.MESSAGE_DATA) ?: ""
         val message= Json.decodeFromString<Message>(stringData)
 
-        val url=params.inputData.getString(Constants.MESSAGE_FILE_URI)!!
-        val realPath = getRealPathFromURI(Uri.parse(url), applicationContext) //поставил функцию для извлеччения пути корректно
+        var url=params.inputData.getString(Constants.MESSAGE_FILE_URI)!!
 
-        Timber.v("getSourceName ${realPath}")
-        Timber.v("getSourceName ${url}")
+        val realPath: String?
+        val sourceName: String
+        //Timber.v("getSourceName message ${message.type}")
+        //Timber.v("getSourceName ${realPath}")
+       // Timber.v("getSourceName ${url}")
+        if(message.type == "audio") {
+            sourceName = getSourceName(message, url) //до стоял url
+        } else if(message.type == "file"){
+            url = getRealPathFromURI(Uri.parse(url), applicationContext).toString()
+            sourceName = getSourceName(message, url)
+        } else {
+            realPath = getRealPathFromURI(Uri.parse(url), applicationContext) //поставил функцию для извлечения пути корректно
+            sourceName = getSourceName(message, realPath!!)
+        }
 
-        val sourceName=getSourceName(message, realPath!!) //до стоял url
+        //Timber.v("TaskResult url ${getRealPathFromURI(Uri.parse(url), applicationContext)}")
+
         val storageRef= UserUtils.getStorageRef(applicationContext)
 
         val child = storageRef.child(
             "chats/${message.to}/$sourceName")
         val task: UploadTask
-        task = if(url.contains(".mp3")) {
+        task = if(url.contains(".mp3") || message.type == "file") {
             val stream = FileInputStream(url)  //audio message
             child.putStream(stream)
         }else
@@ -160,6 +173,8 @@ class UploadWorker @AssistedInject constructor(
     private fun setUrl(message: Message, imgUrl: String) {
         if (message.type=="audio")
             message.audioMessage?.uri=imgUrl
+        else if (message.type=="file")
+            message.fileMessage?.uri=imgUrl
         else
             message.imageMessage?.uri=imgUrl
     }

@@ -5,10 +5,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +54,9 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     private val viewModelProfile: BussinesViewModel by viewModels()
     private var stopped=false
 
+    private var redCircle: FrameLayout? = null
+    private var countTextView: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -68,24 +77,56 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
         }
         setDataInView()
-        subscribeObservers()
+       // subscribeObservers()
         /*message alert*/
-        val materialToolbar: Toolbar = binding.toolbar
+       /* val messageBtnAppBarTop = findViewById<View>(R.id.icon_forum)
+        messageBtnAppBarTop.setOnClickListener {
+            navController.navigate(R.id.FSingleChatHome)
+        }*/
+
+        /*val materialToolbar: Toolbar = binding.toolbar
         materialToolbar.setOnMenuItemClickListener {
+            //Toast.makeText(this, "this item id" + it, Toast.LENGTH_SHORT).show()
             when (it.itemId) {
-                R.id.action_forum -> {
+                R.id.action_notifications -> {
+                //R.id.action_forum -> {
                     navController.navigate(R.id.FSingleChatHome)
                     true
                 }
                 else -> false
             }
-        }
+        }*/
+
+
         /*message alert*/
     }
 
-    private fun subscribeObservers() {
+    private fun subscribeObservers(notificaitons: View) {
+       // val badge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_chat
+       // badge.isVisible = false
+        //redCircle = findViewById(R.id.view_alert_red_circle)
+       // val notificaitons: View = binding.toolbar.menu.findItem(R.id.action_forum).getActionView()
+        redCircle = notificaitons.findViewById(R.id.view_alert_red_circle)
+        //redCircle?.visibility = View.VISIBLE
+        //Timber.v("this redCircle" + redCircle)
+        countTextView = notificaitons.findViewById(R.id.view_alert_count_textview)
+       // Timber.v("this redCircle" + redCircle)
+        lifecycleScope.launch {
+            chatUserDao.getChatUserWithMessages().conflate().collect { list ->
+                val count = list.filter { it.user.unRead != 0 && it.messages.isNotEmpty() }
+                if(count.isNotEmpty()) { //hide if 0
+                    Timber.v("this count unread" + count.size)
+                    countTextView?.text = count.size.toString()
+                    redCircle?.visibility = View.VISIBLE
+                   // countTextView?.visibility = View.VISIBLE
 
-
+                } else {
+                    redCircle?.visibility = View.GONE
+                   // countTextView?.visibility = View.GONE
+                }
+            }
+        }
+/*
         val badge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_chat
         badge.isVisible = false
         val groupChatBadge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_group
@@ -104,7 +145,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                 badge.isVisible = count.isNotEmpty() //hide if 0
                 badge.number = count.size
             }
-        }
+        }*/
 
     }
 
@@ -129,7 +170,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                     navController.navigate(R.id.action_FLogIn_to_FProfile)
                 else
                 //navController.navigate(R.id.action_FLogIn_to_FSingleChatHome)
-                navController.navigate(R.id.FMainScreen)
+                    navController.navigate(R.id.FMainScreen)
                 //navController.navigate(R.id.FProfile)
             }
 
@@ -261,6 +302,32 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     private fun initToolbarItem() {
          searchItem = binding.toolbar.menu.findItem(R.id.action_search)
 
+        subscribeObservers(binding.toolbar.menu.findItem(R.id.action_forum).getActionView())
+        val paymentBtnAppBarTop = binding.toolbar.menu.findItem(R.id.action_forum).getActionView()
+        paymentBtnAppBarTop.setOnClickListener {
+            navController.navigate(R.id.FSingleChatHome)
+
+        }
+
+
+        binding.toolbar.setOnMenuItemClickListener {
+                // Toast.makeText(this, "this item id" + it, Toast.LENGTH_SHORT).show()
+                 when (it.itemId) {
+                    /* R.id.action_forum -> {
+                         //R.id.action_forum -> {
+                         navController.navigate(R.id.FSingleChatHome)
+                         true
+                     }*/
+                     R.id.action_notifications -> {
+                         //R.id.action_forum -> {
+                         //navController.navigate(R.id.FSingleChatHome)
+                         Toast.makeText(this, "notifications", Toast.LENGTH_SHORT).show()
+                         true
+                     }
+                     else -> false
+                 }
+             }
+
           searchView = searchItem.actionView as SearchView
           searchView.apply {
               maxWidth = Integer.MAX_VALUE
@@ -297,6 +364,8 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                   return true
               }
           })
+
+
 
     }
 

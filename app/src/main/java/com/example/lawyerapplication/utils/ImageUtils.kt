@@ -23,6 +23,7 @@ import com.canhub.cropper.CropImageView
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.fragments.FImageSrcSheet
 import com.example.lawyerapplication.fragments.SheetListener
+import com.example.lawyerapplication.fragments.single_chat.FSingleChat
 import java.io.*
 import kotlin.random.Random
 
@@ -35,6 +36,7 @@ object ImageUtils {
     private var photoUri: Uri? = null
 
     private const val PICKFILE_RESULT_CODE = 1
+    private const val FILE_RESULT_CODE = 2
 
     fun askPermission(context: Fragment) {
         if (checkStoragePermission(context))
@@ -87,10 +89,13 @@ object ImageUtils {
 
     public fun chooseDocFile(context: Activity) {
         try {
-            val intent = Intent(Intent.ACTION_PICK)
-            //intent.setDataAndType(MediaStore.Files.getContentUri(), "doc/*")
-            intent.type = "file/*"
-            context.startActivityForResult(intent, PICKFILE_RESULT_CODE)
+          //  val intent = Intent(Intent.CATEGORY_APP_FILES)
+           // intent.setDataAndType(MediaStore.getMediaScannerUri(), "doc/*")
+           // intent.type = "doc/*"
+            val intent = Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+            context.startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
         } catch (e: Exception) {
             e.printStackTrace()
         }

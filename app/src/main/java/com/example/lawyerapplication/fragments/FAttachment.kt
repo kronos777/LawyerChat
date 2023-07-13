@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.example.lawyerapplication.databinding.FAttachmentBinding
 import com.example.lawyerapplication.utils.BottomSheetEvent
+import com.example.lawyerapplication.utils.ImageUtils
 import org.greenrobot.eventbus.EventBus
 
 class FAttachment  : BottomSheetDialogFragment() {
@@ -43,7 +44,8 @@ class FAttachment  : BottomSheetDialogFragment() {
         }
 
         binding.videoGallery.setOnClickListener {
-            EventBus.getDefault().post(BottomSheetEvent(2))
+           // EventBus.getDefault().post(BottomSheetEvent(2))
+            ImageUtils.chooseDocFile(requireActivity())
             dismiss()
         }
 

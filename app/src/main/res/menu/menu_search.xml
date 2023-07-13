@@ -5,9 +5,9 @@
     tools:ignore="AlwaysShowAction,UnusedAttribute">
     <item
         android:id="@+id/action_forum"
-        android:icon="@drawable/ic_baseline_forum_24"
+        app:actionLayout="@layout/view_alerts_message"
         android:title="@string/txt_forum"
-        app:showAsAction="collapseActionView|always"
+        app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/action_notifications"

@@ -48,4 +48,4 @@ data class VideoMessage(val uri: String?=null,val duration: Int=0): Parcelable
 @Serializable
 @kotlinx.parcelize.Parcelize
 data class FileMessage(val name: String?=null,
-                       val uri: String?=null,val duration: Int=0): Parcelable
+                       var uri: String?=null, val duration: Int=0): Parcelable

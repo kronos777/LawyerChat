@@ -175,8 +175,8 @@ class FVerify : Fragment() {
                 if (success && findNavController().isValidDestination(R.id.FVerify)) {
                     val user = preferences.getUserProfile()
                     if (user!!.userName != "" && user!!.role != "") {
-                        //findNavController().navigate(R.id.FMainScreen)
-                        findNavController().navigate(R.id.action_FVerify_to_FProfile)
+                        findNavController().navigate(R.id.FMainScreen)
+                        //findNavController().navigate(R.id.action_FVerify_to_FProfile)
                     } else {
                         findNavController().navigate(R.id.action_FVerify_to_FProfile)
                     }
