@@ -28,15 +28,16 @@
             android:id="@+id/txt_msg"
             style="@style/WView"
             android:text="@{message.textMessage.text}"
-            android:paddingStart="12dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:layout_gravity="end"
             android:layout_marginStart="90dp"
-            android:textSize="18sp"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/shape_send_msg" />
+            android:textSize="14sp"
+            android:lineHeight="20dp"
+            android:textColor="@color/colorBlack"
+            android:background="@drawable/shape_send_msg_chat" />
 
         <LinearLayout
             style="@style/WLView"

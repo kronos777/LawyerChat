@@ -214,7 +214,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                 R.id.FSingleChatHome -> {
                    // binding.bottomNav.selectedItemId = R.id.nav_home
                     showView()
-                    binding.fab.show()
+                    binding.fab.hide()
 
                 // navController.navigate(R.id.FSingleChatHome)
                    // Toast.makeText(this, "single cht home", Toast.LENGTH_SHORT).show()

@@ -55,4 +55,6 @@
     <color name="top_panel_main">#0E1F3B</color>
     <color name="background_chat_text">#F1F1F8</color>
     <color name="background_chat_message">#5053A4</color>
+    <color name="background_chat_recive_message">#E3E3F0</color>
+    <color name="background_chat_sent_message">#F8F8FC</color>
 </resources>

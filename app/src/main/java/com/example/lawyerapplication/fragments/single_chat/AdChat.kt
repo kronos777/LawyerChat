@@ -171,7 +171,7 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
             if (bindingAdapterPosition>0) {
                 val message = messageList[bindingAdapterPosition - 1]
                 if (message.from == item.from)
-                    binding.txtMsg.setBackgroundResource(R.drawable.shape_send_msg_corned)
+                    binding.txtMsg.setBackgroundResource(R.drawable.shape_send_msg_corned_chat)
             }
             binding.executePendingBindings()
         }
@@ -185,7 +185,7 @@ class AdChat(private val context: Context, private val msgClickListener: ItemCli
                 val message = messageList[bindingAdapterPosition - 1]
                 //Timber.v("chatUserSingleChatAdapter messageFrom ${message.from} itemFrom ${item.from}")
                 if (message.from == item.from)
-                    binding.txtMsg.setBackgroundResource(R.drawable.shape_receive_msg_corned)
+                    binding.txtMsg.setBackgroundResource(R.drawable.shape_receive_msg_corned_chat)
             }
             binding.executePendingBindings()
         }

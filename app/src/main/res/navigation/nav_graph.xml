@@ -367,7 +367,11 @@
     <fragment
         android:id="@+id/FMyBussines_page"
         android:name="com.example.lawyerapplication.fragments.my_business.FMyBussines_page"
-        android:label="FMyBussines_page" />
+        android:label="FMyBussines_page" >
+        <action
+            android:id="@+id/action_FMyBussines_page_to_FSingleChat"
+            app:destination="@id/FSingleChat" />
+    </fragment>
     <fragment
         android:id="@+id/FSituationAppliances1"
         android:name="com.example.lawyerapplication.fragments.situation.appliances.FSituationAppliances1"

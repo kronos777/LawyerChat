@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.lawyerapplication.databinding.AlertAddStageBinding
 import com.example.lawyerapplication.databinding.FragmentMyBussinesPageBinding
@@ -341,11 +342,14 @@ class FMyBussines_page : Fragment() {
                     //documentId = "${preference.getUid()}_${to}_${idLead}")
                 Timber.v("userProfile {$chatUser}")
                 viewModel.setChatUser(chatUser)
-                val message = createMessage(to, idLead).apply {
+
+                val action = FMyBussines_pageDirections.actionFMyBussinesPageToFSingleChat(chatUser)
+                findNavController().navigate(action)
+               /* val message = createMessage(to, idLead).apply {
                     textMessage= TextMessage("msg ${to}")
                     chatUsers= ArrayList()
-                }
-                viewModel.sendMessageLead(message, idLead)
+                }*/
+                //viewModel.sendMessageLead(message, idLead)
                 //viewModel.dbRepository.insertMessage(message)
                 //viewModel.removeTypingCallbacks()
             } else {

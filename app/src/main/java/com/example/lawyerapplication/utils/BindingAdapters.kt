@@ -225,11 +225,11 @@ if (list.size<=2){
     @JvmStatic
     fun setState(txtStatus: TextView, status: Int) {
         txtStatus.text=when(status){
-            0 -> "Sending.."
-            1 -> "Sent"
-            2 -> "Delivered"
-            3 -> "Seen"
-            else-> "Failed"
+            0 -> "Отправка.."
+            1 -> "Отправлено"
+            2 -> "Доставлено"
+            3 -> "Просмотрено"
+            else-> "Ошибка"
         }
     }
 
