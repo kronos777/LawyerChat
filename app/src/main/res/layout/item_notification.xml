@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="stageItem"
+            type="com.example.lawyerapplication.db.data.StageBussines"
+            />
+    </data>
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:outlineProvider="none"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="left"
+            android:padding="16dp"
+            >
+            <TextView
+                android:textFontWeight="500"
+                android:lineHeight="24dp"
+                android:textSize="16dp"
+                android:id="@+id/banks_notes_h1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{stageItem.title}"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/colorBlack"
+                 />
+            <TextView
+                android:id="@+id/banks_description_h1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"Последнее обновление по делу #" +Integer.toString(stageItem.idBussines)}'
+                android:textColor="@color/colorPrimary"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/banks_notes_h1"
+                android:textFontWeight="500"
+                android:lineHeight="20dp"
+                android:textSize="14dp"
+                 />
+
+            <TextView
+                android:id="@+id/banks_description_h2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{stageItem.description}"
+                android:textColor="@color/colorGrey"
+                android:textFontWeight="500"
+                android:lineHeight="20dp"
+                android:textSize="14dp"
+                android:layout_below="@+id/banks_description_h1"
+                android:layout_alignParentLeft="true"
+                />
+
+            <TextView
+                style="@style/card_situation_description"
+                android:id="@+id/banks_time_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{stageItem.dateTime}"
+                android:textColor="@color/colorGrey"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

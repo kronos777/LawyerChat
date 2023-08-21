@@ -186,5 +186,12 @@
     <string name="button_stage_add">Создать</string>
     <string name="title_stage">Заголовок</string>
     <string name="stage_description">Текст</string>
+    <string name="text_label_tab_1">На расмотрении</string>
+    <string name="text_label_tab_2">Активные</string>
+    <string name="label_1">По дате</string>
+    <string name="label_2">Заявки</string>
+    <string name="label_3">Консультации</string>
+    <string name="label_4">По темам</string>
+    <string name="button_notifications_page">Перейти к делу</string>
 
 </resources>

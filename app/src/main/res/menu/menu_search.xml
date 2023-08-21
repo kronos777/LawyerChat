@@ -11,9 +11,9 @@
         />
     <item
         android:id="@+id/action_notifications"
-        android:icon="@drawable/ic_baseline_notifications_24"
+        app:actionLayout="@layout/view_alerts_notifications"
         android:title="@string/txt_notifications"
-        app:showAsAction="collapseActionView|always"
+        app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/action_search"

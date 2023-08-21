@@ -8,6 +8,7 @@ import com.example.lawyerapplication.db.DbRepository
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Message
 import com.example.lawyerapplication.fragments.single_chat.toDataClass
+import com.example.lawyerapplication.models.UserProfile
 import com.example.lawyerapplication.utils.LogMessage
 import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.utils.UserUtils
@@ -16,6 +17,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import java.util.Collections.addAll
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,6 +37,8 @@ class ChatHandler @Inject constructor(
     val message = MutableLiveData<String>()
 
     private lateinit var chatUsers: List<ChatUser>
+
+    private lateinit var newChatUsers: ArrayList<ChatUser>
 
     private val listOfDocs = ArrayList<String>()
 
@@ -68,6 +72,7 @@ class ChatHandler @Inject constructor(
         }*/
         messageCollectionGroup = UserUtils.getMessageSubCollectionRef()
         preference.clearCurrentUser()
+        //checkExistsChatUser()
       /*  Timber.v("ChatHandler init msgs collection{$messageCollectionGroup}")
         Timber.v("ChatHandler init msgs collection{$fromUser}")*/
        /* CoroutineScope(Dispatchers.IO).launch {
@@ -114,10 +119,73 @@ class ChatHandler @Inject constructor(
 
     }
 
+    fun dropElementInNewUsers(uid: String) {
+        TODO()
+    }
+
+    private fun checkExistsChatUser() {
+       // dbRepository.deleteUserById("7hnvdormFcO5U2ReaD9pxuVKo0D3")
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val newListOfIds = ArrayList<String>()
+            val newListOfIdsHash = HashSet<String>()
+            val chatUsers: List<ChatUser> = dbRepository.getChatUserList()
+            val filteredChatUsers = mutableListOf<ChatUser>().apply { addAll(newChatUsers) }
+            //Timber.v("allChatUsersExists ${chatUsers}")
+
+            if(newChatUsers.size > 0) {
+                if (chatUsers.isNotEmpty()) {
+                    /*for (i in chatUsers.indices) {
+                        val chUsersLocal = chatUsers[i]
+                        Timber.v("ChatHandlerChatUserLocal exist ${chUsersLocal.id}")
+                         listOfIds.let {
+                             for (usId in it) {
+                                 if (chUsersLocal.id.substring(28).equals(usId.substring(28))) {
+                                     Timber.v("ChatHandlerChatUserLocal exist ${usId}")
+                                 } else {
+                                     Timber.v("ChatHandlerChatUserLocal no exist ${usId}")
+                                 }
+                             }
+                         }
+                    }*/
+                    var c = 0
+                    Timber.v("ChatHandlerChatUserLocal final before newchatUser  ${newChatUsers}")
+                    do {
+                        //println(c)
+                        //for (c in newChatUsers.indices) {
+                            val chatUserId = newChatUsers[c].id
+                            Timber.v("ChatHandlerChatUserFireStore exist ${chatUserId}")
+                            for (i in chatUsers.indices) {
+                                if((chatUserId.substring(28).equals(chatUsers[i].id.substring(28))) || (chatUserId.equals(chatUsers[i].id))) {
+                                    Timber.v("ChatHandlerChatUserLocal exist ${chatUserId}  local ${chatUsers[i].id} ")
+                                    filteredChatUsers.remove(newChatUsers[c])
+                                } /*else {
+                                     Timber.v("ChatHandlerChatUserLocal no exist ${chatUserId}  local  ${chatUsers[i].id}")
+                                }*/
+                            }
+                       // }
+                        c++
+                    } while (c < newChatUsers.size)
+                    Timber.v("ChatHandlerChatUserLocal final after newchatUser  ${filteredChatUsers}")
+                    dbRepository.insertMultipleUsers(filteredChatUsers as java.util.ArrayList<ChatUser>)
+                } else {
+                    Timber.v("Local chatUser count zero ${newChatUsers}")
+                    //add all users
+                    dbRepository.insertMultipleUsers(newChatUsers)
+                }
+
+            } else {
+                Timber.v("new chat user size zero")
+            }
+
+        }
+    }
+
     private fun onSnapShotChanged(snapShots: QuerySnapshot) {
         messagesList.clear()
         listOfDocs.clear()
         val listOfIds = ArrayList<String>()
+        newChatUsers = mutableListOf<ChatUser>() as ArrayList<ChatUser>
         Timber.v("ChatHandler init 1 {$snapShots}")
         if (isFirstQuery) {
             snapShots.forEach { doc ->
@@ -128,10 +196,16 @@ class ChatHandler @Inject constructor(
                 message.chatUserId =
                     if (message.from != fromUser) message.from else message.to
                 messagesList.add(message)
+                //checkExistsChatUser(message.chatUserId!!)
                // Timber.v("ChatHandler init msgs fquery {$message}")
                 if (!listOfDocs.contains(parentDoc)) {
                     listOfDocs.add(doc.reference.parent.parent?.id.toString())
                     listOfIds.add(message.chatUserId!!)
+                    //create send lead info
+                    val toLead = if (fromUser == message.to!!.substring(0, 28)) message.from.substring(0, 28) else message.to.substring(0, 28)
+                    newChatUsers.add(ChatUser(
+                        id= toLead + doc.reference.parent.parent?.id.toString(),localName = "Дело ${doc.reference.parent.parent?.id.toString()}",user = UserProfile(toLead + doc.reference.parent.parent?.id.toString(),13232113L,123321321L, "", "Дело №" + doc.reference.parent.parent?.id.toString()),
+                        documentId = doc.reference.parent.parent?.id.toString()))
                 }
             }
             isFirstQuery=false
@@ -148,16 +222,24 @@ class ChatHandler @Inject constructor(
                     message.chatUserId =
                         if (message.from != fromUser) message.from else message.to
                     Timber.v("message firestore {$message}")
+                  //  checkExistsChatUser(message.chatUserId!!)
                     messagesList.add(message)
                     if (!listOfDocs.contains(parentDoc)) {
                         listOfDocs.add(document.reference.parent.parent?.id.toString())
                         listOfIds.add(message.chatUserId!!)
+                        val toLead = if (fromUser == message.to!!.substring(0, 28)) message.from.substring(0, 28) else message.to.substring(0, 28)
+                        newChatUsers.add(ChatUser(
+                            id= toLead + document.reference.parent.parent?.id.toString(),localName = "Дело ${document.reference.parent.parent?.id.toString()}",user = UserProfile(toLead + document.reference.parent.parent?.id.toString(),13232113L,123321321L, "", "Дело №" + document.reference.parent.parent?.id.toString()),
+                            documentId = document.reference.parent.parent?.id.toString()))
                     }
                 }
             }
         }
         Timber.v("listOfDocs {$listOfDocs}")
         Timber.v("listOfIds {$listOfIds}")
+        Timber.v("listOfChatUsers {$newChatUsers}")
+
+        checkExistsChatUser()
         if (!messagesList.isNullOrEmpty())
           //  Timber.v("insertMessageOnDb {$listOfIds}")
             insertMessageOnDb(listOfIds)
@@ -174,6 +256,7 @@ class ChatHandler @Inject constructor(
                 val chatUser = chatUsers.firstOrNull { it.id == listOfIds[index] }
                 if (chatUser == null) {
                     newContactIds.add(listOfIds[index])
+                    Timber.v("addNewContacts ${listOfIds[index]}")
                     //message from unsaved user
                 } else {
                     chatUser.unRead = if (preference.getOnlineUser() == chatUser.id) 0 else

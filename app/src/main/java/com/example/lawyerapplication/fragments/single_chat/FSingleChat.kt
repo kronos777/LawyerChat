@@ -110,10 +110,10 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
        // Toast.makeText(activity, "Single view", Toast.LENGTH_SHORT).show()
         binding.viewmodel=viewModel
         chatUser = args.chatUserProfile!!
-       // Timber.v("chatUserSingleChat {$args}")
+        Timber.v("chatUserSingleChat {$args}")
       //  Timber.v("chatUserSingleChat docId {${chatUser.documentId}}")
        // Timber.v("chatUserSingleChat toUser.uId!! {${toUser.uId!!}}")
-        /*  CoroutineScope(Dispatchers.IO).launch {
+        /*CoroutineScope(Dispatchers.IO).launch {
              val chatUsers = MApplication.userDaoo.getChatUserList()
             for (user in chatUsers.indices) {
                  Timber.v("ChatUserSingleChat $user ${chatUsers[user]}")

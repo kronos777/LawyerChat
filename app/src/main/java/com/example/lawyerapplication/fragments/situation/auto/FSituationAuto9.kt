@@ -532,7 +532,7 @@ class FSituationAuto9 : Fragment() {
         val btnArgsLessons = Bundle().apply {
             putString(FSituationAuto10.SITUATION_ITEM, situationId)
         }
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationAuto9_to_FSituationAuto10, btnArgsLessons)
     }
 

@@ -1,12 +1,16 @@
 package com.example.lawyerapplication.fragments.my_business
 
+
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -14,17 +18,19 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.lawyerapplication.R
+import com.example.lawyerapplication.databinding.AlertSwitchFilterBinding
 import com.example.lawyerapplication.databinding.FragmentMyBussinesMainBinding
 import com.example.lawyerapplication.db.data.BusinessItem
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.MyBusinessAdapterHorizontal
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.utils.*
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
+
 
 @AndroidEntryPoint
 class FMyBussines_main : Fragment() {
@@ -42,8 +48,11 @@ class FMyBussines_main : Fragment() {
     private lateinit var myBusinessListAdapter: MyBusinessAdapterHorizontal
     private lateinit var navController: NavController
     private val viewModelProfile: BussinesViewModel by viewModels()
-    private var sortingData: Boolean = true
-
+    private var sortingData: Boolean = false
+    private var sortingString: String = ""
+    private var role: Boolean = false
+    private var tabPos: Boolean = false
+    private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -58,23 +67,174 @@ class FMyBussines_main : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
-
+        role = viewModelProfile.isLawyer()
         setupRecyclerView()
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 
-        setDataInView(sortingData)
+        setDataInView(sortingData, "")
 
         binding.imageSorting.setOnClickListener {
-            if(sortingData) {
-                //Toast.makeText(context, "Click sorting "+sortingData.toString(), Toast.LENGTH_SHORT).show()
-                sortingData = false
-                setDataInView(sortingData)
-            } else {
+            if(!sortingData && sortingString == "") {
+                filterDataDateTime()
+            } else if(sortingData && (sortingString == "active" || sortingString == "noActiveDateTime") && tabPos){
+                filterDataDateTimeActive()
+            } else if(!sortingData && sortingString == "activeDateTime" && tabPos){
                 sortingData = true
-                setDataInView(sortingData)
+                sortingString = "noActiveDateTime"
+                setDataInView(sortingData, sortingString)
+            } else if(!sortingData && sortingString == "applications"){
+                filterDataApplications()
+            } else if(sortingData && sortingString == "applications"){
+                sortingData = false
+                sortingString = "applications"
+                setDataInView(sortingData, sortingString)
+            } else if(sortingData && (sortingString == "applications" || sortingString == "noActiveApplications") && tabPos){
+                filterDataApplicationsActive()
+            } else if(!sortingData && sortingString == "activeApplications" && tabPos){
+                sortingData = true
+                sortingString = "noActiveApplications"
+                setDataInView(sortingData, sortingString)
+            } else if(!sortingData && sortingString == "consultations"){
+                filterDataConsultations()
+            } else if(sortingData && sortingString == "consultations"){
+                sortingData = false
+                sortingString = "consultations"
+                setDataInView(sortingData, sortingString)
+            } else if(sortingData && (sortingString == "consultations" || sortingString == "noActiveConsultations") && tabPos){
+                filterDataConsultationsActive()
+            } else if(!sortingData && sortingString == "activeApplications" && tabPos){
+                sortingData = true
+                sortingString = "noActiveConsultations"
+                setDataInView(sortingData, sortingString)
+            }else if(!sortingData && sortingString == "themes"){
+                filterDataThemes()
+            } else if(sortingData && sortingString == "themes"){
+                sortingData = false
+                sortingString = "themes"
+                setDataInView(sortingData, sortingString)
+            } else if(!sortingData && (sortingString == "themes" || sortingString == "ActiveThemes") && tabPos){
+                filterDataThemesActive()
+            } else if(sortingData && (sortingString == "themes" || sortingString == "ActiveThemes") && tabPos){
+                sortingData = false
+                sortingString = "ActiveThemes"
+                setDataInView(sortingData, sortingString)
+            }else {
+                sortingData = false
+                sortingString = ""
+                setDataInView(sortingData, "")
             }
         }
 
+        binding.sortingValue.setOnClickListener {
+            initDialog()
+            dialog.show()
+        }
+
+        tabClick()
+
+/*
+        binding.tabItem1.setOnClickListener {
+            Toast.makeText(context, "Tab item 1", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.tabItem2.setOnClickListener {
+            Toast.makeText(context, "Tab item 2", Toast.LENGTH_SHORT).show()
+        }*/
+
+    }
+
+    private fun filterDataDateTime() {
+        sortingData = true
+        sortingString = "dateTime"
+        setDataInView(sortingData, sortingString)
+    }
+
+    private fun filterDataDateTimeActive() {
+        sortingData = false
+        sortingString = "activeDateTime"
+        setDataInView(sortingData, sortingString)
+    }
+
+    private fun filterDataApplicationsActive() {
+        sortingData = false
+        sortingString = "activeApplications"
+        setDataInView(sortingData, sortingString)
+    }
+    private fun filterDataApplications() {
+        sortingData = true
+        sortingString = "applications"
+        setDataInView(sortingData, sortingString)
+    }
+
+
+
+    private fun filterDataConsultations() {
+        sortingData = true
+        sortingString = "consultations"
+        setDataInView(sortingData, sortingString)
+    }
+
+    private fun filterDataConsultationsActive() {
+        sortingData = false
+        sortingString = "activeConsultations"
+        setDataInView(sortingData, sortingString)
+    }
+
+    private fun filterDataThemes() {
+        sortingData = true
+        sortingString = "themes"
+        setDataInView(sortingData, sortingString)
+    }
+
+    private fun filterDataThemesActive() {
+        sortingData = true
+        sortingString = "ActiveThemes"
+        setDataInView(sortingData, sortingString)
+    }
+
+
+    private fun tabClick(){
+        val tabLayout = binding.tabMode
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                // Handle tab select
+                //Toast.makeText(context, "Tab item select"+ tab!!.position, Toast.LENGTH_SHORT).show()
+                if(role){
+                    if(tab!!.position == 0) {
+                        tabPos = false
+                        sortingData = true
+                        sortingString = "noactive"
+                        setDataInView(sortingData, sortingString)
+                    } else if(tab!!.position == 1) {
+                        tabPos = true
+                        sortingData = true
+                        sortingString = "active"
+                        setDataInView(sortingData, sortingString)
+                    }
+                } else {
+                    if(tab!!.position == 0) {
+                        sortingData = true
+                        sortingString = "active"
+                        setDataInView(sortingData, sortingString)
+                    } else if(tab!!.position == 1) {
+                        sortingData = true
+                        sortingString = "closed"
+                        setDataInView(sortingData, sortingString)
+                    }
+                }
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // Handle tab reselect
+                Toast.makeText(context, "Tab item reselect"+ tab!!.id, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // Handle tab unselect
+            }
+        })
     }
 
 
@@ -120,31 +280,151 @@ class FMyBussines_main : Fragment() {
         }
     }
 
-    private fun setDataInView(sort: Boolean) {
+    private fun setDataInView(sort: Boolean, typeSorting: String?) {
         val uid = preference.getUid()
-        val role = viewModelProfile.isLawyer()
+
         val listArrayBusiness: ArrayList<BusinessItem> = ArrayList()
-        viewModelProfile.getBussinesLiveData(uid!!, role, sort).observe(context as FragmentActivity) {
+       // Toast.makeText(context, "isLaweyer" + role, Toast.LENGTH_SHORT).show()
+        if(!role){
+            binding.sortingDataMain.visibility = View.GONE
+            binding.tabMode.getTabAt(0)!!.text = "Активные"
+            binding.tabMode.getTabAt(1)!!.text = "Закрытые"
 
-            for (index in it.products!!.indices) {
-                //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
-                listArrayBusiness.add(
-                    BusinessItem(
-                        it.products!![index].id,
-                        it.products!![index].title,
-                        it.products!![index].typeLead,
-                        it.products!![index].categoryLead,
-                        it.products!![index].dateTimeLead
+            viewModelProfile.getBussinesLiveData(uid!!, role, sort, typeSorting, "").observe(context as FragmentActivity) {
+
+                for (index in it.products!!.indices) {
+                    //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
+                    listArrayBusiness.add(
+                        BusinessItem(
+                            it.products!![index].id,
+                            it.products!![index].title,
+                            it.products!![index].typeLead,
+                            it.products!![index].categoryLead,
+                            it.products!![index].dateTimeLead,
+                            it.products!![index].idLaywer,
+                        )
                     )
-                )
-            }
-            myBusinessListAdapter.submitList(listArrayBusiness)
+                }
+                myBusinessListAdapter.submitList(listArrayBusiness)
 
-            if (listArrayBusiness.isNotEmpty()) {
-                //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
-                binding.rvSituationList.smoothScrollToPosition(0)
+                if (listArrayBusiness.isNotEmpty()) {
+                    //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
+                    binding.rvSituationList.smoothScrollToPosition(0)
+                }
+            }
+
+
+        } else {
+                viewModelProfile.getBussinesLiveData(uid!!, role, sort, typeSorting, "").observe(context as FragmentActivity) {
+
+                    for (index in it.products!!.indices) {
+                        //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
+                        listArrayBusiness.add(
+                            BusinessItem(
+                                it.products!![index].id,
+                                it.products!![index].title,
+                                it.products!![index].typeLead,
+                                it.products!![index].categoryLead,
+                                it.products!![index].dateTimeLead,
+                                it.products!![index].idLaywer,
+                            )
+                        )
+                    }
+                    myBusinessListAdapter.submitList(listArrayBusiness)
+
+                    if (listArrayBusiness.isNotEmpty()) {
+                        //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
+                        binding.rvSituationList.smoothScrollToPosition(0)
+                    }
+            }
+
+        }
+    }
+
+    private fun setSortingData(strSort: String) {
+        sortingString = strSort
+        when (strSort) {
+            "dateTime" ->  binding.sortingValue.text = "По дате"
+            "applications" ->  binding.sortingValue.text = "Заявки"
+            "consultations" ->  binding.sortingValue.text = "Консультации"
+            "themes" ->  binding.sortingValue.text = "По темам"
+        }
+
+        if(!tabPos) {
+            when (strSort) {
+                "dateTime" ->  filterDataDateTime()
+                "applications" ->  filterDataApplications()
+                "consultations" ->  filterDataConsultations()
+                "themes" ->  filterDataThemes()
+            }
+        } else {
+            when (strSort) {
+                "dateTime" -> filterDataDateTimeActive()
+                "applications" -> filterDataApplicationsActive()
+                "consultations" -> filterDataConsultationsActive()
+                "themes" -> filterDataThemesActive()
             }
         }
+
+    }
+
+    private fun initDialog() {
+        //Toast.makeText(context, "init dialog", Toast.LENGTH_SHORT).show()
+        try {
+            dialog = Dialog(requireContext())
+            val layoutBinder = AlertSwitchFilterBinding.inflate(layoutInflater)
+
+            dialog.setContentView(layoutBinder.root)
+            dialog.window?.setGravity(Gravity.BOTTOM)
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+           // val mInfoTextView = binding.titleSorting
+            layoutBinder.radioBtn.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    com.example.lawyerapplication.R.id.radio_button_1 -> setSortingData("dateTime")
+                    com.example.lawyerapplication.R.id.radio_button_2 -> setSortingData("applications")
+                    com.example.lawyerapplication.R.id.radio_button_3 -> setSortingData("consultations")
+                    com.example.lawyerapplication.R.id.radio_button_4 -> setSortingData("themes")
+                }
+            })
+           /* layoutBinder.radioBtn.setOnCheckedChangeListener(
+                RadioGroup.OnCheckedChangeListener { group, checkedId ->
+                    //val radio: RadioButton = findViewById(checkedId)
+                    //Toast.makeText(context," On checked change :"+ " ${radio.text}",  Toast.LENGTH_SHORT).show()
+
+                })*/
+           /*
+            layoutBinder.enterButton.setOnClickListener {
+                //Log.d("logDialog", )
+                //Log.d("logDialog", layoutBinder.etDescription.text.toString())
+                val title = layoutBinder.etTitle.text.toString()
+                val description  = layoutBinder.etDescription.text.toString()
+                viewModelStage.addStageBussines(item.toInt(), title, description)
+
+                Handler().postDelayed({
+                    dialog.dismiss()
+                    setDataInView()
+                }, 1500)
+
+                //addStageBussines
+
+
+            }
+            layoutBinder.imageClose.setOnClickListener {
+                dialog.dismiss()
+            }*/
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    fun onClickedLead(view: View) {
+        Toast.makeText(context," On checked change :"+
+                " ${view.id}",
+            Toast.LENGTH_SHORT).show()
     }
 
 

@@ -105,15 +105,15 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         profile = preference.getUserProfile()!!
         setDataInView()
         subScribeObservers()
-        /* CoroutineScope(Dispatchers.IO).launch {
+       /* CoroutineScope(Dispatchers.IO).launch {
               val chatUsers = MApplication.userDaoo.getChatUserList()
               for (user in chatUsers.indices) {
                   Timber.v("ChatUser $user ${chatUsers[user]}")
               }
-          }
-          CoroutineScope(Dispatchers.IO).launch {
-              chatUserDao.deleteUserById("7hnvdormFcO5U2ReaD9pxuVKo0D3_URJAVFqIRJTZBgAVKFPYoY5QhMg1_48")
-              Toast.makeText(context, "7hnvdormFcO5U2ReaD9pxuVKo0D3_7hnvdormFcO5U2ReaD9pxuVKo0D3_48", Toast.LENGTH_SHORT).show()
+        }*/
+         /*CoroutineScope(Dispatchers.IO).launch {
+              chatUserDao.deleteUserById("URJAVFqIRJTZBgAVKFPYoY5QhMg140")
+              Toast.makeText(context, "URJAVFqIRJTZBgAVKFPYoY5QhMg14040", Toast.LENGTH_SHORT).show()
           }*/
         //current destination
         /*navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
@@ -129,10 +129,11 @@ class FSingleChatHome : Fragment(), ItemClickListener {
     private fun subScribeObservers() {
         lifecycleScope.launch {
             viewModel.getChatUsers().collect { list ->
-              /*  for (i in list.indices) {
-                    Log.d("chatUser f", list[i].user.toString())
-                    Log.d("chatUser f", list[i].messages.toString())
-                }*/
+                for (i in list.indices) {
+                    //Log.d("chatUser f", list[i].toString())
+                    Log.d("chatUser f ${i}", list[i].user.toString())
+                    Log.d("chatUser f ${i}", list[i].messages.toString())
+                }
                 updateList(list)
             }
         }

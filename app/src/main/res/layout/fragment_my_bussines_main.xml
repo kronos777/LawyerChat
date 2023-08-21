@@ -3,10 +3,47 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.example.lawyerapplication.fragments.my_business.BussinesViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/group_list_recycler_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/colorPrimary"
+        app:tabIndicatorColor="@color/background_chat_recive_message"
+        app:tabIndicatorFullWidth="false"
+        app:tabTextColor="@color/white"
+        app:tabTextAppearance="@style/TabText"
+        >
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_label_tab_1"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_label_tab_2"
+            />
+
+    </com.google.android.material.tabs.TabLayout>
+
         <RelativeLayout
             android:id="@+id/sorting_data_main"
             android:layout_width="match_parent"
@@ -14,9 +51,9 @@
             app:layout_constraintBottom_toTopOf="@id/rv_situation_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabMode"
             android:orientation="horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             >
             <TextView
                 android:id="@+id/title_sorting"
@@ -24,18 +61,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:fontFamily="@font/roboto"
-                android:lineHeight="28dp"
-                android:text="Сортировка: По дате"
-                android:textColor="@color/black"
                 android:textFontWeight="400"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:lineHeight="28dp"
+                android:text="Сортировка: "
+                android:textColor="@color/black"
+                 />
+            <TextView
+                android:id="@+id/sorting_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="@font/roboto"
+                android:textFontWeight="400"
+                android:textSize="22sp"
+                android:lineHeight="28dp"
+                android:text="По дате"
+                android:layout_toRightOf="@+id/title_sorting"
+                android:textColor="@color/black"
+                />
             <ImageView
                 android:id="@+id/image_sorting"
                 android:layout_width="24dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="11dp"
                 android:layout_height="24dp"
-                android:layout_toRightOf="@+id/title_sorting"
+                android:layout_toRightOf="@+id/sorting_value"
                 android:src="@drawable/sorting_swap_vert_24" />
 
         </RelativeLayout>

@@ -565,7 +565,7 @@ class FSituationNewBuildings2 : Fragment() {
         val btnArgsLessons = Bundle().apply {
             putString(FSituationNewBuildings3.SITUATION_ITEM, situationId)
         }
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationNewBuildings2_to_FSituationNewBuildings3, btnArgsLessons)
     }
 

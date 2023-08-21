@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lawyerapplication.db.data.LastIdStage
-import com.example.lawyerapplication.db.data.ResponseBussines
 import com.example.lawyerapplication.db.data.ResponseStage
 import com.example.lawyerapplication.db.data.StageBussines
 import com.example.lawyerapplication.utils.*
@@ -117,8 +116,9 @@ constructor(
                     val title = item.data!!.get("title").toString()
                     val description = item.data!!.get("description").toString()
                     val dateTime = item.data!!.get("dateTime").toString()
+                    val status = item.data!!.get("status").toString()
 
-                    val stage = StageBussines(id, idBussines, title, description, dateTime)
+                    val stage = StageBussines(id, idBussines, title, description, dateTime, status.toInt())
 
                     resultFunction.add(stage)
                 }

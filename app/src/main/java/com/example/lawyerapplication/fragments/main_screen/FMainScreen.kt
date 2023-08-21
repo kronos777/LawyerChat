@@ -135,9 +135,10 @@ class FMainScreen : Fragment(R.layout.f_main_screen) {
                 ?.replace(R.id.nav_host_fragment, FSingleChatHome())
                 ?.addToBackStack(null)
                 ?.commit()*/
-            val action = FMainScreenDirections.actionFMainScreenToFSingleChatHome()
-                findNavController().navigate(action)
+           /* val action = FMainScreenDirections.actionFMainScreenToFSingleChatHome()
+                findNavController().navigate(action)*/
             //findNavController().navigate(R.id.action_FMainScreen_to_FSingleChatHome)
+            navController.navigate(R.id.action_FMainScreen_to_FSituationConsultation)
         }
 
 

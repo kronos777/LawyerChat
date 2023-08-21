@@ -597,7 +597,7 @@
                 android:orientation="vertical"
                 >
                 <TextView
-                    android:id="@+id/button_for_lawyer4"
+                    android:id="@+id/button_for_lawyer_close_lead"
                     android:layout_marginBottom="15dp"
                     android:layout_width="match_parent"
                     android:text="Закрыть дело"
@@ -608,7 +608,7 @@
                     android:textFontWeight="500"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/button_for_lawyer3"
+                    android:id="@+id/button_for_lawyer_refuse_service"
                     android:layout_marginBottom="15dp"
                     android:layout_width="match_parent"
                     android:text="Отказать в услуге"

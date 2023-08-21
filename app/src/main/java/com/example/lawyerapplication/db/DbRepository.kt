@@ -49,6 +49,9 @@ class DbRepository @Inject constructor(
     }
 
     override fun deleteUserById(userId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            userDao.deleteUserById(userId)
+        }
     }
 
     fun insertMultipleUser(finalList: ArrayList<ChatUser>) {

@@ -189,7 +189,17 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_FMainScreen_to_FSingleChatHome">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_FMainScreen_to_FSituation">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_FMainScreen_to_FSituationConsultation">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -212,6 +222,15 @@
                             <option name="x" value="2038" />
                             <option name="y" value="313" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FMyBussines_page_to_FSingleChat">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -254,6 +273,30 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="FNotifications_main">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1786" />
+                            <option name="y" value="692" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="FNotifications_page">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="2007" />
+                            <option name="y" value="700" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -353,8 +396,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1389" />
-                            <option name="y" value="-190" />
+                            <option name="x" value="1390" />
+                            <option name="y" value="-269" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -793,6 +836,27 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="FSituationConsultation">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1412" />
+                            <option name="y" value="50" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_FSituationConsultation_to_FSituationFinish">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="FSituationFinish">
                     <value>
                       <LayoutPositions>
@@ -1065,6 +1129,20 @@
                             <option name="x" value="1444" />
                             <option name="y" value="-595" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_aboutApplication_to_licenseAgreement">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_aboutApplication_to_privacyPolicy">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

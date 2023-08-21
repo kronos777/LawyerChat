@@ -175,7 +175,7 @@ class FMyBussines_page : Fragment() {
                                 binding.buttonsForLawyer.visibility = View.VISIBLE
 
                                 if(lawyer == "") {
-                                    binding.buttonForLawyer4.visibility = View.GONE
+                                    binding.buttonForLawyerCloseLead.visibility = View.GONE
 
                                     binding.buttonForLawyer2.setOnClickListener {
                                         takeBusiness(item)
@@ -184,11 +184,13 @@ class FMyBussines_page : Fragment() {
 
                                 } else {
                                     binding.buttonForLawyer2.visibility = View.GONE
-                                    binding.buttonForLawyer4.visibility = View.VISIBLE
-                                    binding.buttonForLawyer4.setOnClickListener {
+                                    binding.buttonForLawyerCloseLead.visibility = View.VISIBLE
+                                    binding.buttonForLawyerCloseLead.setOnClickListener {
+                                        closeLead()
+                                    }
+                                    binding.buttonForLawyerRefuseService.setOnClickListener {
                                         refuseBusiness(item)
                                     }
-
                                     binding.buttonChat.setOnClickListener {
                                         initChatUser(item, client)
                                         Toast.makeText(context, "new msg lawyer", Toast.LENGTH_SHORT).show()
@@ -401,8 +403,8 @@ class FMyBussines_page : Fragment() {
 
     private fun showButtonLawyer() {
         binding.buttonForLawyer2.visibility = View.GONE
-        binding.buttonForLawyer3.visibility = View.GONE
-        binding.buttonForLawyer4.visibility = View.VISIBLE
+        binding.buttonForLawyerRefuseService.visibility = View.GONE
+        binding.buttonForLawyerCloseLead.visibility = View.VISIBLE
     }
 
     private fun refuseBusiness(item: String) {
@@ -420,6 +422,14 @@ class FMyBussines_page : Fragment() {
         //добавляем первый этап в стадии
         addFirstStage()
     }
+
+    private fun closeLead() {
+            val data = hashMapOf("status" to "close")
+            val docRef = getDocumentRef(context).document(item)
+            docRef.set(data, SetOptions.merge())
+            //добавляем первый этап в стадии
+    }
+
 
     private fun addFirstStage() {
         val nameLawyer = firstUpperCase(viewModelProfile.name.value.toString()) + " " + firstUpperCase(viewModelProfile.serName.value.toString())

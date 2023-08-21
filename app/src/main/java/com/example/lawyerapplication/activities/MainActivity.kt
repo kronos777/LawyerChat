@@ -8,13 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.get
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -32,7 +27,6 @@ import com.example.lawyerapplication.fragments.my_business.BussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.FAddCards
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.utils.*
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
@@ -54,8 +48,11 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     private val viewModelProfile: BussinesViewModel by viewModels()
     private var stopped=false
 
-    private var redCircle: FrameLayout? = null
-    private var countTextView: TextView? = null
+    private var redCircleMessage: FrameLayout? = null
+    private var countTextViewMessage: TextView? = null
+
+    private var redCircleStage: FrameLayout? = null
+    private var countTextViewStage: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,27 +98,27 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
         /*message alert*/
     }
 
-    private fun subscribeObservers(notificaitons: View) {
+    private fun subscribeObserversMessage(notificaitonsView: View) {
        // val badge = binding.bottomNav.getOrCreateBadge(R.id.nav_home)//nav_chat
        // badge.isVisible = false
         //redCircle = findViewById(R.id.view_alert_red_circle)
        // val notificaitons: View = binding.toolbar.menu.findItem(R.id.action_forum).getActionView()
-        redCircle = notificaitons.findViewById(R.id.view_alert_red_circle)
+        redCircleMessage = notificaitonsView.findViewById(R.id.view_alert_red_circle)
         //redCircle?.visibility = View.VISIBLE
         //Timber.v("this redCircle" + redCircle)
-        countTextView = notificaitons.findViewById(R.id.view_alert_count_textview)
+        countTextViewMessage = notificaitonsView.findViewById(R.id.view_alert_count_textview)
        // Timber.v("this redCircle" + redCircle)
         lifecycleScope.launch {
             chatUserDao.getChatUserWithMessages().conflate().collect { list ->
                 val count = list.filter { it.user.unRead != 0 && it.messages.isNotEmpty() }
                 if(count.isNotEmpty()) { //hide if 0
                     Timber.v("this count unread" + count.size)
-                    countTextView?.text = count.size.toString()
-                    redCircle?.visibility = View.VISIBLE
+                    countTextViewMessage?.text = count.size.toString()
+                    redCircleMessage?.visibility = View.VISIBLE
                    // countTextView?.visibility = View.VISIBLE
 
                 } else {
-                    redCircle?.visibility = View.GONE
+                    redCircleMessage?.visibility = View.GONE
                    // countTextView?.visibility = View.GONE
                 }
             }
@@ -302,31 +299,32 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     private fun initToolbarItem() {
          searchItem = binding.toolbar.menu.findItem(R.id.action_search)
 
-        subscribeObservers(binding.toolbar.menu.findItem(R.id.action_forum).getActionView())
-        val paymentBtnAppBarTop = binding.toolbar.menu.findItem(R.id.action_forum).getActionView()
-        paymentBtnAppBarTop.setOnClickListener {
-            navController.navigate(R.id.FSingleChatHome)
+            subscribeObserversMessage(binding.toolbar.menu.findItem(R.id.action_forum).getActionView())
+            val paymentBtnAppBarTop = binding.toolbar.menu.findItem(R.id.action_forum).getActionView()
+            paymentBtnAppBarTop.setOnClickListener {
+                navController.navigate(R.id.FSingleChatHome)
+           }
 
-        }
+            subscribeObserversStage(binding.toolbar.menu.findItem(R.id.action_notifications).getActionView())
+            val notificationsBtnAppBarTop = binding.toolbar.menu.findItem(R.id.action_notifications).getActionView()
+            notificationsBtnAppBarTop.setOnClickListener {
+                navController.navigate(R.id.FNotifications_main)
+            }
 
-
-        binding.toolbar.setOnMenuItemClickListener {
+        /*binding.toolbar.setOnMenuItemClickListener {
                 // Toast.makeText(this, "this item id" + it, Toast.LENGTH_SHORT).show()
                  when (it.itemId) {
-                    /* R.id.action_forum -> {
-                         //R.id.action_forum -> {
-                         navController.navigate(R.id.FSingleChatHome)
-                         true
-                     }*/
+
                      R.id.action_notifications -> {
                          //R.id.action_forum -> {
                          //navController.navigate(R.id.FSingleChatHome)
                          Toast.makeText(this, "notifications", Toast.LENGTH_SHORT).show()
+                         navController.navigate(R.id.FNotifications_main)
                          true
                      }
                      else -> false
                  }
-             }
+             }*/
 
           searchView = searchItem.actionView as SearchView
           searchView.apply {
@@ -367,6 +365,32 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
 
 
+    }
+
+    private fun subscribeObserversStage(actionView: View?) {
+        redCircleStage = actionView?.findViewById(R.id.view_alert_red_circle)
+        //redCircle?.visibility = View.VISIBLE
+        //Timber.v("this redCircle" + redCircle)
+        countTextViewStage = actionView?.findViewById(R.id.view_alert_count_textview)
+        // Timber.v("this redCircle" + redCircle)
+        val count = 6
+        countTextViewStage?.text = count.toString()
+        redCircleStage?.visibility = View.VISIBLE
+        /*lifecycleScope.launch {
+            chatUserDao.getChatUserWithMessages().conflate().collect { list ->
+                val count = list.filter { it.user.unRead != 0 && it.messages.isNotEmpty() }
+                if(count.isNotEmpty()) { //hide if 0
+                    Timber.v("this count unread" + count.size)
+                    countTextViewMessage?.text = count.size.toString()
+                    redCircleMessage?.visibility = View.VISIBLE
+                    // countTextView?.visibility = View.VISIBLE
+
+                } else {
+                    redCircleMessage?.visibility = View.GONE
+                    // countTextView?.visibility = View.GONE
+                }
+            }
+        }*/
     }
 
     private fun showView() {

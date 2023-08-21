@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="com.example.lawyerapplication.fragments.notifications.NotificationsViewModel"
+            />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/group_list_recycler_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textFontWeight="500"
+            android:lineHeight="16dp"
+            android:textSize="12dp"
+            android:layout_marginTop="30dp"
+            android:textAlignment="textStart"
+            android:id="@+id/banks_notes_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.stageBussines.dateTime}"
+            android:textColor="@color/colorPrimaryLaweyr2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/banks_description_h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Последнее обновление по делу #" +Integer.toString(viewModel.stageBussines.idBussines)}'
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textFontWeight="400"
+            android:lineHeight="28dp"
+            android:textSize="22dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/banks_notes_h1"
+            />
+        <TextView
+            android:id="@+id/banks_description_h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{viewModel.stageBussines.title + "\n" + viewModel.stageBussines.description}'
+            android:textColor="@color/black"
+            android:textAlignment="textStart"
+            android:textFontWeight="400"
+            android:lineHeight="20dp"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/banks_description_h1"
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/enter_button"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="50dp"
+            android:layout_width="0dp"
+            style="@style/BtnStyle"
+            android:text="@string/button_notifications_page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

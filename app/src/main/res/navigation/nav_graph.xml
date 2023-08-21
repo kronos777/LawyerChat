@@ -224,6 +224,9 @@
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true"
             app:destination="@id/FSingleChatHome" />
+        <action
+            android:id="@+id/action_FMainScreen_to_FSituationConsultation"
+            app:destination="@id/FSituationConsultation" />
     </fragment>
     <fragment
         android:id="@+id/FSituation"
@@ -359,7 +362,7 @@
     <fragment
         android:id="@+id/fmyBussines_main"
         android:name="com.example.lawyerapplication.fragments.my_business.FMyBussines_main"
-        android:label="FMyBussines_main" >
+        android:label="Мои дела" >
         <action
             android:id="@+id/action_fmyBussines_main_to_FMyBussines_page"
             app:destination="@id/FMyBussines_page" />
@@ -528,4 +531,29 @@
         android:id="@+id/licenseAgreement"
         android:name="com.example.lawyerapplication.fragments.about_application.LicenseAgreement"
         android:label="LicenseAgreement" />
+    <fragment
+        android:id="@+id/FSituationConsultation"
+        android:name="com.example.lawyerapplication.fragments.situation.consultation.FSituationConsultation"
+        android:label="FSituationConsultation" >
+        <action
+            android:id="@+id/action_FSituationConsultation_to_FSituationFinish"
+            app:destination="@id/FSituationFinish" />
+    </fragment>
+    <fragment
+        android:id="@+id/FNotifications_main"
+        android:name="com.example.lawyerapplication.fragments.notifications.FNotifications_main"
+        android:label="FNotifications_main"
+        tools:layout="@layout/fragment_notifications_main">
+        <action
+            android:id="@+id/action_FNotifications_main_to_FNotifications_page"
+            app:destination="@id/FNotifications_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/FNotifications_page"
+        android:name="com.example.lawyerapplication.fragments.notifications.FNotifications_page"
+        android:label="FNotifications_page" >
+        <action
+            android:id="@+id/action_FNotifications_page_to_FMyBussines_page"
+            app:destination="@id/FMyBussines_page" />
+    </fragment>
 </navigation>

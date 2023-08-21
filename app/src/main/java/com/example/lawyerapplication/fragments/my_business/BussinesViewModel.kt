@@ -85,7 +85,7 @@ constructor(
         return db.collection("Leads")
     }
 
-    fun getBussinesLiveData(uid: String, role: Boolean, sort: Boolean) : MutableLiveData<ResponseBussines> {
+    fun getBussinesLiveData(uid: String, role: Boolean, sort: Boolean, typeSorting: String?, tabPosition: String?) : MutableLiveData<ResponseBussines> {
         val mutableLiveData = MutableLiveData<ResponseBussines>()
         val resultFunction = ArrayList<BusinessItem>()
         getDocumentRef().get().addOnCompleteListener { task ->
@@ -101,17 +101,17 @@ constructor(
                     if(uid == item.data!!.get("idClient") as String && role == false) {
                         Log.d("CURRENTDATA", "Current uid: ${uid}")
                         val id = item.data!!.get("id")
-                        val lead = BusinessItem(id, "Дело номер $id", item.data!!.get("status") as String, getCategory(item.data!!.get("category") as String), item.data!!.get("dateTime") as String)
+                        val lead = BusinessItem(id, "Дело номер $id", item.data!!.get("status") as String, getCategory(item.data!!.get("category") as String), item.data!!.get("dateTime") as String, item.data!!.get("idLawyer") as String)
                         resultFunction.add(lead)
                     } else if(role == true && (uid == item.data!!.get("idLawyer") || item.data!!.get("idLawyer") == "")) {
                         val id = item.data!!.get("id")
-                        val lead = BusinessItem(id, "Дело номер $id", item.data!!.get("status") as String, getCategory(item.data!!.get("category") as String), item.data!!.get("dateTime") as String)
+                        val lead = BusinessItem(id, "Дело номер $id", item.data!!.get("status") as String, getCategory(item.data!!.get("category") as String), item.data!!.get("dateTime") as String, item.data!!.get("idLawyer") as String)
                         resultFunction.add(lead)
                     }
 
                 }
 
-                if(sort == false) {
+                /*if(sort && typeSorting == "dateTime") {
                     val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
                     } else {
@@ -126,8 +126,191 @@ constructor(
                         }
                     }
                     response.products = sortBussines
-                } else {
+                } else if (sort && typeSorting == "applications"){
+                    val sortBussines = resultFunction.filter {  it.categoryLead != "consultation" }.sortedByDescending {
+                        it.categoryLead
+                    }
 
+                    response.products = sortBussines
+                } else if (sort && typeSorting == "consultations"){
+                    val sortBussines = resultFunction.sortedByDescending {
+                        it.categoryLead == "consultations"
+                    }
+
+                    response.products = sortBussines
+                } else if (sort && typeSorting == "active"){
+                    val sortBussines = resultFunction.filter {  it.idLaywer != "" }.sortedByDescending {
+                            it.idLaywer
+                        }
+                    response.products = sortBussines
+                } else if (sort && typeSorting == "noactive"){
+                    val sortBussines = resultFunction.filter {  it.idLaywer == "" }.sortedByDescending {
+                        it.idLaywer
+                    }
+
+                    response.products = sortBussines
+                } else if (sort && typeSorting == "themes"){
+                    val sortBussines = resultFunction.sortedByDescending {
+                            it.categoryLead
+                       }
+
+                    response.products = sortBussines
+                } */
+                if(role && (typeSorting == "" || typeSorting == "noactive")) {
+                    val sortBussines = resultFunction.filter {  it.idLaywer == "" }.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+                } else if (role && typeSorting == "active") {
+                    val sortBussines = resultFunction.filter {  it.idLaywer == preference.getUid() }.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+                } else if (role && typeSorting == "dateTime" && sort) {
+                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                    } else {
+                        TODO("VERSION.SDK_INT < O")
+                    }
+                    val sortBussines = resultFunction.filter {  it.idLaywer == "" }.sortedByDescending {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            LocalDate.parse(it.dateTimeLead, formatter)
+                        } else {
+                            TODO("VERSION.SDK_INT < O")
+                        }
+                    }
+
+                    response.products = sortBussines
+                } else if (role && typeSorting == "activeDateTime" && !sort) {
+                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                    } else {
+                        TODO("VERSION.SDK_INT < O")
+                    }
+                    val sortBussines = resultFunction.filter {  it.idLaywer == preference.getUid() }.sortedByDescending {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            LocalDate.parse(it.dateTimeLead, formatter)
+                        } else {
+                            TODO("VERSION.SDK_INT < O")
+                        }
+                    }
+
+                    response.products = sortBussines
+                } else if (role && typeSorting == "noActiveDateTime" && sort) {
+                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                    } else {
+                        TODO("VERSION.SDK_INT < O")
+                    }
+                    val sortBussines = resultFunction.filter {  it.idLaywer == preference.getUid() }.sortedBy {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            LocalDate.parse(it.dateTimeLead, formatter)
+                        } else {
+                            TODO("VERSION.SDK_INT < O")
+                        }
+                    }
+
+                    response.products = sortBussines
+                } else if (role && typeSorting == "applications" && sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead != "consultation" }.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                }  else if (role && typeSorting == "applications" && !sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead != "consultation" }.sortedBy {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                }else if (role && typeSorting == "activeApplications" && !sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead != "consultation" && it.idLaywer == preference.getUid()}.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                }  else if (role && typeSorting == "noActiveApplications" && sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead != "consultation" && it.idLaywer == preference.getUid()}.sortedBy {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (role && typeSorting == "consultation" && sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead == "consultation" }.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (role && typeSorting == "consultation" && !sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead == "consultation" }.sortedBy {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (role && typeSorting == "activeConsultation" && !sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead == "consultation" && it.idLaywer == preference.getUid()}.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                }  else if (role && typeSorting == "noActiveConsultation" && sort) {
+                    val sortBussines = resultFunction.filter {  it.categoryLead == "consultation" && it.idLaywer == preference.getUid()}.sortedBy {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (role && typeSorting == "themes" && sort) {
+                    val sortBussines = resultFunction.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (role && typeSorting == "themes" && !sort) {
+                    val sortBussines = resultFunction.sortedBy {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (role && typeSorting == "ActiveThemes" && sort) {
+                    val sortBussines = resultFunction.filter {  it.idLaywer == preference.getUid() }.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (role && typeSorting == "ActiveThemes" && !sort) {
+                    val sortBussines = resultFunction.filter {  it.idLaywer == preference.getUid() }.sortedBy {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+
+                } else if (!role && (typeSorting == "" || typeSorting == "active")) {
+                    //for client
+                    val sortBussines = resultFunction.filter {  it.typeLead != "close" }.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+                } else if (!role && typeSorting == "closed" && sort) {
+                    val sortBussines = resultFunction.filter {  it.typeLead == "close" }.sortedByDescending {
+                        it.categoryLead
+                    }
+
+                    response.products = sortBussines
+                } else if (!sort && typeSorting == ""){
                     response.products = resultFunction
                 }
 
@@ -150,6 +333,7 @@ constructor(
             "newBuildings" -> "Новостройки"
             "furniture" -> "Мебель"
             "clothing" -> "Одежда"
+            "consultation" -> "Консультация"
             else -> "услуга не определена"
         }
     }
