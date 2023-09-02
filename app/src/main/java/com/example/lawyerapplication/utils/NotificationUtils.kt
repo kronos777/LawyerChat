@@ -22,7 +22,8 @@ object NotificationUtils {
         return Utils.createBuilder(context, manager, true)
             .setContentTitle("emailObject.getSummary()")
             .setContentText("${FirebasePush.messageCount} new messages")
-            .setSmallIcon(R.drawable.ic_stat_name)
+            .setSmallIcon(R.drawable.baseline_balance_24)
+            //.setSmallIcon(R.drawable.ic_stat_name)
             .setStyle(
                 NotificationCompat.InboxStyle()
                 .addLine("Alex Faarborg Check this out")
@@ -44,6 +45,7 @@ object NotificationUtils {
             build()
         }
         return NotificationCompat.Action.Builder(
+            //R.drawable.baseline_balance_24,
             R.drawable.ic_send,
             "Reply", getReplyPIntent(context,user)
         )
@@ -58,6 +60,7 @@ object NotificationUtils {
             build()
         }
         return NotificationCompat.Action.Builder(
+            //R.drawable.baseline_balance_24,
             R.drawable.ic_send,
             "Reply", getGroupReplyPIntent(context,user)
         )
@@ -150,8 +153,7 @@ object NotificationUtils {
 
      fun getGroupStyle(
         context: Context, myUserId: String, person: Person, group: GroupWithMessages
-     )
-            : NotificationCompat.Style{
+     ) : NotificationCompat.Style{
         val style= NotificationCompat.MessagingStyle(person)
         val members=group.group.members ?: ArrayList()
         val messages=group.messages

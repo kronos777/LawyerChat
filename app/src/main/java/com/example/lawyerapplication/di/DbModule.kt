@@ -37,4 +37,9 @@ object DbModule {
     @Singleton
     @Provides
     fun provideGroupMessageDao(db: ChatUserDatabase) = db.getGroupMessageDao()
+
+    @Singleton
+    @Provides
+    fun provideStageDao(db: ChatUserDatabase) = db.getStageDao()
+
 }

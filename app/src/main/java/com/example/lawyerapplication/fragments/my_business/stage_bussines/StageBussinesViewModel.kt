@@ -1,5 +1,6 @@
 package com.example.lawyerapplication.fragments.my_business.stage_bussines
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
@@ -70,6 +71,7 @@ constructor(
         return mutableLiveData
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun addStageBussines(idBussines: Int, title: String, description: String) {
 
         getDocumentRef().document(idBussines.toString()).collection("stages").get()

@@ -8,4 +8,6 @@
     <dimen name="cmt_tb_pad">7dp</dimen>
     <dimen name="search_pad">-100dp</dimen>
     <dimen name="progress_bar_height">2dp</dimen>
+    <dimen name="bottom_navigation_icon_size" >24dp</dimen>
+    <dimen name="design_bottom_navigation_height">62dp</dimen>
 </resources>

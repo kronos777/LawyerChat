@@ -44,6 +44,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.JsonObject
 import org.json.JSONObject
 import org.xml.sax.Parser
@@ -93,6 +96,16 @@ class FNotifications_page : Fragment() {
             binding.viewModel = viewModel
             binding.lifecycleOwner = viewLifecycleOwner
             viewModel.getStageItem(stBussines.idBussines.toString(), stBussines.id.toString())
+
+            /*runBlocking {
+                val job = launch(Dispatchers.Default) {
+                    val st = viewModel.getStageLocal(stBussines.id, stBussines.idBussines)
+                    val nst = st!!.copy(status = 1)
+                    viewModel.updateStage(nst)
+
+                    Log.d("CURRENTDATA", st.toString())
+                }
+            }*/
 
             goToLead()
     }

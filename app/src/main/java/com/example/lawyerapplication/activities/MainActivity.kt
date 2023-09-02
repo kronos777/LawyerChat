@@ -1,17 +1,32 @@
 package com.example.lawyerapplication.activities
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager.TYPE_NOTIFICATION
+import android.media.RingtoneManager.getDefaultUri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -19,18 +34,22 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.test.core.app.ActivityScenario.launch
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.ActivityMainBinding
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Group
 import com.example.lawyerapplication.fragments.my_business.BussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.FAddCards
+import com.example.lawyerapplication.fragments.notifications.NotificationsViewModel
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
 import com.example.lawyerapplication.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 
@@ -53,6 +72,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
     private var redCircleStage: FrameLayout? = null
     private var countTextViewStage: TextView? = null
+    private val viewModelStage: NotificationsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +116,34 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
 
         /*message alert*/
+    }
+    private fun subscribeObserversStage(actionView: View?) {
+        redCircleStage = actionView?.findViewById(R.id.view_alert_red_circle)
+        //redCircle?.visibility = View.VISIBLE
+        //Timber.v("this redCircle" + redCircle)
+        countTextViewStage = actionView?.findViewById(R.id.view_alert_count_textview)
+        // Timber.v("this redCircle" + redCircle)
+        if(preference.isLoggedIn()){
+            viewModelStage.updateStageLocalDb()
+            lifecycleScope.launch {
+                stageDao.getAllStagesFlow().conflate().collect { list ->
+                    val count = list.filter { it.status == 0 }
+                    if(count.isNotEmpty()) { //hide if 0
+                        // Timber.v("this count unread" + count.size)
+                        countTextViewStage?.text = count.size.toString()
+                        redCircleStage?.visibility = View.VISIBLE
+                        // countTextView?.visibility = View.VISIBLE
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            createNotification(10, "Обновления по делу", "fdg ds gfds gfds gfds gfds ", 22)
+                        }
+                    } else {
+                        redCircleStage?.visibility = View.GONE
+                        // countTextView?.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
     }
 
     private fun subscribeObserversMessage(notificaitonsView: View) {
@@ -205,6 +253,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
         }
     }
 
+
     private fun onDestinationChanged(currentDestination: Int) {
         try {
             when(currentDestination) {
@@ -257,6 +306,17 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                     showView()
                     binding.fab.hide()
                 }
+                R.id.FNotifications_main -> {
+                    //binding.bottomNav.selectedItemId = R.id.nav_services
+                    showView()
+                    binding.fab.hide()
+                }
+                R.id.FNotifications_page -> {
+                    //binding.bottomNav.selectedItemId = R.id.nav_services
+                    showView()
+                    binding.fab.hide()
+                    binding.bottomNav.gone()
+                }
                 R.id.aboutApplication -> {
                     binding.bottomNav.gone()
                     binding.fab.gone()
@@ -297,7 +357,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     }
 
     private fun initToolbarItem() {
-         searchItem = binding.toolbar.menu.findItem(R.id.action_search)
+            searchItem = binding.toolbar.menu.findItem(R.id.action_search)
 
             subscribeObserversMessage(binding.toolbar.menu.findItem(R.id.action_forum).getActionView())
             val paymentBtnAppBarTop = binding.toolbar.menu.findItem(R.id.action_forum).getActionView()
@@ -367,31 +427,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
     }
 
-    private fun subscribeObserversStage(actionView: View?) {
-        redCircleStage = actionView?.findViewById(R.id.view_alert_red_circle)
-        //redCircle?.visibility = View.VISIBLE
-        //Timber.v("this redCircle" + redCircle)
-        countTextViewStage = actionView?.findViewById(R.id.view_alert_count_textview)
-        // Timber.v("this redCircle" + redCircle)
-        val count = 6
-        countTextViewStage?.text = count.toString()
-        redCircleStage?.visibility = View.VISIBLE
-        /*lifecycleScope.launch {
-            chatUserDao.getChatUserWithMessages().conflate().collect { list ->
-                val count = list.filter { it.user.unRead != 0 && it.messages.isNotEmpty() }
-                if(count.isNotEmpty()) { //hide if 0
-                    Timber.v("this count unread" + count.size)
-                    countTextViewMessage?.text = count.size.toString()
-                    redCircleMessage?.visibility = View.VISIBLE
-                    // countTextView?.visibility = View.VISIBLE
 
-                } else {
-                    redCircleMessage?.visibility = View.GONE
-                    // countTextView?.visibility = View.GONE
-                }
-            }
-        }*/
-    }
 
     private fun showView() {
         binding.bottomNav.show()
@@ -505,6 +541,45 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                  fragment.onRequestPermissionsResult(requestCode, permissions, grantResults)
              }
          }*/
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotification(notificationId: Int, title: String, description: String, lessonsId: Int) {
+
+
+        // Create PendingIntent
+        val resultIntent = Intent(applicationContext, MainActivity::class.java).putExtra("extra", lessonsId.toString())
+        val resultPendingIntent = PendingIntent.getActivity(
+            applicationContext, 0, resultIntent,
+            //PendingIntent.FLAG_MUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+
+        val notificationManager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val notificationChannel =
+            NotificationChannel("101", "channel", NotificationManager.IMPORTANCE_DEFAULT)
+        notificationManager.createNotificationChannel(notificationChannel)
+
+        val ringtoneManager = getDefaultUri(TYPE_NOTIFICATION)
+
+
+        val notificationBuilder = NotificationCompat.Builder(applicationContext, "101")
+            .setContentTitle(title)
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(description))
+            //.setContentText(description)
+            .setSound(ringtoneManager)
+            .addAction(R.drawable.baseline_balance_24, "Подробнее", resultPendingIntent)
+            .setSmallIcon(R.drawable.icon_logo_round)
+            .setContentIntent(resultPendingIntent)
+            .setAutoCancel(true) // закрыть по нажатию
+
+        notificationManager.notify(notificationId, notificationBuilder.build())
+
     }
 
     override fun onBackPressed() {

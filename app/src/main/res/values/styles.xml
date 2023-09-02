@@ -270,7 +270,6 @@
         <item name="android:fontFamily">@font/font_semi</item>
     </style>
 
-
     <style name="NavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemTextAppearanceActive">@style/ActiveText</item>
         <item name="itemTextAppearanceInactive">@style/InactiveText</item>
@@ -279,9 +278,11 @@
         <item name="itemTextColor">@color/black</item>
     </style>
     <style name="ActiveText">
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
     <style name="InactiveText">
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
     <style name="card_situation_h1">

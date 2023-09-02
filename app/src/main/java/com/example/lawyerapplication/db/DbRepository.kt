@@ -4,10 +4,12 @@ import com.example.lawyerapplication.db.daos.ChatUserDao
 import com.example.lawyerapplication.db.daos.GroupDao
 import com.example.lawyerapplication.db.daos.GroupMessageDao
 import com.example.lawyerapplication.db.daos.MessageDao
+import com.example.lawyerapplication.db.daos.StageDao
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Group
 import com.example.lawyerapplication.db.data.GroupMessage
 import com.example.lawyerapplication.db.data.Message
+import com.example.lawyerapplication.db.data.StageBussinesLocal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ class DbRepository @Inject constructor(
     private val userDao: ChatUserDao,
     private val groupDao: GroupDao,
     private val groupMsgDao: GroupMessageDao,
-    private val messageDao: MessageDao
+    private val messageDao: MessageDao,
+    private val stageDao: StageDao
 ) : DefaultDbRepo {
 
     override fun insertUser(user: ChatUser) {
@@ -28,6 +31,28 @@ class DbRepository @Inject constructor(
             userDao.insertUser(user)
         }
     }
+
+    fun insertStage(stageBussinesLocal: StageBussinesLocal) {
+        CoroutineScope(Dispatchers.IO).launch {
+            if(!stageDao.ifExists(stageBussinesLocal.fireBaseId, stageBussinesLocal.idBussines)) {
+                stageDao.insertStage(stageBussinesLocal)
+            }
+
+        }
+    }
+
+    fun updateStage(stageBussinesLocal: StageBussinesLocal) {
+        CoroutineScope(Dispatchers.IO).launch {
+                stageDao.insertStage(stageBussinesLocal)
+        }
+    }
+
+    fun deleteTableStage() = stageDao.nukeTable()
+    fun getAllStages() = stageDao.getAllStages()
+
+    fun deleteAllStages() = stageDao.nukeTable()
+
+    fun getStageById(fireBaseId: Int, idBussines: Int) = stageDao.getStageById(fireBaseId, idBussines)
 
     override fun insertMultipleUser(users: List<ChatUser>) {
         CoroutineScope(Dispatchers.IO).launch {

@@ -18,6 +18,7 @@
         android:paddingTop="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="120dp"
         android:background="@drawable/shape_audio_bg"
         tools:ignore="ContentDescription">
@@ -56,12 +57,12 @@
 
         </LinearLayout>
 
-            <TextView
+            <!--TextView
                 android:id="@+id/txt_msg_time"
                 style="@style/TxtRgStyle"
                 android:textSize="16sp"
                 android:textColor="@color/colorWhite"
-                app:showMsgTime="@{message}" />
+                app:showMsgTime="@{message}" /-->
 
     </LinearLayout>
 </layout>

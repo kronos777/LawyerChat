@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -19,6 +20,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.runner.lifecycle.Stage
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.AlertSwitchFilterBinding
 import com.example.lawyerapplication.databinding.FragmentMyBussinesMainBinding
@@ -32,13 +36,20 @@ import com.example.lawyerapplication.fragments.my_business.FMyBussines_page
 import com.example.lawyerapplication.fragments.single_chat.asMap
 import com.example.lawyerapplication.fragments.single_chat.serializeToMap
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
+import com.example.lawyerapplication.services.StageUploadWorker
+import com.example.lawyerapplication.services.UploadWorker
 import com.example.lawyerapplication.utils.*
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -75,10 +86,57 @@ class FNotifications_main : Fragment() {
         setupRecyclerView()
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         val listArrayStages: ArrayList<StageBussines> = ArrayList()
+
+        /*WorkManager*/
+        val uploadWorkRequest: WorkRequest =
+            OneTimeWorkRequestBuilder<StageUploadWorker>()
+                //.setInputData(data)
+                .build()
+        WorkManager.getInstance(context).enqueue(uploadWorkRequest)
+        /*WorkManager*/
+
+       // viewModel.updateStageLocalDb()
+        viewModel.getAllStagesLocalDb().observe(context as FragmentActivity) {
+           // Log.d("CURRENTDATA", it.size.toString())
+            for (index in it.indices) {
+
+                listArrayStages.add(
+                    StageBussines(
+                        it[index].fireBaseId,
+                        it[index].idBussines,
+                        substrTitle(it[index].title.capitalize()),
+                        substrDescription(it[index].description),
+                        it[index].dateTime,
+                        it[index].status
+                    )
+                )
+
+                //val newStage = it[index].copy(status = 1)
+                //viewModel.insertStage(newStage)
+            }
+
+            val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+            } else {
+                TODO("VERSION.SDK_INT < O")
+            }
+            val sortStages = listArrayStages.sortedByDescending {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    LocalDate.parse(it.dateTime, formatter)
+                } else {
+                    TODO("VERSION.SDK_INT < O")
+                }
+            }
+
+            if(sortStages.size > 0) {
+                myNotificationsAdapter.submitList(sortStages)
+            }
+        }
+
         //val listArrayStagesPage: ArrayList<StageBussines> = ArrayList()
 
 
-        viewModel.getStagesLiveData().observe(context as FragmentActivity) {
+        /*viewModel.getStagesLiveData().observe(context as FragmentActivity) {
             for (index in it.products!!.indices) {
 
                 listArrayStages.add(
@@ -93,14 +151,13 @@ class FNotifications_main : Fragment() {
                 )
 
             }
-            Log.d("CURRENTDATA", listArrayStages.toString())
+
             if(listArrayStages.size > 0) {
                 myNotificationsAdapter.submitList(listArrayStages)
             }
 
-        }
-
-        viewModel.getStatesLiveDataNew()
+        }*/
+       // viewModel.getStatesLiveDataNew()
 
     }
 

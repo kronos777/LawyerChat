@@ -1,6 +1,7 @@
 package com.example.lawyerapplication.fragments.notifications
 
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,11 +9,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
 import androidx.lifecycle.viewModelScope
+import com.example.lawyerapplication.db.DbRepository
 import com.example.lawyerapplication.db.data.BusinessItem
 import com.example.lawyerapplication.db.data.ResponseBussines
 import com.example.lawyerapplication.db.data.ResponseNotifications
 import com.example.lawyerapplication.db.data.ResponseStage
 import com.example.lawyerapplication.db.data.StageBussines
+import com.example.lawyerapplication.db.data.StageBussinesLocal
 import com.example.lawyerapplication.utils.*
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
@@ -21,7 +24,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -32,6 +38,7 @@ import javax.inject.Inject
 class NotificationsViewModel @Inject
 constructor(
     @ApplicationContext private val context: Context,
+    private val dbRepo: DbRepository,
     private val preference: MPreference
 ) : ViewModel() {
 
@@ -96,6 +103,45 @@ constructor(
         return db.collection("Leads")
     }
 
+    fun updateStageLocalDb() {
+        val uid = preference.getUid()
+        val resultListIntBussines = ArrayList<Int>()
+        getDocumentRef().get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (item in task.result!!.documents){
+                    if(uid.equals((item.data!!.get("idClient") as String).trim())) {
+                        val id = item.data!!.get("id").toString()
+                        resultListIntBussines.add(id.toInt())
+
+                    }
+                }
+
+                resultListIntBussines.forEach { id ->
+
+                    getDocumentStageRef().document(id.toString()).collection("stages").get().addOnCompleteListener { taskTwo ->
+
+                        if (taskTwo.isSuccessful) {
+
+                            for (item in taskTwo.result!!.documents){
+                                val id = item.data!!.get("id").toString().toInt()
+                                val idBussines = item.data!!.get("idBussines").toString().toInt()
+                                val title = item.data!!.get("title").toString()
+                                val description = item.data!!.get("description").toString()
+                                val dateTime = item.data!!.get("dateTime").toString()
+                                val status = item.data!!.get("status").toString()
+
+                                val stageLocal = StageBussinesLocal(0, id, idBussines, title, description, dateTime, status.toInt())
+                                dbRepo.insertStage(stageLocal)
+
+                            }
+                        }
+
+                    }
+                  }
+              }
+         }
+    }
+
     fun getStagesLiveData() : MutableLiveData<ResponseNotifications> {
         val uid = preference.getUid()
         val mutableLiveData = MutableLiveData<ResponseNotifications>()
@@ -105,21 +151,13 @@ constructor(
         getDocumentRef().get().addOnCompleteListener { task ->
             val response = ResponseNotifications()
             if (task.isSuccessful) {
-                /*val result = task.result
-                result?.let {
-                    response.products = result.documents.mapNotNull { snapShot ->
-                        snapShot.toObject(CardItem::class.java)
-                    }
-                }*/
+
                 for (item in task.result!!.documents){
                     if(uid.equals((item.data!!.get("idClient") as String).trim())) {
                         val id = item.data!!.get("id").toString()
                         resultListIntBussines.add(id.toInt())
 
-                    } /*else if(uid.equals((item.data!!.get("idLawyer") as String).trim())) {
-                        val id = item.data!!.get("id").toString()
-                        resultListIntBussines.add(id.toInt())
-                    }*/
+                    }
                 }
 
                 resultListIntBussines.forEach { id ->
@@ -137,6 +175,9 @@ constructor(
                                 val status = item.data!!.get("status").toString()
 
                                 val stage = StageBussines(id, idBussines, title, description, dateTime, status.toInt())
+                                val stageLocal = StageBussinesLocal(0, id, idBussines, title, description, dateTime, status.toInt())
+                                dbRepo.insertStage(stageLocal)
+
 
                                 resultFunction.add(stage)
                             }
@@ -217,6 +258,10 @@ constructor(
     }
 
 
+    fun insertStage(stageLocal: StageBussinesLocal) {
+        dbRepo.insertStage(stageLocal)
+    }
+
     fun getStatesLiveDataNew() {
         getDocumentStageRef()
             .get()
@@ -270,5 +315,19 @@ constructor(
         return db.collection("Stage")
     }
 
+    fun getStageLocal(fireBaseId: Int, idBussines: Int): StageBussinesLocal? {
+        return dbRepo.getStageById(fireBaseId, idBussines)
+    }
+    fun getAllStagesLocalDb(): LiveData<List<StageBussinesLocal>> {
+        return dbRepo.getAllStages()
+    }
+
+    fun updateStage(st: StageBussinesLocal) {
+        dbRepo.updateStage(st)
+    }
+
+    fun deleteTableStage() {
+            dbRepo.deleteTableStage()
+    }
 
 }

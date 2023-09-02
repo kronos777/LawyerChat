@@ -241,7 +241,7 @@ class ChatHandler @Inject constructor(
 
         checkExistsChatUser()
         if (!messagesList.isNullOrEmpty())
-          //  Timber.v("insertMessageOnDb {$listOfIds}")
+            Timber.v("insertMessageOnDb {$listOfIds}")
             insertMessageOnDb(listOfIds)
     }
 

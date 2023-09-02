@@ -17,6 +17,7 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="120dp"
         android:background="@drawable/shape_audio_bg"
@@ -57,7 +58,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <!--LinearLayout
             style="@style/WLView"
             android:layout_gravity="end">
 
@@ -78,7 +79,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/colorWhite"
                 app:showMsgTime="@{message}" />
-        </LinearLayout>
+        </LinearLayout-->
 
     </LinearLayout>
 </layout>

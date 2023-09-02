@@ -40,6 +40,8 @@ const val TYPE_LOGGED_IN = "new_logged_in"
 
 const val TYPE_NEW_MESSAGE = "new_message"
 
+const val TYPE_NEW_NOTIFICATION = "new_notification"
+
 const val TYPE_NEW_GROUP = "new_group"
 
 const val TYPE_NEW_GROUP_MESSAGE = "new_group_message"
@@ -119,6 +121,9 @@ class FirebasePush : FirebaseMessagingService(), OnSuccessListener {
             TYPE_NEW_MESSAGE -> {
                 handleNewMessage()
             }
+            TYPE_NEW_NOTIFICATION -> {
+                handleNewNotification()
+            }
             TYPE_NEW_GROUP -> {
                 handleNewGroup()
             }
@@ -129,6 +134,10 @@ class FirebasePush : FirebaseMessagingService(), OnSuccessListener {
 
             }
         }
+    }
+
+    private fun handleNewNotification() {
+        TODO("Not yet implemented")
     }
 
     private fun handleGroupMsg() {

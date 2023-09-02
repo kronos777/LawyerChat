@@ -131,8 +131,8 @@ class FSingleChatHome : Fragment(), ItemClickListener {
             viewModel.getChatUsers().collect { list ->
                 for (i in list.indices) {
                     //Log.d("chatUser f", list[i].toString())
-                    Log.d("chatUser f ${i}", list[i].user.toString())
-                    Log.d("chatUser f ${i}", list[i].messages.toString())
+                    //Log.d("chatUser f ${i}", list[i].user.toString())
+                    Log.d("chatUserMessage ${i}", list[i].messages.toString())
                 }
                 updateList(list)
             }
@@ -141,7 +141,7 @@ class FSingleChatHome : Fragment(), ItemClickListener {
         sharedViewModel.getState().observe(viewLifecycleOwner,{state->
             if (state is ScreenState.IdleState){
                 CoroutineScope(Dispatchers.IO).launch {
-                  //  Log.d("chatUser s", viewModel.getChatUsersAsList().toString())
+                    //Log.d("chatUserMessage", viewModel.getChatUsersAsList().toString())
                      updateList(viewModel.getChatUsersAsList())
 
                 }

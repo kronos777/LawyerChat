@@ -2,13 +2,13 @@
     <item android:state_checked="true">
         <layer-list>
             <item
-                android:top="4dp"
+                android:top="6dp"
                 android:bottom="4dp"
-                android:left="23dp"
-                android:right="23dp"
+                android:left="18dp"
+                android:right="18dp"
                 android:gravity="top">
                 <shape android:shape="rectangle">
-                    <size android:height="28dp" />
+                    <size android:height="30dp" />
                     <size android:width="8dp" />
                     <solid android:color="@color/colorPrimaryLaweyr" />
                     <corners android:radius="4.0dip" />

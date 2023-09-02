@@ -17,6 +17,7 @@ import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.utils.Utils
 import com.example.lawyerapplication.db.daos.GroupMessageDao
 import com.example.lawyerapplication.db.daos.MessageDao
+import com.example.lawyerapplication.db.daos.StageDao
 import com.example.lawyerapplication.models.UserStatus
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
@@ -44,6 +45,9 @@ open class ActBase : AppCompatActivity() {
 
     @Inject
     lateinit var messageDao: GroupMessageDao
+
+    @Inject
+    lateinit var stageDao: StageDao
 
     @Inject
     lateinit var db: ChatUserDatabase

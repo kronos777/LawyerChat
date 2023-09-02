@@ -20,7 +20,7 @@
                 android:scaleType="centerCrop"
                 android:id="@+id/image_msg" />
 
-        <LinearLayout
+        <!--LinearLayout
             style="@style/WLView"
             android:layout_marginEnd="2dp"
             android:layout_gravity="end">
@@ -46,7 +46,7 @@
                 style="@style/TxtRgStyle"
                 android:textSize="16sp"
                 showMsgTime="@{message}" />
-        </LinearLayout>
+        </LinearLayout-->
 
     </LinearLayout>
 </layout>

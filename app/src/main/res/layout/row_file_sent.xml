@@ -31,7 +31,7 @@
             android:scaleType="centerCrop"
             android:id="@+id/file_msg" />
 
-        <RelativeLayout
+        <!--RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginEnd="2dp"
             android:layout_below="@+id/file_msg"
@@ -63,7 +63,7 @@
                 android:textSize="16sp"
                 showMsgTime="@{message}" />
 
-        </RelativeLayout>
+        </RelativeLayout-->
 
     </RelativeLayout>
 </layout>

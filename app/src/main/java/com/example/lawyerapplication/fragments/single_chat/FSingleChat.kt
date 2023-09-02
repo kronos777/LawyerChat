@@ -28,6 +28,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.canhub.cropper.CropImage
 import com.example.lawyerapplication.MApplication
+import com.example.lawyerapplication.core.ChatUserProfileListener
 import com.example.lawyerapplication.db.data.*
 import com.example.lawyerapplication.databinding.FSingleChatBinding
 import com.example.lawyerapplication.fragments.FAttachment
@@ -156,6 +157,7 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
                 }
             }
         }
+
     }
 
     private fun setListeners() {
@@ -314,6 +316,23 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
             senderImage = fromUser.image
         )
     }
+
+
+    /*for lead message send*/
+    private fun sendMessageLead() {
+        val msg = edtValue(binding.viewChatBtm.edtMsg)
+        if (msg.isEmpty())
+            return
+        binding.viewChatBtm.lottieSend.playAnimation()
+        val message = createMessageLead().apply {
+            textMessage= TextMessage(msg)
+            chatUsers= ArrayList()
+        }
+        viewModel.sendMessageLead(message, chatUser.documentId!!)
+        binding.viewChatBtm.edtMsg.setText("")
+
+    }
+
 
     private val msgTxtChangeListener=object : TextWatcher{
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -553,20 +572,6 @@ class FSingleChat : Fragment(), ItemClickListener, CustomEditText.KeyBoardInputC
     }
 
 
-    /*for lead message send*/
-    private fun sendMessageLead() {
-        val msg = edtValue(binding.viewChatBtm.edtMsg)
-        if (msg.isEmpty())
-            return
-        binding.viewChatBtm.lottieSend.playAnimation()
-        val message = createMessageLead().apply {
-            textMessage= TextMessage(msg)
-            chatUsers= ArrayList()
-        }
-        viewModel.sendMessageLead(message, chatUser.documentId!!)
-        binding.viewChatBtm.edtMsg.setText("")
-
-    }
     private fun createMessageLead(): Message {
         //val chatUserId = to
         val chatUserId = toUser.uId!!

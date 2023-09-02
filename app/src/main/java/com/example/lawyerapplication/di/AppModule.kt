@@ -9,6 +9,7 @@ import com.example.lawyerapplication.db.daos.GroupDao
 import com.example.lawyerapplication.db.daos.GroupMessageDao
 import com.example.lawyerapplication.db.daos.MessageDao
 import com.example.lawyerapplication.activities.MainActivity
+import com.example.lawyerapplication.db.daos.StageDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,9 +64,10 @@ object AppModule {
     fun provideDefaultDbRepo(userDao: ChatUserDao,
                              groupDao: GroupDao,
                              groupMsgDao: GroupMessageDao,
-                             messageDao: MessageDao
+                             messageDao: MessageDao,
+                             stageDao: StageDao
     ): DefaultDbRepo {
-        return DbRepository(userDao, groupDao, groupMsgDao, messageDao)
+        return DbRepository(userDao, groupDao, groupMsgDao, messageDao, stageDao)
     }
 
 }
