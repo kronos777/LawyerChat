@@ -22,7 +22,7 @@ object NotificationUtils {
         return Utils.createBuilder(context, manager, true)
             .setContentTitle("emailObject.getSummary()")
             .setContentText("${FirebasePush.messageCount} new messages")
-            .setSmallIcon(R.drawable.baseline_balance_24)
+            .setSmallIcon(R.drawable.ic_baseline_balance_24)
             //.setSmallIcon(R.drawable.ic_stat_name)
             .setStyle(
                 NotificationCompat.InboxStyle()
@@ -39,7 +39,8 @@ object NotificationUtils {
     }
 
     fun getReplyAction(context: Context, user: ChatUserWithMessages): NotificationCompat.Action {
-        val replyLabel = "Reply"
+        val replyLabel = "Ответить"
+        //val replyLabel = "Reply"
         val remoteInput: RemoteInput = RemoteInput.Builder(KEY_TEXT_REPLY).run {
             setLabel(replyLabel)
             build()
@@ -47,14 +48,14 @@ object NotificationUtils {
         return NotificationCompat.Action.Builder(
             //R.drawable.baseline_balance_24,
             R.drawable.ic_send,
-            "Reply", getReplyPIntent(context,user)
+            "Ответить", getReplyPIntent(context,user)
         )
             .addRemoteInput(remoteInput)
             .build()
     }
 
     fun getGroupReplyAction(context: Context, user: GroupWithMessages): NotificationCompat.Action {
-        val replyLabel = "Reply"
+        val replyLabel = "Ответить"
         val remoteInput: RemoteInput = RemoteInput.Builder(KEY_TEXT_REPLY).run {
             setLabel(replyLabel)
             build()
@@ -62,7 +63,7 @@ object NotificationUtils {
         return NotificationCompat.Action.Builder(
             //R.drawable.baseline_balance_24,
             R.drawable.ic_send,
-            "Reply", getGroupReplyPIntent(context,user)
+            "Ответить", getGroupReplyPIntent(context,user)
         )
             .addRemoteInput(remoteInput)
             .build()

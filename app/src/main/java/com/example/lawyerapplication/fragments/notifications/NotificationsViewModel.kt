@@ -131,6 +131,7 @@ constructor(
                                 val status = item.data!!.get("status").toString()
 
                                 val stageLocal = StageBussinesLocal(0, id, idBussines, title, description, dateTime, status.toInt())
+                                Log.d("stageLocal", "${stageLocal}")
                                 dbRepo.insertStage(stageLocal)
 
                             }

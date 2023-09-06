@@ -330,7 +330,7 @@ class FMyBussines_page : Fragment() {
     }
     /*пробуем создать новый чат */
     private fun initChatUser(idLead: String, to: String) {
-        Timber.v("userProfile {$to}")
+       // Timber.v("userProfile {$to}")
         val usersCollection = UserUtils.getDocumentRefBussines(context, to)
         usersCollection.get().addOnSuccessListener { profile ->
             if (profile.exists()) {

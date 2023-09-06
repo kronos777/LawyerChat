@@ -246,8 +246,8 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
 
             //navController.navigate(R.id.FMainScreen)
 
-            if (!preference.isSameDevice())
-                Utils.showLoggedInAlert(this, preference, db)
+           // if (!preference.isSameDevice())
+            //    Utils.showLoggedInAlert(this, preference, db)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -573,7 +573,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                 .bigText(description))
             //.setContentText(description)
             .setSound(ringtoneManager)
-            .addAction(R.drawable.baseline_balance_24, "Подробнее", resultPendingIntent)
+            .addAction(R.drawable.ic_baseline_balance_24, "Подробнее", resultPendingIntent)
             .setSmallIcon(R.drawable.icon_logo_round)
             .setContentIntent(resultPendingIntent)
             .setAutoCancel(true) // закрыть по нажатию

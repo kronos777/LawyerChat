@@ -8,6 +8,7 @@ import androidx.core.app.RemoteInput
 import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.KEY_TEXT_REPLY
 import com.example.lawyerapplication.TYPE_NEW_MESSAGE
+import com.example.lawyerapplication.core.LeadMessageSender
 import com.example.lawyerapplication.core.MessageSender
 import com.example.lawyerapplication.core.MessageStatusUpdater
 import com.example.lawyerapplication.core.OnMessageResponse
@@ -84,13 +85,19 @@ class NActionReceiver : HiltBroadcastReceiver(), OnMessageResponse {
             } else if (intent.action == ACTION_REPLY) {
                 val reply = getMessageText(intent)
                 if (reply.isNotBlank()) {
-                    val message = createMessage(reply, myUserId, chatUserId)
+                    val message = createMessageLead(reply)
+                    val messageSender = LeadMessageSender(messageCollection,
+                    dbRepo,
+                    chatUser.user,
+                    this)
+                    messageSender.checkAndSendId(myUserId, chatUserId, message, chatUser.user.documentId.toString())
+                    /*val message = createMessage(reply, myUserId, chatUserId)
                     message.chatUserId=chatUserId
                     val messageSender = MessageSender(messageCollection,
                         dbRepo,
                         chatUser.user,
                         this)
-                    messageSender.checkAndSend(myUserId, chatUserId, message)
+                    messageSender.checkAndSend(myUserId, chatUserId, message)*/
                 }
             }
         } catch (e: Exception) {
@@ -98,6 +105,25 @@ class NActionReceiver : HiltBroadcastReceiver(), OnMessageResponse {
         }
 
     }
+
+    /*reply to lead*/
+    private fun createMessageLead(reply: String): Message {
+        //val chatUserId = to
+       // val chatUserId = toUser.uId!!
+        val txtMessage = TextMessage(reply)
+        return Message(
+            System.currentTimeMillis(),
+            //from = preference.getUid().toString() + "_" + idLead,
+            from = preference.getUid().toString() + chatUser.user.documentId,
+            chatUserId=chatUser.user.documentId,
+            to = chatUserId, senderName = preference.getUserProfile()!!.userName,
+            senderImage = preference.getUserProfile()!!.image,
+            textMessage = txtMessage,
+            status = 0
+        )
+    }
+    /*reply to lead*/
+
 
     private fun updateOnDb() {
         val list= chatUser.messages.filter {  it.status<3 && it.to==myUserId }.map {

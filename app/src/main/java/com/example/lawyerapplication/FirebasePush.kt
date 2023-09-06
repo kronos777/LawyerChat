@@ -325,7 +325,8 @@ class FirebasePush : FirebaseMessagingService(), OnSuccessListener {
                 if (!user.user.documentId.isNullOrBlank()) {
                     builder.addAction(
                         R.drawable.ic_drafts,
-                        "mark as read",
+                        "Прочитано",
+                        //"mark as read",
                         NotificationUtils.getMarkAsPIntent(context, user)
                     )
                     builder.addAction(NotificationUtils.getReplyAction(context, user))

@@ -130,6 +130,8 @@ class FNotifications_main : Fragment() {
 
             if(sortStages.size > 0) {
                 myNotificationsAdapter.submitList(sortStages)
+            } else if (sortStages.size == 0) {
+                binding.noLeadText.visibility = View.VISIBLE
             }
         }
 
