@@ -328,7 +328,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/C:/AndroidSdk/icons/material/materialicons/balance/baseline_balance_24.xml" />
+                                      <entry key="url" value="file:/C:/AndroidSdk/icons/material/materialicons/check_circle/baseline_check_circle_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -339,8 +339,8 @@
                         <option name="values">
                           <map>
                             <entry key="autoMirrored" value="true" />
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_baseline_balance_24" />
+                            <entry key="color" value="2ab31e" />
+                            <entry key="outputName" value="ic_baseline_check_circle_24" />
                             <entry key="sourceFile" value="E:\portfolioAndroidProjects\laywerApplication\cleanChatsApp\cleanChatsApp" />
                           </map>
                         </option>

@@ -193,5 +193,6 @@
     <string name="label_3">Консультации</string>
     <string name="label_4">По темам</string>
     <string name="button_notifications_page">Перейти к делу</string>
+    <string name="txt_choice_all">Выбрать все</string>
 
 </resources>

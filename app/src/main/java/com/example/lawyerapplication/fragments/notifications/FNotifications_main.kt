@@ -2,16 +2,15 @@ package com.example.lawyerapplication.fragments.notifications
 
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -47,6 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.selects.select
 import org.json.JSONObject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -73,6 +73,9 @@ class FNotifications_main : Fragment() {
 
     private val viewModel: NotificationsViewModel by viewModels()
 
+
+    private lateinit var menuChoice: Menu
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -86,6 +89,8 @@ class FNotifications_main : Fragment() {
         setupRecyclerView()
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         val listArrayStages: ArrayList<StageBussines> = ArrayList()
+
+        setHasOptionsMenu(true)
 
         /*WorkManager*/
         val uploadWorkRequest: WorkRequest =
@@ -214,7 +219,7 @@ class FNotifications_main : Fragment() {
 
     private fun setupRecyclerView() {
         with(binding.rvSituationList) {
-            myNotificationsAdapter = NotificationsAdapter()
+            myNotificationsAdapter = NotificationsAdapter() { show -> showDeleteMenu(show) }
             adapter = myNotificationsAdapter
             recycledViewPool.setMaxRecycledViews(
                 SearchBySituationAdapter.VIEW_TYPE_ENABLED,
@@ -242,5 +247,58 @@ class FNotifications_main : Fragment() {
         navController.navigate(R.id.FNotifications_page, btnArgsBusines)
         // navController.navigate(R.id.FMyBussines_page)
     }
+
+
+    fun showDeleteMenu(show: Boolean) {
+        menuChoice.findItem(R.id.menu_delete).isVisible = show
+        menuChoice.findItem(R.id.menu_select_all).isVisible = show
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menuChoice = menu
+        inflater.inflate(R.menu.menu_recycler_choice, menu)
+        showDeleteMenu(false)
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menu_delete -> delete()
+            R.id.menu_select_all -> selectAll()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun selectAll() {
+        Toast.makeText(activity, "select all item", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun delete() {
+       // Toast.makeText(activity, "choice item", Toast.LENGTH_SHORT).show()
+        val alertDialog = AlertDialog.Builder(getContext())
+        alertDialog.setTitle("Удалить ?")
+        alertDialog.setMessage("Вы действительно хотите удалить выбранные элементы?")
+
+        alertDialog.setPositiveButton("Удалить", DialogInterface.OnClickListener {
+                dialog, id ->
+            myNotificationsAdapter.deleteChoiceItem()
+            myNotificationsAdapter.pairList.forEach {
+                Log.d("currentItemDelete", "first el " + it.first.toString() + "two el " + it.second.toString())
+                viewModel.deleteItemLocal(it.first, it.second)
+            }
+            myNotificationsAdapter.notifyDataSetChanged()
+            showDeleteMenu(false)
+        })
+        alertDialog.setNegativeButton("Закрыть", DialogInterface.OnClickListener {
+                dialog, id ->
+            dialog.dismiss()
+        })
+
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
+
+    }
+
 
 }

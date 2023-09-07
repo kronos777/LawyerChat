@@ -47,6 +47,12 @@ class DbRepository @Inject constructor(
         }
     }
 
+    fun deleteItemStage(fireBaseId: Int, idBussines: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            stageDao.deleteStagesByStageIdBussinesId(fireBaseId, idBussines)
+        }
+    }
+
     fun deleteTableStage() = stageDao.nukeTable()
     fun getAllStages() = stageDao.getAllStages()
 

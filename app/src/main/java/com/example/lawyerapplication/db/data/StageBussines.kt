@@ -12,5 +12,5 @@ data class StageBussines(
     val title: String,
     val description: String,
     val dateTime: String,
-    val status: Int=0,
+    var status: Int=0,
 )

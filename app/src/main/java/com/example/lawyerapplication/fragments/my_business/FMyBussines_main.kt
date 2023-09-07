@@ -53,9 +53,8 @@ class FMyBussines_main : Fragment() {
     private var role: Boolean = false
     private var tabPos: Boolean = false
     private lateinit var dialog: Dialog
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +71,26 @@ class FMyBussines_main : Fragment() {
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 
         setDataInView(sortingData, "")
+        imageSortingListClick()
 
+        binding.sortingValue.setOnClickListener {
+            initDialog()
+            dialog.show()
+        }
+
+        tabClick()
+
+        /*binding.tabItem1.setOnClickListener {
+            Toast.makeText(context, "Tab item 1", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.tabItem2.setOnClickListener {
+            Toast.makeText(context, "Tab item 2", Toast.LENGTH_SHORT).show()
+        }*/
+
+    }
+
+    private fun imageSortingListClick() {
         binding.imageSorting.setOnClickListener {
             if(!sortingData && sortingString == "") {
                 filterDataDateTime()
@@ -124,24 +142,8 @@ class FMyBussines_main : Fragment() {
                 setDataInView(sortingData, "")
             }
         }
-
-        binding.sortingValue.setOnClickListener {
-            initDialog()
-            dialog.show()
-        }
-
-        tabClick()
-
-/*
-        binding.tabItem1.setOnClickListener {
-            Toast.makeText(context, "Tab item 1", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.tabItem2.setOnClickListener {
-            Toast.makeText(context, "Tab item 2", Toast.LENGTH_SHORT).show()
-        }*/
-
     }
+
 
     private fun filterDataDateTime() {
         sortingData = true

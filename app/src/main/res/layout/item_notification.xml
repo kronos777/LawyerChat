@@ -2,7 +2,7 @@
 <layout>
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="stageItem"
             type="com.example.lawyerapplication.db.data.StageBussines"
@@ -29,6 +29,17 @@
             android:gravity="left"
             android:padding="16dp"
             >
+
+            <ImageView
+                android:id="@+id/checkImage"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_baseline_check_circle_24"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:visibility="@{stageItem.status == 5 ? View.VISIBLE : View.GONE}"
+                />
+
             <TextView
                 android:textFontWeight="500"
                 android:lineHeight="24dp"

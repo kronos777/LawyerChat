@@ -124,7 +124,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
         countTextViewStage = actionView?.findViewById(R.id.view_alert_count_textview)
         // Timber.v("this redCircle" + redCircle)
         if(preference.isLoggedIn()){
-            viewModelStage.updateStageLocalDb()
+          //  viewModelStage.updateStageLocalDb()
             lifecycleScope.launch {
                 stageDao.getAllStagesFlow().conflate().collect { list ->
                     val count = list.filter { it.status == 0 }
@@ -309,6 +309,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
                 R.id.FNotifications_main -> {
                     //binding.bottomNav.selectedItemId = R.id.nav_services
                     showView()
+                    //binding.toolbar.findViewById<MenuItem>(R.menu.menu_search.).setVisible(false)
                     binding.fab.hide()
                 }
                 R.id.FNotifications_page -> {

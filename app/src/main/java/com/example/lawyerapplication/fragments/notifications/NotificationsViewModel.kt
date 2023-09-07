@@ -327,6 +327,10 @@ constructor(
         dbRepo.updateStage(st)
     }
 
+    fun deleteItemLocal(fireBaseId: Int, idBussines: Int) {
+        dbRepo.deleteItemStage(fireBaseId, idBussines)
+    }
+
     fun deleteTableStage() {
             dbRepo.deleteTableStage()
     }

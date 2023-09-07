@@ -29,8 +29,8 @@ interface StageDao {
     @Query("SELECT * FROM StageBussinesLocal")
     fun getAllStagesFlow(): Flow<List<StageBussinesLocal>>
 
-    @Query("DELETE FROM StageBussinesLocal  WHERE Id=:stageId")
-    suspend fun deleteStagesByStageId(stageId: String)
+    @Query("DELETE FROM StageBussinesLocal  WHERE fireBaseId=:fireBaseId AND idBussines=:idBussines")
+    suspend fun deleteStagesByStageIdBussinesId(fireBaseId: Int, idBussines: Int)
 
     @Query("SELECT * FROM StageBussinesLocal WHERE idBussines=:idBussines")
     fun getChatsOfGroupList(idBussines: String): List<StageBussinesLocal>
