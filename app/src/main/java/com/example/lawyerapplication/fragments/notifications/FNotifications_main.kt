@@ -257,6 +257,7 @@ class FNotifications_main : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menuChoice = menu
         inflater.inflate(R.menu.menu_recycler_choice, menu)
+        //Toast.makeText(activity, "menu choice is active", Toast.LENGTH_SHORT).show()
         showDeleteMenu(false)
         return super.onCreateOptionsMenu(menu, inflater)
     }
