@@ -15,7 +15,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -25,6 +27,7 @@ import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.LeadItem
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices2
 import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices3
@@ -39,6 +42,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
+import java.lang.Thread.sleep
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -56,6 +60,9 @@ class FSituationAppliances2 : Fragment() {
 
     @Inject
     lateinit var userCollection: CollectionReference
+
+
+    private val viewModelSituation: SituationViewModel by activityViewModels()
 
     private lateinit var navController: NavController
 
@@ -78,6 +85,7 @@ class FSituationAppliances2 : Fragment() {
 
     var PICK_IMAGE_MULTIPLE = 1
 
+    private var progressView: CustomProgressView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -166,15 +174,26 @@ class FSituationAppliances2 : Fragment() {
 
 
         binding.enterButton.setOnClickListener {
+            viewModelSituation.setDataSituationValue(1, binding.etMessageData.text.toString())
+            viewModelSituation.getLastLead()
+           // viewModelSituation.setTestDataSituationValue(25)
+            Toast.makeText(activity, "Вы не выбрали не одного файла2. "+ viewModelSituation.valueQuestionData.toString(), Toast.LENGTH_SHORT).show()
+            //sleep(2000)
+            /*viewModelSituation.valueQuestionData.observe(viewLifecycleOwner) {
+                it.forEach {
+                    binding.titleSituationH1.text = it.value.toString()
+                }
+
+
+            }
+            */
+            /*
             if(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && listUrlFileFree.size == 0 && listUrlFileFour.size == 0 && listUrlFileFive.size == 0) {
                 Toast.makeText(getActivity(), "Вы не выбрали не одного файла.", Toast.LENGTH_SHORT).show()
             } else {
                 addLeadDb()
             }
-
-            //sleep(1500)
-            // Toast.makeText(getActivity(), "situationId" + situationId.toString(), Toast.LENGTH_SHORT).show()
-            // launchFragmentNext()
+            */
 
         }
 
@@ -203,7 +222,6 @@ class FSituationAppliances2 : Fragment() {
             }
 
         }
-
     }
 
 
@@ -234,13 +252,11 @@ class FSituationAppliances2 : Fragment() {
                         Log.d("uploadIri", e.message.toString())
                         //Toast.makeText(getActivity(), "Failed " + e.message, Toast.LENGTH_SHORT).show()
                     }
-                    .addOnProgressListener(object : OnProgressListener<UploadTask.TaskSnapshot?> {
-                        override fun onProgress(taskSnapshot: UploadTask.TaskSnapshot) {
-                            val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                                .totalByteCount
-                            progressDialog.setMessage("Загрузка " + progress.toInt() + "%")
-                        }
-                    })
+                    .addOnProgressListener { taskSnapshot ->
+                        val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+                            .totalByteCount
+                        progressDialog.setMessage("Загрузка " + progress.toInt() + "%")
+                    }
 
             }
         }

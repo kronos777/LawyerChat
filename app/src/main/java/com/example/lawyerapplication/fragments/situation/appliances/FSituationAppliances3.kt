@@ -71,7 +71,7 @@ class FSituationAppliances3 : Fragment() {
 
         radioGroup.setOnCheckedChangeListener(
             RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.getBackground().setAlpha(255)
+                binding.enterButton.background.alpha = 255
                 getMaterialButtom()
                 val radio: RadioButton = group.findViewById(checkedId)
                 radioSelect = radio.text.toString()
@@ -112,7 +112,7 @@ class FSituationAppliances3 : Fragment() {
     }
 
     fun launchFragmentNext() {
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationAppliances3_to_FSituationFinish)
     }
 

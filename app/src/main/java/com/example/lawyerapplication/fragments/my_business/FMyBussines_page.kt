@@ -91,7 +91,7 @@ class FMyBussines_page : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         binding = FragmentMyBussinesPageBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -116,8 +116,8 @@ class FMyBussines_page : Fragment() {
                     .addOnSuccessListener { document ->
                         if (document != null) {
                          //   Log.d("Snapshotdata", "DocumentSnapshot data: ${document.data}")
-                            originFieldCategory = document.data!!.get("category") as String
-                            accompanyingText = document.data!!.get("messageLead") as String
+                            originFieldCategory = document.data!!["category"] as String
+                            accompanyingText = document.data!!["messageLead"] as String
 
                             category = getCategory(originFieldCategory)
                             setFieldTitleCategory(originFieldCategory)

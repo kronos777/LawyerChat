@@ -9,6 +9,7 @@ import android.media.RingtoneManager.TYPE_NOTIFICATION
 import android.media.RingtoneManager.getDefaultUri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -43,6 +44,7 @@ import com.example.lawyerapplication.fragments.my_business.BussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.FAddCards
 import com.example.lawyerapplication.fragments.notifications.NotificationsViewModel
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
@@ -73,11 +75,11 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     private var redCircleStage: FrameLayout? = null
     private var countTextViewStage: TextView? = null
     private val viewModelStage: NotificationsViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
+
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -22,6 +24,8 @@ import com.example.lawyerapplication.databinding.FragmentChoiceBySituationBindin
 import com.example.lawyerapplication.databinding.FragmentSituationAppliancesS1Binding
 import com.example.lawyerapplication.databinding.FragmentSituationAutoS1Binding
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.single_chat.asMap
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
@@ -42,6 +46,8 @@ class FSituationAppliances1 : Fragment() {
 
     @Inject
     lateinit var userCollection: CollectionReference
+
+    private val viewModelSituation: SituationViewModel by activityViewModels()
 
     private lateinit var navController: NavController
     private var radioSelect: String = String()
@@ -92,7 +98,10 @@ class FSituationAppliances1 : Fragment() {
         val btnArgsLessons = Bundle().apply {
             putString(FSituationAppliances2.SITUATION_ITEM, radioSelect)
         }
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+
+        viewModelSituation.setDataSituationValue(0, radioSelect)
+
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationAppliances1_to_FSituationAppliances2, btnArgsLessons)
     }
 

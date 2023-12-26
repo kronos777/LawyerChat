@@ -250,7 +250,7 @@ class FMyBussines_main : Fragment() {
     fun getURLForResource(resourceId: Int): String? {
         //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
         return Uri.parse(
-            "android.resource://" + R::class.java.getPackage().getName() + "/" + resourceId
+            "android.resource://" + R::class.java.getPackage().name + "/" + resourceId
         ).toString()
     }
 
