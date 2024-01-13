@@ -102,6 +102,8 @@ class FSituationAppliances2 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
 
+
+
         parseParams()
         listUrlFileFirst = ArrayList<Uri>()
         listUrlFileTwo = ArrayList<Uri>()
