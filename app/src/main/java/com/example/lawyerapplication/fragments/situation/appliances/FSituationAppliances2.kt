@@ -12,41 +12,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import com.canhub.cropper.CropImage
-import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
-import com.example.lawyerapplication.databinding.*
+import com.example.lawyerapplication.databinding.FragmentSituationAppliancesS2Binding
 import com.example.lawyerapplication.db.data.LeadItem
-import com.example.lawyerapplication.db.data.SituationItem
 import com.example.lawyerapplication.fragments.situation.SituationViewModel
-import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
-import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices2
-import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices3
-import com.example.lawyerapplication.models.UserStatus
-import com.example.lawyerapplication.utils.*
+import com.example.lawyerapplication.utils.ImageUtils
+import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.views.CustomProgressView
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
-import java.lang.Thread.sleep
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class FSituationAppliances2 : Fragment() {
