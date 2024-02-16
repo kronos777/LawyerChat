@@ -300,15 +300,14 @@ constructor(
                 } else if (!role && (typeSorting == "" || typeSorting == "active")) {
                     //for client
                     val sortBussines = resultFunction.filter {  it.typeLead != "close" }.sortedByDescending {
-                        it.categoryLead
+                        it.id.toString().toInt()
                     }
-
                     response.products = sortBussines
                 } else if (!role && typeSorting == "closed" && sort) {
+                    //for client
                     val sortBussines = resultFunction.filter {  it.typeLead == "close" }.sortedByDescending {
-                        it.categoryLead
+                        it.id.toString().toInt()
                     }
-
                     response.products = sortBussines
                 } else if (!sort && typeSorting == ""){
                     response.products = resultFunction

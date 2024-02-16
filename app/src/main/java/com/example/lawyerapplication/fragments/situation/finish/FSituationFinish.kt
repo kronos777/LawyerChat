@@ -44,7 +44,7 @@ class FSituationFinish : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
 
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 
         //sleep(5000)
        // navController.navigate(R.id.FMainScreen)

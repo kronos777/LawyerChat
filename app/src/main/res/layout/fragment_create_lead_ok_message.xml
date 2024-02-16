@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_circular"
-        android:text="Ваше сообщение отправлено." />
+        android:text="Ваша заявка создана." />
     <TextView
         android:id="@+id/textSendMessage2"
         android:layout_width="match_parent"

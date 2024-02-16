@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
@@ -43,6 +46,8 @@ class FSituationAppliances3 : Fragment() {
     @Inject
     lateinit var userCollection: CollectionReference
 
+    private val viewModelSituation: SituationViewModel by activityViewModels()
+
     private lateinit var navController: NavController
     private var radioSelect: String = String()
     private var situationId: String = String()
@@ -61,30 +66,30 @@ class FSituationAppliances3 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
-        context = requireActivity()
         val radioGroup = binding.radioGroupSituation
         parseParams()
-        binding.enterButton.getBackground().setAlpha(160)
+        binding.enterButton.background.alpha = 160
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
 
 
-        radioGroup.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.background.alpha = 255
-                getMaterialButtom()
-                val radio: RadioButton = group.findViewById(checkedId)
-                radioSelect = radio.text.toString()
-            })
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binding.enterButton.background.alpha = 255
+            getMaterialButtom()
+            val radio: RadioButton = group.findViewById(checkedId)
+            radioSelect = radio.text.toString()
+        }
 
 
-
+        goCalendarFragmentBackPressed()
         binding.enterButton.setOnClickListener {
             if(binding.checkboxRememberMe.isChecked) {
-                val data = hashMapOf("paymentInfo" to radioSelect)
+                viewModelSituation.editLeadPaymentInfo(situationId, radioSelect)
+                launchFragmentNext()
+                /*val data = hashMapOf("paymentInfo" to radioSelect)
                 val docRef = getDocumentRef(context).document(situationId)
                 docRef.set(data, SetOptions.merge())
-                launchFragmentNext()
+                launchFragmentNext()*/
             } else {
                 Toast.makeText(getContext(), "Дайте свое согласие на обработку данных", Toast.LENGTH_SHORT).show()
             }
@@ -99,7 +104,13 @@ class FSituationAppliances3 : Fragment() {
         return db.collection("Leads")
     }
 
-
+    private fun goCalendarFragmentBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            Toast.makeText(activity, "he are here", Toast.LENGTH_SHORT).show()
+           // navController.popBackStack(R.id.calendarItemFragment, true)
+            //navController.navigate(R.id.calendarItemFragment, null, NavigationOptions().invoke())
+        }
+    }
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
@@ -109,6 +120,7 @@ class FSituationAppliances3 : Fragment() {
     private fun parseParams() {
         val args = requireArguments()
         situationId = args.getString(SITUATION_ITEM).toString()
+        Toast.makeText(activity, situationId, Toast.LENGTH_SHORT).show()
     }
 
     fun launchFragmentNext() {
@@ -119,7 +131,6 @@ class FSituationAppliances3 : Fragment() {
 
     companion object {
         const val SITUATION_ITEM = "situation_item"
-
     }
 
 }
