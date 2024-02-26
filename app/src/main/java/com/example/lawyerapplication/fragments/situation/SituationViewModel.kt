@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -62,8 +61,14 @@ constructor(
     }
 
     fun setDataSituationValue(key: Int, value: String) {
+        //if(valueQuestionData[0] != null) valueQuestionData.clear()
         valueQuestionData[key] = value
         //_situationValue.value?.set(key, value)
+    }
+
+
+    fun clearValueQuestionData() {
+        valueQuestionData.clear()
     }
 
 
@@ -77,55 +82,19 @@ constructor(
     }
 
 
-
-    fun getLastLead() {
-        var leadId: Int
-        val lastIdLead = getDocumentLeadRef()
-        val progressDialog = ProgressDialog(context)
-        lastIdLead.get()
-            .addOnSuccessListener { result ->
-                if (result.isEmpty) {
-                    leadId = 0
-                    situationId = leadId.toString()
-                } else {
-                    if((result.last().id).toInt() >= 0){
-                        val arrayListInt = ArrayList<Int>()
-                        for (document in result) {
-                            //Log.d("TAG", "${document.id} => ${document.data}")
-                            arrayListInt.add(document.id.toInt())
-                        }
-                        leadId = findMax(arrayListInt)!! + 1
-                        situationId = leadId.toString()
-                    } else {
-                        leadId = 0
-                        situationId = leadId.toString()
-                    }
-                }
-                progressDialog.dismiss()
-            }
-            .addOnFailureListener { _ ->
-                //Log.d("TAG", "Error getting documents: ", exception)
-            }
-    }
-
-
     val lastLeadInDb: Deferred<Int> = CoroutineScope(Dispatchers.IO).async {
         var leadId = -1
-//        val progressDialog = ProgressDialog(context)
             getDocumentLeadRef().get()
             .addOnSuccessListener { result ->
-
                 if (result.isEmpty) {
                     leadId = 0
                 } else {
-                    if((result.last().id).toInt() >= 0){
+                    if((result.last().id).toInt() > 0){
                         val arrayListInt = ArrayList<Int>()
                         for (document in result) {
-                            //Log.d("TAG", "${document.id} => ${document.data}")
                             arrayListInt.add(document.id.toInt())
                         }
                         leadId = findMax(arrayListInt)!! + 1
-
                     } else {
                         leadId = 0
 
@@ -133,7 +102,6 @@ constructor(
 
                 }
 
-                //progressDialog.dismiss()
             }
             .addOnFailureListener { _ ->
                 //Log.d("TAG", "Error getting documents: ", exception)
@@ -144,17 +112,15 @@ constructor(
     }
 
     fun deleteLeadInDb(idLeads: String) {
-
         dbFireStore.collection("Leads").document(idLeads)
             .delete()
             .addOnSuccessListener { Timber.tag(TAG).d("DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Timber.tag(TAG).d("Error deleting document") }
+            .addOnFailureListener { _ -> Timber.tag(TAG).d("Error deleting document") }
 
         /*
         // Create a storage reference from our app
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
-        // Create a reference to the file to delete
         val desertRef = storageReference.child("Leads/$idLeads")
         // Delete the file
         desertRef.delete().addOnSuccessListener {
@@ -193,7 +159,7 @@ constructor(
         return dbFireStore.collection("Leads")
     }
 
-    fun findMax(list: List<Int>): Int? {
+    private fun findMax(list: List<Int>): Int? {
         return list.reduce { a: Int, b: Int -> a.coerceAtLeast(b) }
     }
 

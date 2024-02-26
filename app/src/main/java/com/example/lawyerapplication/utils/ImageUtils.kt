@@ -21,9 +21,11 @@ import coil.transform.CircleCropTransformation
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageView
 import com.example.lawyerapplication.R
+import com.example.lawyerapplication.databinding.FragmentMyBussinesPageBinding
 import com.example.lawyerapplication.fragments.FImageSrcSheet
 import com.example.lawyerapplication.fragments.SheetListener
 import com.example.lawyerapplication.fragments.single_chat.FSingleChat
+import com.google.common.base.Predicates.contains
 import java.io.*
 import kotlin.random.Random
 
@@ -53,6 +55,10 @@ object ImageUtils {
             transformations(CircleCropTransformation())
         }
     }
+
+
+
+
 
     private fun checkStoragePermission(context: Fragment): Boolean {
         return Utils.checkPermission(

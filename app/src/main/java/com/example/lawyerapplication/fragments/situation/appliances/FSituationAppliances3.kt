@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.canhub.cropper.CropImage
 import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
@@ -40,25 +41,21 @@ class FSituationAppliances3 : Fragment() {
 
     private lateinit var context: Activity
 
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
     private val viewModelSituation: SituationViewModel by activityViewModels()
 
-    private lateinit var navController: NavController
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
+
+    private val args by navArgs<FSituationAppliances3Args>()
+
     private var radioSelect: String = String()
     private var situationId: String = String()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         binding = FragmentSituationAppliancesS3Binding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -86,10 +83,6 @@ class FSituationAppliances3 : Fragment() {
             if(binding.checkboxRememberMe.isChecked) {
                 viewModelSituation.editLeadPaymentInfo(situationId, radioSelect)
                 launchFragmentNext()
-                /*val data = hashMapOf("paymentInfo" to radioSelect)
-                val docRef = getDocumentRef(context).document(situationId)
-                docRef.set(data, SetOptions.merge())
-                launchFragmentNext()*/
             } else {
                 Toast.makeText(getContext(), "Дайте свое согласие на обработку данных", Toast.LENGTH_SHORT).show()
             }
@@ -98,15 +91,9 @@ class FSituationAppliances3 : Fragment() {
     }
 
 
-    fun getDocumentRef(context: Context): CollectionReference {
-        val preference = MPreference(context)
-        val db = FirebaseFirestore.getInstance()
-        return db.collection("Leads")
-    }
-
     private fun goCalendarFragmentBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            Toast.makeText(activity, "he are here", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(activity, "he are here", Toast.LENGTH_SHORT).show()
            // navController.popBackStack(R.id.calendarItemFragment, true)
             //navController.navigate(R.id.calendarItemFragment, null, NavigationOptions().invoke())
         }
@@ -116,21 +103,12 @@ class FSituationAppliances3 : Fragment() {
         binding.enterButton.isEnabled = true
     }
 
-
     private fun parseParams() {
-        val args = requireArguments()
-        situationId = args.getString(SITUATION_ITEM).toString()
-        Toast.makeText(activity, situationId, Toast.LENGTH_SHORT).show()
+        situationId = args.leadId
     }
 
     fun launchFragmentNext() {
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationAppliances3_to_FSituationFinish)
-    }
-
-
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
     }
 
 }

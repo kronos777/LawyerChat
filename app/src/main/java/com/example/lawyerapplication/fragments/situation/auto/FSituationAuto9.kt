@@ -17,7 +17,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -27,6 +29,7 @@ import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.LeadItem
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.fragments.situation.new_buidings.FSituationNewBuildings3
 import com.example.lawyerapplication.models.UserStatus
@@ -39,6 +42,7 @@ import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,21 +54,12 @@ class FSituationAuto9 : Fragment() {
 
     private lateinit var binding: FragmentSituationAutoS9Binding
 
-    private lateinit var context: Activity
 
-    @Inject
-    lateinit var preference: MPreference
+    private val viewModelSituation: SituationViewModel by activityViewModels()
 
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-    private lateinit var navController: NavController
-
-    private var situation8: String = String()
-    private var situationId: String = String()
-
-    private lateinit var storage: FirebaseStorage
-    private lateinit var storageReference: StorageReference
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
 
     private lateinit var listUrlFileFirst: ArrayList<Uri>
     private var boolFileFirst: Boolean = false
@@ -85,6 +80,7 @@ class FSituationAuto9 : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("allAnswerQuastions", viewModelSituation.valueQuestionData.toString())
     }
 
     override fun onCreateView(
@@ -96,10 +92,7 @@ class FSituationAuto9 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
 
-        parseParams()
-        parseParams()
         listUrlFileFirst = ArrayList<Uri>()
         listUrlFileTwo = ArrayList<Uri>()
         listUrlFileFree = ArrayList<Uri>()
@@ -108,11 +101,7 @@ class FSituationAuto9 : Fragment() {
         listUrlFileSix = ArrayList<Uri>()
         listUrlFileSeven = ArrayList<Uri>()
 
-        storage = FirebaseStorage.getInstance()
-        storageReference = storage.getReference()
-        // binding.enterButton.getBackground().setAlpha(160)
-        // binding.enterButton.isClickable = false
-        //  binding.enterButton.isEnabled = false
+
 
         //first field
         binding.textD1Attachment.setOnClickListener {
@@ -195,15 +184,46 @@ class FSituationAuto9 : Fragment() {
 
 
         binding.enterButton.setOnClickListener {
-            if(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && listUrlFileFree.size == 0 && listUrlFileFour.size == 0 && listUrlFileFive.size == 0
-                && listUrlFileSix.size == 0 && listUrlFileSeven.size == 0 ) {
-                Toast.makeText(getActivity(), "Вы не выбрали не одного файла.", Toast.LENGTH_SHORT).show()
-            } else {
-                addLeadDb()
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                if(checkChoiceFile()) {
+                    addLeadAndGoNext()
+                } else {
+                    Toast.makeText(activity, "Не было выбрано не одного файла.", Toast.LENGTH_SHORT).show()
+                }
+
             }
+
 
         }
 
+    }
+
+    private fun checkChoiceFile(): Boolean {
+        return !(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && listUrlFileFree.size == 0 && listUrlFileFour.size == 0 && listUrlFileFive.size == 0
+                && listUrlFileSix.size == 0 && listUrlFileSeven.size == 0)
+    }
+
+    private suspend fun addLeadAndGoNext() {
+        /*set data for lead*/
+        val leadId = viewModelSituation.lastLeadInDb.await()
+        val currentDate = SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date())
+        val lead = LeadItem(viewModelSituation.valueQuestionData[0].toString(),
+            viewModelSituation.valueQuestionData[1].toString(),
+            viewModelSituation.valueQuestionData[2].toString(),
+            viewModelSituation.valueQuestionData[3].toString(),
+            viewModelSituation.valueQuestionData[4].toString(),
+            viewModelSituation.valueQuestionData[5].toString(),
+            viewModelSituation.valueQuestionData[6].toString(),
+            viewModelSituation.valueQuestionData[7].toString(),
+            "",
+            "",
+            binding.etMessageData.text.toString(),
+            viewModelSituation.getUid(), "", "auto",
+            "newLead", currentDate, "", leadId)
+        viewModelSituation.addLead(lead)
+        getReadyImagesForUpload(lead.id.toString())
+        launchFragmentNext(lead.id.toString())
     }
 
 
@@ -229,7 +249,8 @@ class FSituationAuto9 : Fragment() {
                     5 -> categoryFile = "sixGroup"
                     6 -> categoryFile = "sevenGroup"
                 }
-                uploadImages(paramsUpload, listAll[index], categoryFile)
+                viewModelSituation.uploadImages(paramsUpload, listAll[index], categoryFile)
+               // uploadImages(paramsUpload, listAll[index], categoryFile)
             }
 
         }
@@ -237,44 +258,6 @@ class FSituationAuto9 : Fragment() {
     }
 
 
-    private fun uploadImages(paramsUpload: String, dataUrl: ArrayList<Uri>, category: String) {
-
-        for (index in dataUrl.indices) {
-            val imageUri = dataUrl[index]
-            //contentResolver.takePersistableUriPermission(imageUri, takeFlags)
-            if (imageUri != null) {
-                val progressDialog = ProgressDialog(getActivity())
-                progressDialog.setTitle("Загрузка...")
-                progressDialog.show()
-                val ref: StorageReference =
-                    storageReference.child("Leads/" + paramsUpload + "/" + category + "_image" + index)
-                ref.putFile(imageUri!!)
-                    .addOnSuccessListener {
-                        progressDialog.dismiss()
-                        val downloadUri = it.task.snapshot.metadata?.path?.toUri()
-                        //val downloadUri2 = it.task.snapshot.storage.downloadUrl
-                        // val downloadUri = it.task.snapshot.storage.downloadUrl
-                        // Toast.makeText(getActivity(), "Uploaded" + downloadUri.toString(), Toast.LENGTH_SHORT).show()
-                        // Log.d("uploadIri", downloadUri.toString())
-                        //val downloadUri = it.d
-
-                    }
-                    .addOnFailureListener { e ->
-                        progressDialog.dismiss()
-                        Log.d("uploadIri", e.message.toString())
-                        //Toast.makeText(getActivity(), "Failed " + e.message, Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnProgressListener(object : OnProgressListener<UploadTask.TaskSnapshot?> {
-                        override fun onProgress(taskSnapshot: UploadTask.TaskSnapshot) {
-                            val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                                .totalByteCount
-                            progressDialog.setMessage("Загрузка " + progress.toInt() + "%")
-                        }
-                    })
-
-            }
-        }
-    }
 
     private fun showFirstFieldReady() {
         if(listUrlFileFirst.size > 0) {
@@ -335,27 +318,7 @@ class FSituationAuto9 : Fragment() {
 
 
 
-    fun getDocumentRef(context: Context): CollectionReference {
-        val preference = MPreference(context)
-        val db = FirebaseFirestore.getInstance()
-        return db.collection("Leads")
-    }
 
-
-
-
-    private fun parseParams() {
-        val args = requireArguments()
-        situation8 = args.getString(SITUATION_ITEM).toString()
-    }
-
-
-
-
-
-    fun findMax(list: List<Int>): Int? {
-        return list.reduce { a: Int, b: Int -> a.coerceAtLeast(b) }
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -469,76 +432,12 @@ class FSituationAuto9 : Fragment() {
 
 
 
-    private fun addLeadDb() {
-        val uid = preference.getUid()
-        val lastIdLead = getDocumentRef(context)
-        lastIdLead.get()
-            .addOnSuccessListener { result ->
-                //Log.d("lastid", "${result.last().id}")
-                var leadId: Int
-                if (result.isEmpty) {
-                    leadId = 0
-                    situationId = leadId.toString()
-                } else {
-                    if((result.last().id).toInt() >= 0){
-                        val arraListInt = ArrayList<Int>()
-                        for (document in result) {
-                            //Log.d("TAG", "${document.id} => ${document.data}")
-                            arraListInt.add(document.id.toInt())
-                        }
-                        leadId = findMax(arraListInt)!! + 1
-                        situationId = leadId.toString()
-                    } else {
-                        leadId = 0
-                        situationId = leadId.toString()
-                    }
-                }
-                // createLead()
 
-                /*  val lead = LeadItem(arrayValue.get(0).toString(), arrayValue.get(1).toString(), arrayValue.get(2).toString(), arrayValue.get(3).toString(), arrayValue.get(4).toString(),
-                      arrayValue.get(5).toString(), arrayValue.get(6).toString(), arrayValue.get(7).toString(), arrayValue.get(8).toString(), arrayValue.get(9).toString(), arrayValue.get(9).toString(),
-                      uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)*/
-                val messLead = binding.etMessageData.text.toString()
-
-                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
-                val currentDate = sdf.format(Date())
-                val leadTxt = situation8.split("&")
-
-                val lead = LeadItem(leadTxt[0], leadTxt[1], leadTxt[2], leadTxt[3], leadTxt[4], leadTxt[5], leadTxt[6], leadTxt[7], "", "", messLead,
-                    uid.toString(), "", "auto", "newLead", currentDate, "", leadId)
-
-
-                val db = FirebaseFirestore.getInstance()
-                db.collection("Leads").document(lead.id.toString())
-                    .set(lead, SetOptions.merge())
-                    .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
-                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
-
-                //uploadImages(leadId.toString())
-                getReadyImagesForUpload(leadId.toString())
-                launchFragmentNext()
-                /* */
-                /*for (document in result) {
-                    Log.d("TAG", "${document.id} => ${document.data}")
-                }*/
-            }
-            .addOnFailureListener { exception ->
-                Log.d("TAG", "Error getting documents: ", exception)
-            }
+    fun launchFragmentNext(idLead: String) {
+        navController.navigate(FSituationAuto9Directions.actionFSituationAuto9ToFSituationAuto10(idLead))
+        //navController.navigate(R.id.action_FSituationAuto9_to_FSituationAuto10)
     }
 
 
-    fun launchFragmentNext() {
-        val btnArgsLessons = Bundle().apply {
-            putString(FSituationAuto10.SITUATION_ITEM, situationId)
-        }
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationAuto9_to_FSituationAuto10, btnArgsLessons)
-    }
-
-
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
-    }
 
 }

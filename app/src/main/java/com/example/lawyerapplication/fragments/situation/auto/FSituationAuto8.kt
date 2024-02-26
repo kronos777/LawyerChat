@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.utils.*
@@ -32,22 +34,13 @@ class FSituationAuto8 : Fragment() {
 
     private lateinit var binding: FragmentSituationAutoS8Binding
 
-    private lateinit var context: Activity
+    private val viewModelSituation: SituationViewModel by activityViewModels()
 
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-    private lateinit var navController: NavController
-    private var radioSelect: String = String()
-    private var situation7: String = String()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
+    private var radioSelect: String = String()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,27 +51,18 @@ class FSituationAuto8 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
         val radioGroup = binding.radioGroupSituation
 
-        parseParams()
-
-        binding.enterButton.getBackground().setAlpha(160)
+        binding.enterButton.background.alpha = 160
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-     //   binding.enterButton.setFocusableInTouchMode(false)
 
-
-        radioGroup.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.getBackground().setAlpha(255)
-                getMaterialButtom()
-                val radio: RadioButton = group.findViewById(checkedId)
-                /*Toast.makeText(getActivity()," On checked change :"+
-                        " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()*/
-                radioSelect = radio.text.toString()
-            })
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binding.enterButton.background.alpha = 255
+            getMaterialButtom()
+            val radio: RadioButton = group.findViewById(checkedId)
+            radioSelect = radio.text.toString()
+        }
 
         binding.enterButton.setOnClickListener {
             launchFragmentNext()
@@ -89,27 +73,13 @@ class FSituationAuto8 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-      //  binding.enterButton.setFocusableInTouchMode(true)
-    }
-
-
-    private fun parseParams() {
-        val args = requireArguments()
-        situation7 = args.getString(SITUATION_ITEM).toString()
-        //Toast.makeText(getActivity(),"first choice" + situation7, Toast.LENGTH_SHORT).show()
     }
 
 
     fun launchFragmentNext() {
-        val btnArgsAuto = Bundle().apply {
-            putString(FSituationAuto9.SITUATION_ITEM, situation7 + "&" +radioSelect)
-        }
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationAuto8_to_FSituationAuto9, btnArgsAuto)
+        viewModelSituation.setDataSituationValue(7, radioSelect)
+        navController.navigate(R.id.action_FSituationAuto8_to_FSituationAuto9)
     }
 
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
-    }
 
 }

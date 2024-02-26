@@ -321,7 +321,11 @@
         android:label="FSituationAuto9" >
         <action
             android:id="@+id/action_FSituationAuto9_to_FSituationAuto10"
-            app:destination="@id/FSituationAuto10" />
+            app:destination="@id/FSituationAuto10">
+            <argument
+                android:name="leadId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/FSituationAuto10"
@@ -330,6 +334,9 @@
         <action
             android:id="@+id/action_FSituationAuto10_to_FSituationFinish"
             app:destination="@id/FSituationFinish" />
+        <argument
+            android:name="leadId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/FSituationFinish"
@@ -389,7 +396,11 @@
         android:label="FSituationAppliances2" >
         <action
             android:id="@+id/action_FSituationAppliances2_to_FSituationAppliances3"
-            app:destination="@id/FSituationAppliances3" />
+            app:destination="@id/FSituationAppliances3" >
+            <argument
+                android:name="leadId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/FSituationAppliances3"
@@ -398,6 +409,9 @@
         <action
             android:id="@+id/action_FSituationAppliances3_to_FSituationFinish"
             app:destination="@id/FSituationFinish" />
+        <argument
+            android:name="leadId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/FSituationClothing1"

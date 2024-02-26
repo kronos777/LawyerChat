@@ -31,6 +31,7 @@ import com.example.lawyerapplication.db.data.TextMessage
 import com.example.lawyerapplication.fragments.my_business.stage_bussines.StageBussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.adapter.StageItemAdapter
 import com.example.lawyerapplication.fragments.single_chat.SingleChatViewModel
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.models.MyImage
 import com.example.lawyerapplication.models.UserProfile
 import com.example.lawyerapplication.utils.ImageUtils
@@ -83,6 +84,7 @@ class FMyBussines_page : Fragment() {
     private lateinit var stageItemAdapter: StageItemAdapter
 
     private val viewModel: SingleChatViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -251,9 +253,15 @@ class FMyBussines_page : Fragment() {
                         items[index].downloadUrl.addOnSuccessListener { urlTask ->
                         // download URL is available here
 
-                            val url = urlTask.path
 
-                            if(url!!.contains("firstGroup")) {
+                            /*val valueLinear = ImageUtils.whatsGroupFile(urlTask.path.toString())
+                            val mainLayout: LinearLayout = binding.accordionDescriptionLinear1*/
+
+                            val mainLayout: LinearLayout = whatsGroupFile(urlTask.path.toString())
+                            arrayListImgData[index] = urlTask
+                            mainLayout.addView(setImageView(index))
+
+                            /*if(url!!.contains("firstGroup")) {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear1
                                 arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
@@ -285,7 +293,7 @@ class FMyBussines_page : Fragment() {
                                 val mainLayout: LinearLayout = binding.accordionDescriptionLinear8
                                 arrayListImgData[index] = urlTask
                                 mainLayout.addView(setImageView(index))
-                            }
+                            }*/
 
 
 
@@ -328,6 +336,22 @@ class FMyBussines_page : Fragment() {
 
 
     }
+
+    fun whatsGroupFile(groupName: String): LinearLayout {
+        return when {
+            groupName.contains("firstGroup") -> binding.accordionDescriptionLinear1
+            groupName.contains("twoGroup") -> binding.accordionDescriptionLinear2
+            groupName.contains("freeGroup") -> binding.accordionDescriptionLinear3
+            groupName.contains("fourGroup") -> binding.accordionDescriptionLinear4
+            groupName.contains("fiveGroup") -> binding.accordionDescriptionLinear5
+            groupName.contains("sixGroup") -> binding.accordionDescriptionLinear6
+            groupName.contains("sevenGroup") -> binding.accordionDescriptionLinear7
+            groupName.contains("eightGroup") -> binding.accordionDescriptionLinear8
+            else -> binding.accordionDescriptionLinear1
+        }
+    }
+
+
     /*пробуем создать новый чат */
     private fun initChatUser(idLead: String, to: String) {
        // Timber.v("userProfile {$to}")

@@ -2,11 +2,11 @@ package com.example.lawyerapplication.fragments.situation.appliances
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,16 +21,10 @@ import com.example.lawyerapplication.databinding.FragmentSituationAppliancesS2Bi
 import com.example.lawyerapplication.db.data.LeadItem
 import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.utils.ImageUtils
-import com.example.lawyerapplication.utils.MPreference
-import com.example.lawyerapplication.views.CustomProgressView
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FSituationAppliances2 : Fragment() {
@@ -39,22 +33,11 @@ class FSituationAppliances2 : Fragment() {
 
     private lateinit var context: Activity
 
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-
     private val viewModelSituation: SituationViewModel by activityViewModels()
 
-    private lateinit var navController: NavController
-
-    private var situation1: String = String()
-    private var situationId: String = String()
-
-    private lateinit var storage: FirebaseStorage
-    private lateinit var storageReference: StorageReference
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
 
     private lateinit var listUrlFileFirst: ArrayList<Uri>
     private var boolFileFirst: Boolean = false
@@ -69,7 +52,10 @@ class FSituationAppliances2 : Fragment() {
 
     var PICK_IMAGE_MULTIPLE = 1
 
-    private var progressView: CustomProgressView? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("allAnswerQuastions", viewModelSituation.valueQuestionData.toString())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,12 +71,6 @@ class FSituationAppliances2 : Fragment() {
 
 
         prepareFileField()
-
-        storage = FirebaseStorage.getInstance()
-        storageReference = storage.reference
-        // binding.enterButton.getBackground().setAlpha(160)
-        // binding.enterButton.isClickable = false
-        //  binding.enterButton.isEnabled = false
 
 
 
@@ -213,11 +193,6 @@ class FSituationAppliances2 : Fragment() {
     }
 
     private fun getReadyImagesForUpload(paramsUpload: String) {
-
-        val progressDialog = ProgressDialog(activity)
-        progressDialog.setTitle("Загрузка ... ")
-        progressDialog.show()
-
         val listAll: ArrayList<ArrayList<Uri>> = ArrayList<ArrayList<Uri>>()
         listAll.add(listUrlFileFirst)
         listAll.add(listUrlFileTwo)
@@ -238,7 +213,6 @@ class FSituationAppliances2 : Fragment() {
                 viewModelSituation.uploadImages(paramsUpload, listAll[index], categoryFile)
             }
         }
-        progressDialog.dismiss()
     }
 
     private fun showFirstFieldReady() {
@@ -374,26 +348,15 @@ class FSituationAppliances2 : Fragment() {
                 boolFileFive = false
             }
 
-            //  Log.d("imageArrayList", listUrlFile.toString())
-            //  uploadImages("diplomdata")
-            // displayImageData()
         }
 
     }
 
 
     fun launchFragmentNext(leadId: String) {
-        val btnArgsLessons = Bundle().apply {
-            putString(FSituationAppliances3.SITUATION_ITEM, leadId)
-        }
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationAppliances2_to_FSituationAppliances3, btnArgsLessons)
+          navController.navigate(FSituationAppliances2Directions.actionFSituationAppliances2ToFSituationAppliances3(leadId))
     }
 
-
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
-    }
 
 
 }

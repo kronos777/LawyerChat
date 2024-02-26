@@ -26,15 +26,13 @@ class FSituationAppliances1 : Fragment() {
 
     private lateinit var context: Activity
 
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
     private val viewModelSituation: SituationViewModel by activityViewModels()
 
-    private lateinit var navController: NavController
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
+
+
     private var radioSelect: String = String()
 
 
@@ -50,18 +48,17 @@ class FSituationAppliances1 : Fragment() {
         context = requireActivity()
         val radioGroup = binding.radioGroupSituation
 
-        binding.enterButton.getBackground().setAlpha(160)
+        binding.enterButton.background.alpha = 160
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
 
 
-        radioGroup.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.background.alpha = 255
-                getMaterialButtom()
-                val radio: RadioButton = group.findViewById(checkedId)
-                radioSelect = radio.text.toString()
-            })
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binding.enterButton.background.alpha = 255
+            getMaterialButtom()
+            val radio: RadioButton = group.findViewById(checkedId)
+            radioSelect = radio.text.toString()
+        }
 
         binding.enterButton.setOnClickListener {
             launchFragmentNext()
@@ -77,7 +74,6 @@ class FSituationAppliances1 : Fragment() {
 
     fun launchFragmentNext() {
         viewModelSituation.setDataSituationValue(0, radioSelect)
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationAppliances1_to_FSituationAppliances2)
     }
 
