@@ -1,81 +1,55 @@
 package com.example.lawyerapplication.fragments.situation.clothing
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.RadioButton
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import com.canhub.cropper.CropImage
-import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
-import com.example.lawyerapplication.databinding.FProfileBinding
-import com.example.lawyerapplication.databinding.FragmentChoiceBySituationBinding
-import com.example.lawyerapplication.databinding.FragmentSituationAutoS1Binding
 import com.example.lawyerapplication.databinding.FragmentSituationClothingS1Binding
-import com.example.lawyerapplication.db.data.SituationItem
-import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
-import com.example.lawyerapplication.models.UserStatus
-import com.example.lawyerapplication.utils.*
-import com.example.lawyerapplication.views.CustomProgressView
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FSituationClothing1 : Fragment() {
 
     private lateinit var binding: FragmentSituationClothingS1Binding
 
-    private lateinit var context: Activity
-
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-    private lateinit var navController: NavController
-    private var radioSelect: String = String()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
+
+    private var radioSelect: String = String()
+    private val viewModelSituation: SituationViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         binding = FragmentSituationClothingS1Binding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
         val radioGroup = binding.radioGroupSituation
 
-        binding.enterButton.getBackground().setAlpha(160)
+        binding.enterButton.background.alpha = 160
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
 
 
-        radioGroup.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.getBackground().setAlpha(255)
-                getMaterialButtom()
-                val radio: RadioButton = group.findViewById(checkedId)
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binding.enterButton.background.alpha = 255
+            getMaterialButtom()
+            val radio: RadioButton = group.findViewById(checkedId)
 
-                radioSelect = radio.text.toString()
-            })
+            radioSelect = radio.text.toString()
+        }
 
         binding.enterButton.setOnClickListener {
             launchFragmentNext()
@@ -90,11 +64,9 @@ class FSituationClothing1 : Fragment() {
 
 
     fun launchFragmentNext() {
-        val btnArgsLessons = Bundle().apply {
-            putString(FSituationClothing2.SITUATION_ITEM, radioSelect)
-        }
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationClothing1_to_FSituationClothing2, btnArgsLessons)
+        viewModelSituation.clearValueQuestionData()
+        viewModelSituation.setDataSituationValue(0, radioSelect)
+        navController.navigate(R.id.action_FSituationClothing1_to_FSituationClothing2)
     }
 
 }

@@ -248,66 +248,6 @@ class FSituationClothing5 : Fragment() {
     }
 
 
-
-    private fun addLeadDb() {
-        val uid = preference.getUid()
-        val lastIdLead = getDocumentRef(context)
-        lastIdLead.get()
-            .addOnSuccessListener { result ->
-                //Log.d("lastid", "${result.last().id}")
-                var leadId: Int
-                if (result.isEmpty) {
-                    leadId = 0
-                    situationId = leadId.toString()
-                } else {
-                    if((result.last().id).toInt() >= 0){
-                        val arraListInt = ArrayList<Int>()
-                        for (document in result) {
-                            //Log.d("TAG", "${document.id} => ${document.data}")
-                            arraListInt.add(document.id.toInt())
-                        }
-                        leadId = findMax(arraListInt)!! + 1
-                        situationId = leadId.toString()
-                    } else {
-                        leadId = 0
-                        situationId = leadId.toString()
-                    }
-                }
-                // createLead()
-
-                /*  val lead = LeadItem(arrayValue.get(0).toString(), arrayValue.get(1).toString(), arrayValue.get(2).toString(), arrayValue.get(3).toString(), arrayValue.get(4).toString(),
-                      arrayValue.get(5).toString(), arrayValue.get(6).toString(), arrayValue.get(7).toString(), arrayValue.get(8).toString(), arrayValue.get(9).toString(), arrayValue.get(9).toString(),
-                      uid.toString(), "", arrayValue.get(9).toString(), "newLead",  leadId)*/
-                val messLead = binding.etMessageData.text.toString()
-
-                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
-                val currentDate = sdf.format(Date())
-                val leadTxt = situation4.split("&")
-
-
-                val lead = LeadItem(leadTxt[0].trim(), leadTxt[1].trim(), leadTxt[2].trim(), leadTxt[3].trim(), "", "", "", "", "", "", messLead,
-                    uid.toString(), "", "clothing", "newLead", currentDate, "", leadId)
-
-
-                val db = FirebaseFirestore.getInstance()
-                db.collection("Leads").document(lead.id.toString())
-                    .set(lead, SetOptions.merge())
-                    .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
-                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
-
-                //uploadImages(leadId.toString())
-                getReadyImagesForUpload(leadId.toString())
-                launchFragmentNext()
-                /* */
-                /*for (document in result) {
-                    Log.d("TAG", "${document.id} => ${document.data}")
-                }*/
-            }
-            .addOnFailureListener { exception ->
-                Log.d("TAG", "Error getting documents: ", exception)
-            }
-    }
-
     private fun multipleChoiseImage() {
         if (Build.VERSION.SDK_INT < 19) {
             var intent = Intent()
@@ -327,11 +267,6 @@ class FSituationClothing5 : Fragment() {
         }
     }
 
-
-    fun findMax(list: List<Int>): Int? {
-        return list.reduce { a: Int, b: Int -> a.coerceAtLeast(b) }
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -345,11 +280,8 @@ class FSituationClothing5 : Fragment() {
 
 
     fun launchFragmentNext() {
-        val btnArgsLessons = Bundle().apply {
-            putString(FSituationClothing6.SITUATION_ITEM, situationId)
-        }
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationClothing5_to_FSituationClothing6, btnArgsLessons)
+
+        navController.navigate(R.id.action_FSituationClothing5_to_FSituationClothing6)
     }
 
     private fun showFirstFieldReady() {

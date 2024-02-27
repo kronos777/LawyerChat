@@ -36,18 +36,12 @@ class FSituationAuto1 : Fragment() {
 
     private lateinit var binding: FragmentSituationAutoS1Binding
 
-    private lateinit var context: Activity
-
     private val navController: NavController by lazy {
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
 
     private var radioSelect: String = String()
     private val viewModelSituation: SituationViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,13 +52,11 @@ class FSituationAuto1 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
         val radioGroup = binding.radioGroupSituation
 
         binding.enterButton.background.alpha = 160
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
-       // binding.enterButton.setFocusableInTouchMode(false)
 
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -83,14 +75,11 @@ class FSituationAuto1 : Fragment() {
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
         binding.enterButton.isEnabled = true
-      //  binding.enterButton.setFocusableInTouchMode(true)
     }
 
 
     fun launchFragmentNext() {
-       /*val btnArgsAuto = Bundle().apply {
-            putString(FSituationAuto2.SITUATION_ITEM, radioSelect)
-        }*/
+        viewModelSituation.clearValueQuestionData()
         viewModelSituation.setDataSituationValue(0, radioSelect)
         navController.navigate(R.id.action_FSituationAuto1_to_FSituationAuto2)
     }

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture4
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
@@ -33,23 +35,13 @@ class FSituationClothing2 : Fragment() {
 
     private lateinit var binding: FragmentSituationClothingS2Binding
 
-    private lateinit var context: Activity
-
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-    private lateinit var navController: NavController
-    private var radioSelect: String = String()
-
-    private var situation1: String = String()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
+
+    private var radioSelect: String = String()
+    private val viewModelSituation: SituationViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,36 +52,24 @@ class FSituationClothing2 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
         val radioGroup = binding.radioGroupSituation
 
-        parseParams()
-
-        binding.enterButton.getBackground().setAlpha(160)
+        binding.enterButton.background.alpha = 160
         binding.enterButton.isClickable = false
         binding.enterButton.isEnabled = false
 
 
-        radioGroup.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.getBackground().setAlpha(255)
-                getMaterialButtom()
-                val radio: RadioButton = group.findViewById(checkedId)
-                /*Toast.makeText(getActivity()," On checked change :"+
-                        " ${radio.text}",
-                    Toast.LENGTH_SHORT).show()*/
-                radioSelect = radio.text.toString()
-            })
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binding.enterButton.background.alpha = 255
+            getMaterialButtom()
+            val radio: RadioButton = group.findViewById(checkedId)
+            radioSelect = radio.text.toString()
+        }
 
         binding.enterButton.setOnClickListener {
             launchFragmentNext()
         }
 
-    }
-
-    private fun parseParams() {
-        val args = requireArguments()
-        situation1 = args.getString(SITUATION_ITEM).toString()
     }
 
     private fun getMaterialButtom() {
@@ -99,17 +79,8 @@ class FSituationClothing2 : Fragment() {
 
 
     fun launchFragmentNext() {
-        val btnArgsLessons = Bundle().apply {
-            putString(SITUATION_ITEM, situation1 +"&"+ radioSelect)
-        }
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
-        navController.navigate(R.id.action_FSituationClothing2_to_FSituationClothing3, btnArgsLessons)
+        viewModelSituation.setDataSituationValue(1, radioSelect)
+        navController.navigate(R.id.action_FSituationClothing2_to_FSituationClothing3)
     }
-
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
-
-    }
-
 
 }

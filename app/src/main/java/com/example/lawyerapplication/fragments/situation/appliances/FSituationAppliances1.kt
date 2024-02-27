@@ -73,6 +73,7 @@ class FSituationAppliances1 : Fragment() {
 
 
     fun launchFragmentNext() {
+        viewModelSituation.clearValueQuestionData()
         viewModelSituation.setDataSituationValue(0, radioSelect)
         navController.navigate(R.id.action_FSituationAppliances1_to_FSituationAppliances2)
     }
