@@ -11,15 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.canhub.cropper.CropImage
 import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
+import com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture5Args
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.fragments.situation.medical_services.FSituationMedicalServices3
 import com.example.lawyerapplication.models.UserStatus
@@ -36,17 +40,17 @@ class FSituationNewBuildings3 : Fragment() {
 
     private lateinit var binding: FragmentSituationNewBuildingsS3Binding
 
-    private lateinit var context: Activity
 
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-    private lateinit var navController: NavController
+    private val args by navArgs<FSituationNewBuildings3Args>()
     private var radioSelect: String = String()
+
     private var situationId: String = String()
+
+    private val viewModelSituation: SituationViewModel by activityViewModels()
+
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +66,6 @@ class FSituationNewBuildings3 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
         val radioGroup = binding.radioGroupSituation
 
         binding.enterButton.getBackground().setAlpha(160)
@@ -70,34 +73,24 @@ class FSituationNewBuildings3 : Fragment() {
         binding.enterButton.isEnabled = false
 
 
-        radioGroup.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.getBackground().setAlpha(255)
-                getMaterialButtom()
-                val radio: RadioButton = group.findViewById(checkedId)
-                radioSelect = radio.text.toString()
-            })
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binding.enterButton.background.alpha = 255
+            getMaterialButtom()
+            val radio: RadioButton = group.findViewById(checkedId)
+            radioSelect = radio.text.toString()
+        }
 
 
 
         binding.enterButton.setOnClickListener {
             if(binding.checkboxRememberMe.isChecked) {
-                val data = hashMapOf("paymentInfo" to radioSelect)
-                val docRef = getDocumentRef(context).document(situationId)
-                docRef.set(data, SetOptions.merge())
+                viewModelSituation.editLeadPaymentInfo(situationId, radioSelect)
                 launchFragmentNext()
             } else {
                 Toast.makeText(getContext(), "Дайте свое согласие на обработку данных", Toast.LENGTH_SHORT).show()
             }
         }
 
-    }
-
-
-    fun getDocumentRef(context: Context): CollectionReference {
-        val preference = MPreference(context)
-        val db = FirebaseFirestore.getInstance()
-        return db.collection("Leads")
     }
 
 
@@ -108,18 +101,11 @@ class FSituationNewBuildings3 : Fragment() {
 
 
     private fun parseParams() {
-        val args = requireArguments()
-        situationId = args.getString(SITUATION_ITEM).toString()
-        //Toast.makeText(getActivity(),"situationId" + situationId, Toast.LENGTH_SHORT).show()
-        // Toast.makeText(getActivity(),"all choice file" + situation9File, Toast.LENGTH_SHORT).show()
+        situationId = args.leadId
     }
 
     fun launchFragmentNext() {
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationNewBuildings3_to_FSituationFinish)
     }
 
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
-    }
 }

@@ -356,7 +356,11 @@
         android:label="FSituationMedicalServices2" >
         <action
             android:id="@+id/action_FSituationMedicalServices2_to_FSituationMedicalServices3"
-            app:destination="@id/FSituationMedicalServices3" />
+            app:destination="@id/FSituationMedicalServices3">
+            <argument
+                android:name="leadId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/FSituationMedicalServices3"
@@ -365,6 +369,9 @@
         <action
             android:id="@+id/action_FSituationMedicalServices3_to_FSituationFinish"
             app:destination="@id/FSituationFinish" />
+        <argument
+            android:name="leadId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fmyBussines_main"
@@ -372,7 +379,11 @@
         android:label="Мои дела" >
         <action
             android:id="@+id/action_fmyBussines_main_to_FMyBussines_page"
-            app:destination="@id/FMyBussines_page" />
+            app:destination="@id/FMyBussines_page">
+            <argument
+                android:name="leadId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/FMyBussines_page"
@@ -381,6 +392,9 @@
         <action
             android:id="@+id/action_FMyBussines_page_to_FSingleChat"
             app:destination="@id/FSingleChat" />
+        <argument
+            android:name="leadId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/FSituationAppliances1"
@@ -451,7 +465,11 @@
         android:label="FSituationClothing5" >
         <action
             android:id="@+id/action_FSituationClothing5_to_FSituationClothing6"
-            app:destination="@id/FSituationClothing6" />
+            app:destination="@id/FSituationClothing6">
+            <argument
+                android:name="leadId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/FSituationClothing6"
@@ -460,6 +478,9 @@
         <action
             android:id="@+id/action_FSituationClothing6_to_FSituationFinish"
             app:destination="@id/FSituationFinish" />
+        <argument
+            android:name="leadId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/FSituationFurniture1"
@@ -491,7 +512,11 @@
         android:label="FSituationFurniture4" >
         <action
             android:id="@+id/action_FSituationFurniture4_to_FSituationFurniture5"
-            app:destination="@id/FSituationFurniture5" />
+            app:destination="@id/FSituationFurniture5">
+            <argument
+                android:name="leadId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/FSituationFurniture5"
@@ -500,6 +525,9 @@
         <action
             android:id="@+id/action_FSituationFurniture5_to_FSituationFinish"
             app:destination="@id/FSituationFinish" />
+        <argument
+            android:name="leadId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/FSituationNewBuildings1"
@@ -515,7 +543,11 @@
         android:label="FSituationNewBuildings2" >
         <action
             android:id="@+id/action_FSituationNewBuildings2_to_FSituationNewBuildings3"
-            app:destination="@id/FSituationNewBuildings3" />
+            app:destination="@id/FSituationNewBuildings3">
+        <argument
+            android:name="leadId"
+            app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/FSituationNewBuildings3"
@@ -524,6 +556,9 @@
         <action
             android:id="@+id/action_FSituationNewBuildings3_to_FSituationFinish"
             app:destination="@id/FSituationFinish" />
+        <argument
+            android:name="leadId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/FMyCards"

@@ -11,15 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.canhub.cropper.CropImage
 import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
+import com.example.lawyerapplication.fragments.situation.auto.FSituationAuto10Args
 import com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture4
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.models.UserStatus
@@ -36,22 +40,17 @@ class FSituationClothing6 : Fragment() {
 
     private lateinit var binding: FragmentSituationClothingS6Binding
 
-    private lateinit var context: Activity
-
-    @Inject
-    lateinit var preference: MPreference
-
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-    private lateinit var navController: NavController
+    private val args by navArgs<FSituationClothing6Args>()
     private var radioSelect: String = String()
+
     private var situationId: String = String()
 
+    private val viewModelSituation: SituationViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +61,7 @@ class FSituationClothing6 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
+
         val radioGroup = binding.radioGroupSituation
         parseParams()
         binding.enterButton.getBackground().setAlpha(160)
@@ -70,33 +69,24 @@ class FSituationClothing6 : Fragment() {
         binding.enterButton.isEnabled = false
 
 
-        radioGroup.setOnCheckedChangeListener(
-            RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                binding.enterButton.getBackground().setAlpha(255)
-                getMaterialButtom()
-                val radio: RadioButton = group.findViewById(checkedId)
-                radioSelect = radio.text.toString()
-            })
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binding.enterButton.background.alpha = 255
+            getMaterialButtom()
+            val radio: RadioButton = group.findViewById(checkedId)
+            radioSelect = radio.text.toString()
+        }
 
         binding.enterButton.setOnClickListener {
             if(binding.checkboxRememberMe.isChecked) {
-                val data = hashMapOf("paymentInfo" to radioSelect)
-                val docRef = getDocumentRef(context).document(situationId)
-                docRef.set(data, SetOptions.merge())
-                launchFragmentNext()
+                viewModelSituation.editLeadPaymentInfo(situationId, radioSelect)
             } else {
-                Toast.makeText(getContext(), "Дайте свое согласие на обработку данных", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Дайте свое согласие на обработку данных", Toast.LENGTH_SHORT).show()
             }
         }
 
     }
 
 
-    fun getDocumentRef(context: Context): CollectionReference {
-        val preference = MPreference(context)
-        val db = FirebaseFirestore.getInstance()
-        return db.collection("Leads")
-    }
 
     private fun getMaterialButtom() {
         binding.enterButton.isClickable = true
@@ -104,18 +94,12 @@ class FSituationClothing6 : Fragment() {
     }
 
     private fun parseParams() {
-        val args = requireArguments()
-        situationId = args.getString(SITUATION_ITEM).toString()
+        situationId = args.leadId
     }
 
     fun launchFragmentNext() {
-        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
         navController.navigate(R.id.action_FSituationClothing6_to_FSituationFinish)
     }
 
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
-
-    }
 
 }

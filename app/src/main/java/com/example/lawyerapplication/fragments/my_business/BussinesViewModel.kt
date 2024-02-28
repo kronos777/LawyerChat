@@ -13,6 +13,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -85,6 +86,11 @@ constructor(
         return db.collection("Leads")
     }
 
+
+    fun getFlowBussines() {
+
+    }
+
     fun getBussinesLiveData(uid: String, role: Boolean, sort: Boolean, typeSorting: String?, tabPosition: String?) : MutableLiveData<ResponseBussines> {
         val mutableLiveData = MutableLiveData<ResponseBussines>()
         val resultFunction = ArrayList<BusinessItem>()
@@ -100,11 +106,11 @@ constructor(
                 for (item in task.result!!.documents){
                     if(uid == item.data!!.get("idClient") as String && role == false) {
                         Log.d("CURRENTDATA", "Current uid: ${uid}")
-                        val id = item.data!!.get("id")
+                        val id = item.data!!["id"]
                         val lead = BusinessItem(id, "Дело номер $id", item.data!!.get("status") as String, getCategory(item.data!!.get("category") as String), item.data!!.get("dateTime") as String, item.data!!.get("idLawyer") as String)
                         resultFunction.add(lead)
                     } else if(role == true && (uid == item.data!!.get("idLawyer") || item.data!!.get("idLawyer") == "")) {
-                        val id = item.data!!.get("id")
+                        val id = item.data!!["id"]
                         val lead = BusinessItem(id, "Дело номер $id", item.data!!.get("status") as String, getCategory(item.data!!.get("category") as String), item.data!!.get("dateTime") as String, item.data!!.get("idLawyer") as String)
                         resultFunction.add(lead)
                     }

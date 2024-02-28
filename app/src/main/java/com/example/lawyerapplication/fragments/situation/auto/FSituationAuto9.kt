@@ -435,7 +435,6 @@ class FSituationAuto9 : Fragment() {
 
     fun launchFragmentNext(idLead: String) {
         navController.navigate(FSituationAuto9Directions.actionFSituationAuto9ToFSituationAuto10(idLead))
-        //navController.navigate(R.id.action_FSituationAuto9_to_FSituationAuto10)
     }
 
 

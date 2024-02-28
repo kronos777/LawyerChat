@@ -1,69 +1,41 @@
 package com.example.lawyerapplication.fragments.situation.clothing
 
 import android.app.Activity
-import android.app.ProgressDialog
-import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import com.canhub.cropper.CropImage
-import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.*
 import com.example.lawyerapplication.db.data.LeadItem
-import com.example.lawyerapplication.db.data.SituationItem
-import com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture4
-import com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture5
-import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
-import com.example.lawyerapplication.models.UserStatus
+import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.utils.*
-import com.example.lawyerapplication.views.CustomProgressView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.OnProgressListener
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class FSituationClothing5 : Fragment() {
 
     private lateinit var binding: FragmentSituationClothingS5Binding
 
-    private lateinit var context: Activity
+    private val viewModelSituation: SituationViewModel by activityViewModels()
 
-    @Inject
-    lateinit var preference: MPreference
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
 
-    @Inject
-    lateinit var userCollection: CollectionReference
-
-    private lateinit var navController: NavController
-
-    private var situation4: String = String()
-    private var situationId: String = String()
-
-    private lateinit var storage: FirebaseStorage
-    private lateinit var storageReference: StorageReference
 
     private lateinit var listUrlFileFirst: ArrayList<Uri>
     private var boolFileFirst: Boolean = false
@@ -78,9 +50,6 @@ class FSituationClothing5 : Fragment() {
 
     var PICK_IMAGE_MULTIPLE = 1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,8 +60,6 @@ class FSituationClothing5 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context = requireActivity()
-        parseParams()
 
         listUrlFileFirst = ArrayList<Uri>()
         listUrlFileTwo = ArrayList<Uri>()
@@ -100,11 +67,6 @@ class FSituationClothing5 : Fragment() {
         listUrlFileFour = ArrayList<Uri>()
         listUrlFileFive = ArrayList<Uri>()
 
-        storage = FirebaseStorage.getInstance()
-        storageReference = storage.getReference()
-        // binding.enterButton.getBackground().setAlpha(160)
-        // binding.enterButton.isClickable = false
-        //  binding.enterButton.isEnabled = false
 
         //first field
         binding.textD1Attachment.setOnClickListener {
@@ -165,19 +127,46 @@ class FSituationClothing5 : Fragment() {
 
 
         binding.enterButton.setOnClickListener {
-            if(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && listUrlFileFree.size == 0 && listUrlFileFour.size == 0 && listUrlFileFive.size == 0) {
-                Toast.makeText(getActivity(), "Вы не выбрали не одного файла.", Toast.LENGTH_SHORT).show()
-            } else {
-                addLeadDb()
-            }
+            viewLifecycleOwner.lifecycleScope.launch {
+                if(checkChoiceFile()) {
+                    addLeadAndGoNext()
+                } else {
+                    Toast.makeText(activity, "Не было выбрано не одного файла.", Toast.LENGTH_SHORT).show()
+                }
 
-            //sleep(1500)
-            // Toast.makeText(getActivity(), "situationId" + situationId.toString(), Toast.LENGTH_SHORT).show()
-            // launchFragmentNext()
+            }
 
         }
 
     }
+
+
+    private fun checkChoiceFile(): Boolean {
+        return !(listUrlFileFirst.size == 0 && listUrlFileTwo.size == 0 && listUrlFileFree.size == 0 && listUrlFileFour.size == 0 && listUrlFileFive.size == 0)
+    }
+
+    private suspend fun addLeadAndGoNext() {
+        /*set data for lead*/
+        val leadId = viewModelSituation.lastLeadInDb.await()
+        val currentDate = SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date())
+        val lead = LeadItem(viewModelSituation.valueQuestionData[0].toString(),
+            viewModelSituation.valueQuestionData[1].toString(),
+            viewModelSituation.valueQuestionData[2].toString(),
+            viewModelSituation.valueQuestionData[3].toString(),
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            binding.etMessageData.text.toString(),
+            viewModelSituation.getUid(), "", "clothing",
+            "newLead", currentDate, "", leadId)
+        viewModelSituation.addLead(lead)
+        getReadyImagesForUpload(lead.id.toString())
+        launchFragmentNext(lead.id.toString())
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -276,12 +265,8 @@ class FSituationClothing5 : Fragment() {
         ImageUtils.onImagePerResult(this, *grantResults)
     }
 
-
-
-
-    fun launchFragmentNext() {
-
-        navController.navigate(R.id.action_FSituationClothing5_to_FSituationClothing6)
+    fun launchFragmentNext(idLead: String) {
+        navController.navigate(FSituationClothing5Directions.actionFSituationClothing5ToFSituationClothing6(idLead))
     }
 
     private fun showFirstFieldReady() {
@@ -345,8 +330,7 @@ class FSituationClothing5 : Fragment() {
                     3 -> categoryFile = "fourGroup"
                     4 -> categoryFile = "fiveGroup"
                 }
-                uploadImages(paramsUpload, listAll[index], categoryFile)
-                //Log.d("thisIndex ", index.toString())
+                viewModelSituation.uploadImages(paramsUpload, listAll[index], categoryFile)
             }
 
         }
@@ -354,51 +338,9 @@ class FSituationClothing5 : Fragment() {
     }
 
 
-    private fun uploadImages(paramsUpload: String, dataUrl: ArrayList<Uri>, category: String) {
 
-        for (index in dataUrl.indices) {
-            val imageUri = dataUrl[index]
-            //contentResolver.takePersistableUriPermission(imageUri, takeFlags)
-            if (imageUri != null) {
-                val progressDialog = ProgressDialog(getActivity())
-                progressDialog.setTitle("Загрузка...")
-                progressDialog.show()
-                val ref: StorageReference =
-                    storageReference.child("Leads/" + paramsUpload + "/" + category + "_image" + index)
-                ref.putFile(imageUri!!)
-                    .addOnSuccessListener {
-                        progressDialog.dismiss()
-                        val downloadUri = it.task.snapshot.metadata?.path?.toUri()
-                    }
-                    .addOnFailureListener { e ->
-                        progressDialog.dismiss()
-                        // Log.d("uploadIri", e.message.toString())
-                    }
-                    .addOnProgressListener(object : OnProgressListener<UploadTask.TaskSnapshot?> {
-                        override fun onProgress(taskSnapshot: UploadTask.TaskSnapshot) {
-                            val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                                .totalByteCount
-                            progressDialog.setMessage("Загрузка " + progress.toInt() + "%")
-                        }
-                    })
 
-            }
-        }
-    }
 
-    fun getDocumentRef(context: Context): CollectionReference {
-        val preference = MPreference(context)
-        val db = FirebaseFirestore.getInstance()
-        return db.collection("Leads")
-    }
-    private fun parseParams() {
-        val args = requireArguments()
-        situation4 = args.getString(FSituationClothing4.SITUATION_ITEM).toString()
-    }
 
-    companion object {
-        const val SITUATION_ITEM = "situation_item"
-
-    }
 
 }

@@ -431,11 +431,7 @@ class FMyBussines_main : Fragment() {
 
 
     fun launchFragment(id: Any) {
-        val btnArgsBusines = Bundle().apply {
-            putString(FMyBussines_page.BUSINESS_ITEM_ID, id.toString())
-        }
-        navController.navigate(R.id.FMyBussines_page, btnArgsBusines)
-        // navController.navigate(R.id.FMyBussines_page)
+        navController.navigate(FMyBussines_mainDirections.actionFmyBussinesMainToFMyBussinesPage(id.toString()))
     }
 
 }

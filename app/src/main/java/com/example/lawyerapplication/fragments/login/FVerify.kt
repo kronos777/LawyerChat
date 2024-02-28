@@ -139,7 +139,7 @@ class FVerify : Fragment() {
 
     private fun subscribeObservers() {
         try {
-            viewModel.getCredential().observe(viewLifecycleOwner, { credential ->
+            viewModel.getCredential().observe(viewLifecycleOwner) { credential ->
                 credential?.let {
                     val otp = credential.smsCode
                     edtTexts.forEachIndexed { i, editText ->
@@ -147,7 +147,7 @@ class FVerify : Fragment() {
                     }
                     viewModel.setVProgress(true)
                 }
-            })
+            }
 
             viewModel.getVProgress().observe(viewLifecycleOwner, { show ->
                 progressView?.toggle(show)
@@ -171,7 +171,7 @@ class FVerify : Fragment() {
                 }
             })
 
-            viewModel.userProfileGot.observe(viewLifecycleOwner, { success ->
+            viewModel.userProfileGot.observe(viewLifecycleOwner) { success ->
                 if (success && findNavController().isValidDestination(R.id.FVerify)) {
                     val user = preferences.getUserProfile()
                     if (user!!.userName != "" && user!!.role != "") {
@@ -184,7 +184,7 @@ class FVerify : Fragment() {
                 }/* else if(!success) {
                     findNavController().navigate(R.id.action_FVerify_to_FProfile)
                 }*/
-            })
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

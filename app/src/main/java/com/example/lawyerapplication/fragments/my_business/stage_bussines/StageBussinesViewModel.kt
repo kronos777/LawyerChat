@@ -21,19 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StageBussinesViewModel @Inject
-constructor(
-    @ApplicationContext private val context: Context,
-    private val preference: MPreference
-) : ViewModel() {
-
-    private val storageRef = UserUtils.getStorageRef(context)
-
-    private val docuRef = UserUtils.getDocumentRef(context)
-
-    val lastIdStageBussines = MutableLiveData("")
-
-    private var createdAt: Long = System.currentTimeMillis()
-
+constructor() : ViewModel() {
 
     override fun onCleared() {
         LogMessage.v("ProfileViewModel Cleared")
@@ -109,26 +97,28 @@ constructor(
     fun getStageBussinesLiveData(idBussines: String) : MutableLiveData<ResponseStage> {
         val mutableLiveData = MutableLiveData<ResponseStage>()
         val resultFunction = ArrayList<StageBussines>()
-        getDocumentRef().document(idBussines).collection("stages").get().addOnCompleteListener { task ->
-            val response = ResponseStage()
-            if (task.isSuccessful) {
-                for (item in task.result!!.documents){
-                    val id = item.data!!.get("id").toString().toInt()
-                    val idBussines = item.data!!.get("idBussines").toString().toInt()
-                    val title = item.data!!.get("title").toString()
-                    val description = item.data!!.get("description").toString()
-                    val dateTime = item.data!!.get("dateTime").toString()
-                    val status = item.data!!.get("status").toString()
+        getDocumentRef().document(idBussines).collection("stages").get()
+            .addOnCompleteListener { task ->
+                val response = ResponseStage()
+                if (task.isSuccessful) {
+                    for (item in task.result!!.documents){
+                        val id = item.data!!.get("id").toString().toInt()
+                        val idBussines = item.data!!.get("idBussines").toString().toInt()
+                        val title = item.data!!.get("title").toString()
+                        val description = item.data!!.get("description").toString()
+                        val dateTime = item.data!!.get("dateTime").toString()
+                        val status = item.data!!.get("status").toString()
 
-                    val stage = StageBussines(id, idBussines, title, description, dateTime, status.toInt())
+                        val stage = StageBussines(id, idBussines, title, description,
+                            dateTime, status.toInt())
 
-                    resultFunction.add(stage)
+                        resultFunction.add(stage)
+                    }
+                    response.products = resultFunction.reversed()
+                } else {
+                    response.exception = task.exception
                 }
-                response.products = resultFunction.reversed()
-            } else {
-                response.exception = task.exception
-            }
-            mutableLiveData.value = response
+                mutableLiveData.value = response
         }
        // Log.d("stageItem", "id ${response.products}")
         return mutableLiveData
