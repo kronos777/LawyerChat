@@ -7,7 +7,7 @@
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="com.example.lawyerapplication.fragments.my_business.BussinesViewModel" />
+            type="com.example.lawyerapplication.fragments.my_business.BusinessViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/group_list_recycler_layout"

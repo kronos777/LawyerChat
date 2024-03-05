@@ -9,25 +9,18 @@ import android.media.RingtoneManager.TYPE_NOTIFICATION
 import android.media.RingtoneManager.getDefaultUri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -35,23 +28,19 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.test.core.app.ActivityScenario.launch
 import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.ActivityMainBinding
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Group
-import com.example.lawyerapplication.fragments.my_business.BussinesViewModel
+import com.example.lawyerapplication.fragments.my_business.BusinessViewModel
 import com.example.lawyerapplication.fragments.mycards.FAddCards
 import com.example.lawyerapplication.fragments.notifications.NotificationsViewModel
 import com.example.lawyerapplication.fragments.single_chat_home.FSingleChatHomeDirections
-import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 
@@ -66,7 +55,7 @@ class MainActivity : ActBase(), FAddCards.OnEditingFinishedListener {
     private lateinit var searchView: SearchView
 
     private lateinit var searchItem: MenuItem
-    private val viewModelProfile: BussinesViewModel by viewModels()
+    private val viewModelProfile: BusinessViewModel by viewModels()
     private var stopped=false
 
     private var redCircleMessage: FrameLayout? = null

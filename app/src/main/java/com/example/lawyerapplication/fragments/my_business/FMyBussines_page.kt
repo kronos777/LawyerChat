@@ -2,11 +2,9 @@ package com.example.lawyerapplication.fragments.my_business
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,35 +18,35 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.lawyerapplication.R
 import com.example.lawyerapplication.databinding.AlertAddStageBinding
 import com.example.lawyerapplication.databinding.FragmentMyBussinesPageBinding
-import com.example.lawyerapplication.db.DbRepository
 import com.example.lawyerapplication.db.data.ChatUser
+import com.example.lawyerapplication.db.data.LeadItem
 import com.example.lawyerapplication.db.data.Message
 import com.example.lawyerapplication.db.data.StageBussines
-import com.example.lawyerapplication.db.data.TextMessage
 import com.example.lawyerapplication.fragments.my_business.stage_bussines.StageBussinesViewModel
 import com.example.lawyerapplication.fragments.mycards.adapter.StageItemAdapter
 import com.example.lawyerapplication.fragments.single_chat.SingleChatViewModel
-import com.example.lawyerapplication.fragments.situation.SituationViewModel
 import com.example.lawyerapplication.models.MyImage
 import com.example.lawyerapplication.models.UserProfile
 import com.example.lawyerapplication.utils.ImageUtils
 import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.utils.UserUtils
 import com.example.lawyerapplication.utils.show
+import com.example.lawyerapplication.views.CustomProgressView
 import com.github.florent37.expansionpanel.ExpansionLayout
 import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.component1
-import com.google.firebase.storage.ktx.component2
-import com.google.firebase.storage.ktx.storage
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -68,8 +66,11 @@ class FMyBussines_page : Fragment() {
     @Inject
     lateinit var userCollection: CollectionReference
 
+    private val args by navArgs<FMyBussines_pageArgs>()
 
-    private lateinit var navController: NavController
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
 
     private var item: String = String()
 
@@ -78,13 +79,13 @@ class FMyBussines_page : Fragment() {
     private var category: String = String()
     private var originFieldCategory: String = String()
     private var accompanyingText: String = String()
-    private val viewModelProfile: BussinesViewModel by viewModels()
+    private val viewModelProfile: BusinessViewModel by viewModels()
     private val viewModelStage: StageBussinesViewModel by viewModels()
     private lateinit var dialog: Dialog
     private lateinit var stageItemAdapter: StageItemAdapter
 
     private val viewModel: SingleChatViewModel by viewModels()
-
+    private var progressView: CustomProgressView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,219 +106,132 @@ class FMyBussines_page : Fragment() {
 
         setupRecyclerView()
         val role = viewModelProfile.isLawyer()
+        progressView = CustomProgressView(context)
 
-       // Log.d("lastIdStageBussines", "lastIdStageBussines value: ${viewModelStage.getLastIdStageBussines(item).value!!.lastId}")
+        (activity as AppCompatActivity).findViewById<Toolbar>(R.id.toolbar).title = "Дело № ${item}"
 
-
-        navController = Navigation.findNavController(requireActivity(), com.example.lawyerapplication.R.id.nav_host_fragment)
-
-        //Log.d("TAG", "Current data id: ${item}")
-        (activity as AppCompatActivity).findViewById<Toolbar>(com.example.lawyerapplication.R.id.toolbar).title = "Дело № ${item}"
-                val docRef = getDocumentRef(context).document(item)
-                docRef.get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                         //   Log.d("Snapshotdata", "DocumentSnapshot data: ${document.data}")
-                            originFieldCategory = document.data!!["category"] as String
-                            accompanyingText = document.data!!["messageLead"] as String
-
-                            category = getCategory(originFieldCategory)
-                            setFieldTitleCategory(originFieldCategory)
-                            var firstText = document.data!!.get("firstText") as String
-                            val paymentInfo =  document.data!!.get("paymentInfo") as String
-                            val lawyer = (document.data!!.get("idLawyer") as String).trim()
-                            val client = (document.data!!.get("idClient") as String).trim()
-                            if(!role && lawyer != "") {
-                                //user bus
-                                    val lawyerLocal = viewModelProfile.getDataUser(context, lawyer)
-                                    lawyerLocal.get().addOnSuccessListener { documentUser ->
-                                            if (documentUser != null) {
-                                                val nameLawyer = documentUser.data!!.get("userName") as String
-                                                val serNameLawyer = documentUser.data!!.get("serName") as String
-                                               //val userRole = documentUser.data!!.get("role") as String
-                                                val userImg = documentUser.data!!.get("image") as String
-
-                                                binding.aboutUserH1.text = nameLawyer + " " + serNameLawyer
-                                                //binding.imageProfile.setImageURI(userImg.toUri())
-                                                Glide.with(context)
-                                                    .load(userImg.toUri())
-                                                    .into(binding.imageProfile)
-                                                binding.roleApplicationH1.text = "Юрист"
-                                                binding.cardProfileData.visibility = View.VISIBLE
-                                               // Log.d("dataUser", "name data: ${userImg.toUri()}")
-                                                //Log.d("dataUser", "sername data: ${serNameLawyer}")
-                                            }
-                                        }
-
-                                binding.buttonForClient.visibility = View.VISIBLE
-                                binding.buttonForClient.setOnClickListener {
-                                    initChatUser(item, lawyer)
-                                    Toast.makeText(context, "new msg client", Toast.LENGTH_SHORT).show()
-                                }
-                            //user bus
-                            } else if(role) {
-                                val user = viewModelProfile.getDataUser(context, client)
-                                user.get().addOnSuccessListener { documentUser ->
-                                    if (documentUser != null) {
-                                        val nameLawyer = documentUser.data!!.get("userName") as String
-                                        val serNameLawyer = documentUser.data!!.get("serName") as String
-                                        //val userRole = documentUser.data!!.get("role") as String
-                                        val userImg = documentUser.data!!.get("image") as String
-
-                                        binding.aboutUserH1.text = nameLawyer + " " + serNameLawyer
-                                        //binding.imageProfile.setImageURI(userImg.toUri())
-                                        Glide.with(context)
-                                            .load(userImg.toUri())
-                                            .into(binding.imageProfile)
-                                        binding.roleApplicationH1.text = "Пользователь"
-                                        binding.cardProfileData.visibility = View.VISIBLE
-                                    }
-                                }
-
-                                binding.buttonsForLawyer.visibility = View.VISIBLE
-
-                                if(lawyer == "") {
-                                    binding.buttonForLawyerCloseLead.visibility = View.GONE
-
-                                    binding.buttonForLawyer2.setOnClickListener {
-                                        takeBusiness(item)
-                                        showButtonLawyer()
-                                    }
-
-                                } else {
-                                    binding.buttonForLawyer2.visibility = View.GONE
-                                    binding.buttonForLawyerCloseLead.visibility = View.VISIBLE
-                                    binding.buttonForLawyerCloseLead.setOnClickListener {
-                                        closeLead()
-                                    }
-                                    binding.buttonForLawyerRefuseService.setOnClickListener {
-                                        refuseBusiness(item)
-                                    }
-                                    binding.buttonChat.setOnClickListener {
-                                        initChatUser(item, client)
-                                        Toast.makeText(context, "new msg lawyer", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-
-                            }
-
-
-
-                            if(originFieldCategory == "clothing") {
-                                firstText += "\n" + "\n" + document.data!!.get("twoText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("freeText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("fourText") as String
-                            } else if (originFieldCategory == "furniture") {
-                                firstText += "\n" + "\n" + document.data!!.get("twoText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("freeText") as String
-                            } else if (originFieldCategory == "auto") {
-                                firstText += "\n" + "\n" + document.data!!.get("twoText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("freeText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("fourText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("fiveText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("sixText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("sevenText") as String
-                                firstText += "\n" + "\n" + document.data!!.get("eightText") as String
-                            }
-
-
-                            binding.titleSituationH1.text = category
-                            binding.accordionDescription1.text = firstText
-                            binding.accordionDescription3.text = paymentInfo
-
-                        } else {
-                            Log.d("TAG", "No such document")
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d("TAG", "get failed with ", exception)
-                    }
-
-        val storage = Firebase.storage
-        val listRef = storage.reference.child("Leads").child(item)
-
-// You'll need to import com.google.firebase.storage.ktx.component1 and
-// com.google.firebase.storage.ktx.component2
-        listRef.listAll()
-            .addOnSuccessListener { (items, prefixes) ->
-                prefixes.forEach { prefix ->
-                    // All the prefixes under listRef.
-                    // You may call listAll() recursively on them.
-                   // Log.d("fileStoragePrefix", prefix.name)
-                }
-
-               // items.forEach { item ->
-                    for (index in items.indices) {
-                    // All the items under listRef.
-                        //item.downloadUrl.addOnSuccessListener { urlTask ->
-                        items[index].downloadUrl.addOnSuccessListener { urlTask ->
-                        // download URL is available here
-
-
-                            /*val valueLinear = ImageUtils.whatsGroupFile(urlTask.path.toString())
-                            val mainLayout: LinearLayout = binding.accordionDescriptionLinear1*/
-
-                            val mainLayout: LinearLayout = whatsGroupFile(urlTask.path.toString())
-                            arrayListImgData[index] = urlTask
-                            mainLayout.addView(setImageView(index))
-
-                            /*if(url!!.contains("firstGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear1
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            } else if(url!!.contains("twoGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear2
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            } else if(url!!.contains("freeGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear3
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            } else if(url!!.contains("fourGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear4
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            } else if(url!!.contains("fiveGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear5
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            } else if(url!!.contains("sixGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear6
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            }  else if(url!!.contains("sevenGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear7
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            }  else if(url!!.contains("eightGroup")) {
-                                val mainLayout: LinearLayout = binding.accordionDescriptionLinear8
-                                arrayListImgData[index] = urlTask
-                                mainLayout.addView(setImageView(index))
-                            }*/
-
-
-
-                    }.addOnFailureListener { e ->
-                        // Handle any errors
-                    }
-                }
+        CoroutineScope(Dispatchers.Main).launch {
+            progressView?.show()
+            val businessItem = viewModelProfile.getBusinessData(item).await()
+            setCustomUi(businessItem)
+            setRoleUi(businessItem, role)
+            val listImageLead = viewModelProfile.getLeadImageData(item).await()
+            for (index in listImageLead.indices) {
+                val mainLayout: LinearLayout = whatsGroupFile(listImageLead[index].path.toString())
+                arrayListImgData[index] = listImageLead[index]
+                mainLayout.addView(setImageView(index))
             }
-            .addOnFailureListener {
-                // Uh-oh, an error occurred!
-            }
-
-        /*
-        val expansionLayout: ExpansionLayout = binding.expansionLayout
-        expansionLayout.addListener { expansionLayout, expanded ->
-            Log.d("accordion", "expansionLayout expanded" + expanded.toString())
-            Log.d("accordion", "expansionLayout " + expansionLayout.toString())
+            progressView?.dismiss()
         }
 
-        val expansionLayout2: ExpansionLayout = binding.expansionLayout2
-        expansionLayout2.addListener { expansionLayout, expanded ->
-            Log.d("accordion", "expansionLayout expanded2" + expanded.toString())
-            Log.d("accordion", "expansionLayout2 " + expansionLayout.toString())
-        }*/
+
+        binding.cardAddStage.setOnClickListener {
+            initDialog()
+            dialog.show()
+        }
+
+        setDataStageInView()
+
+
+    }
+
+    private suspend fun setRoleUi(businessItem: LeadItem?, role: Boolean) {
+        if (businessItem != null) {
+            if(!role && businessItem.idLawyer != "") {
+                val dataUser = viewModelProfile.getUserData(businessItem.idLawyer).await()
+                if (dataUser != null) {
+                    setUserRoleData(dataUser)
+                }
+            } else if(role) {
+                val dataUser = viewModelProfile.getUserData(businessItem.idClient).await()
+                if (dataUser != null) {
+                    setUserRoleData(dataUser)
+                }
+            }
+        }
+    }
+
+
+    private fun setUserRoleData(dataUser: UserProfile, businessItem: LeadItem? = null) {
+        binding.aboutUserH1.text = dataUser.userName.capitalize() + " " + dataUser.lastName.capitalize()
+        Glide.with(context)
+            .load(dataUser.image.toUri())
+            .into(binding.imageProfile)
+        if(dataUser.role == "Lawyer") {
+            binding.roleApplicationH1.text = "Юрист"
+            if (businessItem != null) {
+                activeButtonForMessagingLawyer(dataUser.uId!!, businessItem.idLawyer)
+            }
+        } else {
+            binding.roleApplicationH1.text = "Клиент"
+            activeButtonForMessagingClient(dataUser.uId!!)
+        }
+        binding.cardProfileData.visibility = View.VISIBLE
+    }
+
+    private fun activeButtonForMessagingLawyer(uId: String, idLawyer: String) {
+        if(idLawyer == "") {
+            binding.buttonForLawyerCloseLead.visibility = View.GONE
+            binding.buttonForLawyer2.setOnClickListener {
+                takeBusiness(item)
+                showButtonLawyer()
+            }
+
+        } else {
+            binding.buttonForLawyer2.visibility = View.GONE
+            binding.buttonForLawyerCloseLead.visibility = View.VISIBLE
+            binding.buttonForLawyerCloseLead.setOnClickListener {
+                closeLead()
+            }
+            binding.buttonForLawyerRefuseService.setOnClickListener {
+                refuseBusiness(item)
+            }
+            binding.buttonChat.setOnClickListener {
+                initChatUser(item, uId)
+                //Toast.makeText(context, "new msg lawyer", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun activeButtonForMessagingClient(uid: String) {
+        binding.buttonForClient.visibility = View.VISIBLE
+        binding.buttonForClient.setOnClickListener {
+            initChatUser(item, uid)
+        }
+    }
+
+    private fun setCustomUi(businessItem: LeadItem?) {
+        if (businessItem != null) {
+            originFieldCategory = businessItem.category
+            accompanyingText = businessItem.messageLead
+            category = getCategory(originFieldCategory)
+            setFieldTitleCategory(originFieldCategory)
+            var firstText = businessItem.firstText
+            val paymentInfo =  businessItem.paymentInfo
+            if(originFieldCategory == "clothing") {
+                firstText += "\n" + "\n" + businessItem.twoText
+                firstText += "\n" + "\n" + businessItem.freeText
+                firstText += "\n" + "\n" + businessItem.fourText
+            } else if (originFieldCategory == "furniture") {
+                firstText += "\n" + "\n" + businessItem.twoText
+                firstText += "\n" + "\n" + businessItem.freeText
+            } else if (originFieldCategory == "auto") {
+                firstText += "\n" + "\n" + businessItem.twoText
+                firstText += "\n" + "\n" + businessItem.freeText
+                firstText += "\n" + "\n" + businessItem.fourText
+                firstText += "\n" + "\n" + businessItem.fiveText
+                firstText += "\n" + "\n" + businessItem.sixText
+                firstText += "\n" + "\n" + businessItem.sevenText
+                firstText += "\n" + "\n" + businessItem.eightText
+            }
+
+
+            binding.titleSituationH1.text = category
+            binding.accordionDescription1.text = firstText
+            binding.accordionDescription3.text = paymentInfo
+
+        }
+
         val expansionLayout: ExpansionLayout = binding.expansionLayout
         val expansionLayout2: ExpansionLayout = binding.expansionLayout2
         val expansionLayout3: ExpansionLayout = binding.expansionLayout3
@@ -325,15 +239,6 @@ class FMyBussines_page : Fragment() {
         expansionLayoutCollection.add(expansionLayout)
         expansionLayoutCollection.add(expansionLayout2)
         expansionLayoutCollection.add(expansionLayout3)
-
-   //     expansionLayoutCollection.openOnlyOne(true)
-        binding.cardAddStage.setOnClickListener {
-            initDialog()
-            dialog.show()
-        }
-
-        setDataInView()
-
 
     }
 
@@ -355,7 +260,7 @@ class FMyBussines_page : Fragment() {
     /*пробуем создать новый чат */
     private fun initChatUser(idLead: String, to: String) {
        // Timber.v("userProfile {$to}")
-        val usersCollection = UserUtils.getDocumentRefBussines(context, to)
+        val usersCollection = UserUtils.getDocumentRefBussines(to)
         usersCollection.get().addOnSuccessListener { profile ->
             if (profile.exists()) {
                 val userProfile = profile.toObject(UserProfile::class.java)
@@ -405,12 +310,11 @@ class FMyBussines_page : Fragment() {
 
     /*пробуем создать новый чат */
 
-    fun setDataInView() {
+    fun setDataStageInView() {
         val listArrayStages: ArrayList<StageBussines> = ArrayList()
         viewModelStage.getStageBussinesLiveData(item).observe(context as FragmentActivity) {
             //Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
             for (index in it.products!!.indices) {
-
                 listArrayStages.add(
                     StageBussines(
                         it.products!![index].id,
@@ -433,7 +337,7 @@ class FMyBussines_page : Fragment() {
 
     private fun refuseBusiness(item: String) {
         val data = hashMapOf("idLawyer" to "")
-        val docRef = getDocumentRef(context).document(item)
+        val docRef = getDocumentRef().document(item)
         docRef.set(data, SetOptions.merge())
         viewModelStage.deleteAllStage(item)
     }
@@ -441,7 +345,7 @@ class FMyBussines_page : Fragment() {
 
     private fun takeBusiness(item: String) {
         val data = hashMapOf("idLawyer" to preference.getUid())
-        val docRef = getDocumentRef(context).document(item)
+        val docRef = getDocumentRef().document(item)
         docRef.set(data, SetOptions.merge())
         //добавляем первый этап в стадии
         addFirstStage()
@@ -449,7 +353,7 @@ class FMyBussines_page : Fragment() {
 
     private fun closeLead() {
             val data = hashMapOf("status" to "close")
-            val docRef = getDocumentRef(context).document(item)
+            val docRef = getDocumentRef().document(item)
             docRef.set(data, SetOptions.merge())
             //добавляем первый этап в стадии
     }
@@ -590,8 +494,7 @@ class FMyBussines_page : Fragment() {
     }
 
 
-    fun getDocumentRef(context: Context): CollectionReference {
-        val preference = MPreference(context)
+    fun getDocumentRef(): CollectionReference {
         val db = FirebaseFirestore.getInstance()
         return db.collection("Leads")
     }
@@ -605,9 +508,7 @@ class FMyBussines_page : Fragment() {
     }
 
     private fun parseParams() {
-        val args = requireArguments()
-        item = args.getString(BUSINESS_ITEM_ID).toString()
-         //Toast.makeText(getActivity(),"item" + item, Toast.LENGTH_SHORT).show()
+        item = args.leadId
     }
 
     private fun initDialog() {
@@ -631,7 +532,7 @@ class FMyBussines_page : Fragment() {
 
                 Handler().postDelayed({
                     dialog.dismiss()
-                    setDataInView()
+                    setDataStageInView()
                 }, 1500)
 
                 //addStageBussines

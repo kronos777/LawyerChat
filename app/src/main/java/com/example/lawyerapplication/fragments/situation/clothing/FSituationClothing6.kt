@@ -1,39 +1,20 @@
 package com.example.lawyerapplication.fragments.situation.clothing
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.canhub.cropper.CropImage
-import com.google.firebase.firestore.CollectionReference
 import com.example.lawyerapplication.R
-import com.example.lawyerapplication.databinding.*
-import com.example.lawyerapplication.db.data.SituationItem
+import com.example.lawyerapplication.databinding.FragmentSituationClothingS6Binding
 import com.example.lawyerapplication.fragments.situation.SituationViewModel
-import com.example.lawyerapplication.fragments.situation.auto.FSituationAuto10Args
-import com.example.lawyerapplication.fragments.situation.furniture.FSituationFurniture4
-import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
-import com.example.lawyerapplication.models.UserStatus
-import com.example.lawyerapplication.utils.*
-import com.example.lawyerapplication.views.CustomProgressView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FSituationClothing6 : Fragment() {

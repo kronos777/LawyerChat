@@ -137,7 +137,7 @@ object UserUtils {
         return Firebase.storage.getReference("Leads")
     }
 
-    fun getDocumentRefBussines(context: Context, uid: String): DocumentReference {
+    fun getDocumentRefBussines(uid: String): DocumentReference {
         val db = FirebaseFirestore.getInstance()
         return db.collection("Users").document(uid)
     }

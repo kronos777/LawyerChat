@@ -24,6 +24,7 @@ import com.example.lawyerapplication.db.data.BusinessItem
 import com.example.lawyerapplication.fragments.main_screen.situation_adapter.MyBusinessAdapterHorizontal
 import com.example.lawyerapplication.fragments.situation.main_list.SearchBySituationAdapter
 import com.example.lawyerapplication.utils.*
+import com.example.lawyerapplication.views.CustomProgressView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -46,14 +47,16 @@ class FMyBussines_main : Fragment() {
     lateinit var userCollection: CollectionReference
 
     private lateinit var myBusinessListAdapter: MyBusinessAdapterHorizontal
-    private lateinit var navController: NavController
-    private val viewModelProfile: BussinesViewModel by viewModels()
+    private val navController: NavController by lazy {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+    }
+    private val viewModelProfile: BusinessViewModel by viewModels()
     private var sortingData: Boolean = false
     private var sortingString: String = ""
     private var role: Boolean = false
     private var tabPos: Boolean = false
     private lateinit var dialog: Dialog
-
+    private var progressView: CustomProgressView? = null
 
 
     override fun onCreateView(
@@ -66,9 +69,13 @@ class FMyBussines_main : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context = requireActivity()
+
+        //viewModelProfile.getBusinessLiveDataRealTime()
+
+        progressView = CustomProgressView(context)
+        subscribeObservers()
         role = viewModelProfile.isLawyer()
         setupRecyclerView()
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
 
         setDataInView(sortingData, "")
         imageSortingListClick()
@@ -77,17 +84,7 @@ class FMyBussines_main : Fragment() {
             initDialog()
             dialog.show()
         }
-
         tabClick()
-
-        /*binding.tabItem1.setOnClickListener {
-            Toast.makeText(context, "Tab item 1", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.tabItem2.setOnClickListener {
-            Toast.makeText(context, "Tab item 2", Toast.LENGTH_SHORT).show()
-        }*/
-
     }
 
     private fun imageSortingListClick() {
@@ -281,66 +278,74 @@ class FMyBussines_main : Fragment() {
             }*/
         }
     }
-
+    private fun subscribeObservers() {
+        viewModelProfile.businessListUpdateState.observe(viewLifecycleOwner, {
+            if (it is LoadState.OnLoading) {
+                progressView?.show()
+            } else
+                progressView?.dismiss()
+        })
+    }
     private fun setDataInView(sort: Boolean, typeSorting: String?) {
         val uid = preference.getUid()
-
         val listArrayBusiness: ArrayList<BusinessItem> = ArrayList()
-       // Toast.makeText(context, "isLaweyer" + role, Toast.LENGTH_SHORT).show()
-        if(!role){
-            binding.sortingDataMain.visibility = View.GONE
-            binding.tabMode.getTabAt(0)!!.text = "Активные"
-            binding.tabMode.getTabAt(1)!!.text = "Закрытые"
 
-            viewModelProfile.getBussinesLiveData(uid!!, role, sort, typeSorting, "").observe(context as FragmentActivity) {
+           if(!role){
+               binding.sortingDataMain.visibility = View.GONE
+               binding.tabMode.getTabAt(0)!!.text = "Активные"
+               binding.tabMode.getTabAt(1)!!.text = "Закрытые"
 
-                for (index in it.products!!.indices) {
-                    //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
-                    listArrayBusiness.add(
-                        BusinessItem(
-                            it.products!![index].id,
-                            it.products!![index].title,
-                            it.products!![index].typeLead,
-                            it.products!![index].categoryLead,
-                            it.products!![index].dateTimeLead,
-                            it.products!![index].idLaywer,
-                        )
-                    )
-                }
-                myBusinessListAdapter.submitList(listArrayBusiness)
+               //viewModelProfile.getBusinessLiveData(uid!!, role, sort, typeSorting, "").observe(context as FragmentActivity) {
+               viewModelProfile.getBusinessLiveDataRealTime(uid!!, role, sort, typeSorting, "").observe(context as FragmentActivity) {
 
-                if (listArrayBusiness.isNotEmpty()) {
-                    //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
-                    binding.rvSituationList.smoothScrollToPosition(0)
-                }
-            }
+                   for (index in it.products!!.indices) {
+                       //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
+                       listArrayBusiness.add(
+                           BusinessItem(
+                               it.products!![index].id,
+                               it.products!![index].title,
+                               it.products!![index].typeLead,
+                               it.products!![index].categoryLead,
+                               it.products!![index].dateTimeLead,
+                               it.products!![index].idLaywer,
+                           )
+                       )
+                   }
+                   myBusinessListAdapter.submitList(listArrayBusiness)
+
+                   if (listArrayBusiness.isNotEmpty()) {
+                       //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
+                       binding.rvSituationList.smoothScrollToPosition(0)
+                   }
+               }
 
 
-        } else {
-                viewModelProfile.getBussinesLiveData(uid!!, role, sort, typeSorting, "").observe(context as FragmentActivity) {
+           } else {
+               viewModelProfile.getBusinessLiveDataRealTime(uid!!, role, sort, typeSorting, "").observe(context as FragmentActivity) {
 
-                    for (index in it.products!!.indices) {
-                        //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
-                        listArrayBusiness.add(
-                            BusinessItem(
-                                it.products!![index].id,
-                                it.products!![index].title,
-                                it.products!![index].typeLead,
-                                it.products!![index].categoryLead,
-                                it.products!![index].dateTimeLead,
-                                it.products!![index].idLaywer,
-                            )
-                        )
-                    }
-                    myBusinessListAdapter.submitList(listArrayBusiness)
+                   for (index in it.products!!.indices) {
+                       //Toast.makeText(context, it.products!![index].number.toString(), Toast.LENGTH_SHORT).show()
+                       listArrayBusiness.add(
+                           BusinessItem(
+                               it.products!![index].id,
+                               it.products!![index].title,
+                               it.products!![index].typeLead,
+                               it.products!![index].categoryLead,
+                               it.products!![index].dateTimeLead,
+                               it.products!![index].idLaywer,
+                           )
+                       )
+                   }
+                   myBusinessListAdapter.submitList(listArrayBusiness)
 
-                    if (listArrayBusiness.isNotEmpty()) {
-                        //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
-                        binding.rvSituationList.smoothScrollToPosition(0)
-                    }
-            }
+                   if (listArrayBusiness.isNotEmpty()) {
+                       //binding.rvSituationList.smoothScrollToPosition(listArrayBusiness.size - 1)
+                       binding.rvSituationList.smoothScrollToPosition(0)
+                   }
+               }
 
-        }
+           }
+
     }
 
     private fun setSortingData(strSort: String) {
