@@ -17,20 +17,20 @@ open class ValidPassword() // основной конструктор
             }
         }
 
-        if(newPassword != newPasswordRepeat) {
-            return "Введенные пароли не совпадают"
+        return if(newPassword != newPasswordRepeat) {
+            "Введенные пароли не совпадают"
         } else if (newPassword.length < 8) {
-            return "Пароль должен быть не менее 8 символов"
+            "Пароль должен быть не менее 8 символов"
         } else if (!(newPassword.count(Char::isDigit) > 0)) {
-            return "Пароль не содержит не одной цифры"
+            "Пароль не содержит не одной цифры"
         } else if (!newPassword.isMixedCase()) {
-            return "Пароль должен содержать большие и малые латинские символы"
+            "Пароль должен содержать большие и малые латинские символы"
         } else if (!newPassword.hasSpecialChar()) {
-            return "Пароль не содержит не одного специального знака"
+            "Пароль не содержит не одного специального знака"
         } else if(oldPassword == newPassword) {
-            return "старый пароль совпадает с новым"
+            "старый пароль совпадает с новым"
         } else {
-            return "ok"
+            "ok"
         }
 
     }

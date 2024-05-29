@@ -120,7 +120,7 @@ object Utils {
         )
     }
 
-    fun isContactPermissionOk(context: Context): Boolean{
+    fun isContactPermissionOk(context: Context): Boolean {
         return (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_CONTACTS)
                 == PackageManager.PERMISSION_GRANTED) &&
                 (ContextCompat.checkSelfPermission(

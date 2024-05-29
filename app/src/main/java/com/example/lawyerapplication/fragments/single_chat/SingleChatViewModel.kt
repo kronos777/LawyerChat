@@ -10,10 +10,6 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import com.google.firebase.database.*
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.reflect.TypeToken
 import com.example.lawyerapplication.TYPE_NEW_MESSAGE
 import com.example.lawyerapplication.core.LeadMessageSender
 import com.example.lawyerapplication.core.MessageSender
@@ -22,7 +18,6 @@ import com.example.lawyerapplication.core.OnMessageResponse
 import com.example.lawyerapplication.db.DbRepository
 import com.example.lawyerapplication.db.data.ChatUser
 import com.example.lawyerapplication.db.data.Message
-import com.example.lawyerapplication.db.data.TextMessage
 import com.example.lawyerapplication.di.MessageCollection
 import com.example.lawyerapplication.models.UserStatus
 import com.example.lawyerapplication.services.UploadWorker
@@ -33,6 +28,14 @@ import com.example.lawyerapplication.utils.LogMessage
 import com.example.lawyerapplication.utils.MPreference
 import com.example.lawyerapplication.utils.UserUtils
 import com.example.lawyerapplication.utils.Utils
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
